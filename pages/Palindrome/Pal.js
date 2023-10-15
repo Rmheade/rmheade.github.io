@@ -13,7 +13,7 @@ function check() {
         isPalindrom = false;
         break;
       }
-  }
+    }
   
   document.getElementById('PLD').innerHTML = isPalindrom ? "The word or number " + word + " is a palindrome." : "The word or number " + word + " is not a palindrome"
-  }
+}
