@@ -1,25 +1,25 @@
 button {
     border: 2px groove white;
     color: black;
-}
-input {
+  }
+  input {
     border: 2px groove white;
     color: black;
-}
-label {
+  }
+  label {
     color: white;
-}
-h1 {
+  }
+  h1 {
     color: white;
-}
-body {
+  }
+  body {
     text-align: center;
     background-color: #000000;
     position: absolute;
     top: 15%;
     left: 40%;
-}
-img {
+  }
+  img {
     margin: auto;
     width: 400px;
-}
+  }
