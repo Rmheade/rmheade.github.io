@@ -2,6 +2,7 @@ function check() {
   let userQuestion = document.getElementById("question");
   let randomNumber = Math.floor(Math.random() * 8);
   let eightBall = ''
+  
   if (userQuestion != null) {
     switch (randomNumber) {
       case 0:
@@ -30,9 +31,7 @@ function check() {
         break;
         }
   } else {
-  		eightBall = 'The Answer';
+  		eightBall = '';
     }
   document.getElementById('PLD').innerHTML = (eightBall);
   }
-  console.log('asl;kdfjalsd;kfj')
-}
