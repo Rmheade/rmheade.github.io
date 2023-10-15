@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+body{
+    background: radial-gradient(circle at bottom, navy 0, black 100%);
+    height: 100vh;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;    font-weight: normal;
+    color: whitesmoke;
+}
+.space {
+  background: rgba(128, 0, 128, 0.1) center / 200px 200px round;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.stars1 {
+  background-image:
+    radial-gradient(
+      1px 1px at 25px 5px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1px 1px at 50px 25px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1px 1px at 125px 20px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1.5px 1.5px at 50px 75px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2px 2px at 15px 125px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2.5px 2.5px at 110px 80px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    );
+}
+
+.stars2 {
+  background-image:
+    radial-gradient(
+      1px 1px at 75px 125px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1px 1px at 100px 75px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1.5px 1.5px at 199px 100px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2px 2px at 20px 50px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2.5px 2.5px at 100px 5px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2.5px 2.5px at 5px 5px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    );
+}
+
+.stars3 {
+  background-image:
+    radial-gradient(
+      1px 1px at 10px 10px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1px 1px at 150px 150px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1.5px 1.5px at 60px 170px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1.5px 1.5px at 175px 180px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2px 2px at 195px 95px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2.5px 2.5px at 95px 145px, 
+      white, 
+      rgba(255, 255, 255, 0)
+    );
+}
+
+.out {
+  padding: 20%;
+}
+
+/* Container needed to position the button. Adjust the width as needed */
+.container {
+  position: relative;
+  width: 200px;
+  border-spacing: 5%;
+  display: table-cell;
+}
+
+/* Make the image responsive */
+.container img {
+  width: 100%;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.container .btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container .btn:hover {
+  background-color: black;
+}
