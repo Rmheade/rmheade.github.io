@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<!-- Created with https://studio.penguinmod.site/PenguinMod-Packager/ -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- We only include this to explicitly loosen the CSP of various packager environments. It does not provide any security. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:">
+  <title>Geometry Dash - Caleb&apos;s World</title>
+  <style>
+    body {
+      color: #ffffff;
+      font-family: sans-serif;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    :root, body.is-fullscreen {
+      background-color: #000000;
+    }
+    [hidden] {
+      display: none !important;
+    }
+    h1 {
+      font-weight: normal;
+    }
+    a {
+      color: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    #app, #loading, #error, #launch {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: default;
+      user-select: none;
+      -webkit-user-select: none;
+      background-color: #000000;
+    }
+    #launch {
+      background-color: rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+    }
+    .green-flag {
+      width: 80px;
+      height: 80px;
+      padding: 16px;
+      border-radius: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      border: 3px solid hsla(0, 100%, 100%, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+    #loading {
+      
+    }
+    .progress-bar-outer {
+      border: 1px solid currentColor;
+      height: 10px;
+      width: 200px;
+      max-width: 200px;
+    }
+    .progress-bar-inner {
+      height: 100%;
+      width: 0;
+      background-color: currentColor;
+    }
+    .loading-text, noscript {
+      font-weight: normal;
+      font-size: 36px;
+      margin: 0 0 16px;
+    }
+    .loading-image {
+      margin: 0 0 16px;
+    }
+    #error-message, #error-stack {
+      font-family: monospace;
+      max-width: 600px;
+      white-space: pre-wrap;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    #error-stack {
+      text-align: left;
+      max-height: 200px;
+      overflow: auto;
+    }
+    .control-button {
+      width: 2rem;
+      height: 2rem;
+      padding: 0.375rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: pointer;
+      border: 0;
+      border-radius: 4px;
+    }
+    .control-button:hover {
+      background: #00c3ff26;
+    }
+    .control-button.active {
+      background: #00c3ff59;
+    }
+    .fullscreen-button {
+      background: white !important;
+    }
+    .standalone-fullscreen-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 0 0 0 4px;
+      padding: 4px;
+      cursor: pointer;
+    }
+    .sc-canvas {
+      cursor: auto;
+    }
+    .sc-monitor-root[data-opcode^="data_"] .sc-monitor-value-color {
+      background-color: #ff8c1a;
+    }
+    .sc-monitor-row-value-outer {
+      background-color: #fc662c;
+    }
+    .sc-monitor-row-value-editing .sc-monitor-row-value-outer {
+      background-color: #e25b27;
+    }
+    
+  </style>
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/vnd.microsoft.icon;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAACWCAYAAAAiyEFRAAAdW0lEQVR4Xu1dCVyU17UfZodhB9kE2VcFiQiKigsusWbR9CWa2izPJG2TvKZNF9uYNq9t0qRJ60tsYpq0TZNUk5ioSVxi3LcgKKuAyDbAsIrAsM0MMBsz71wKBmGW+y0DM8z9fj9+iHOWe8/9z7n3u/ecczkc8hALEAsQCxALEAsQC5iwgAuxinkLxMXFSeBTHqKora1VEFtRtwABmAmbAbC81XHBG4YWRv9UG+aXYRQJOOLqthOSwvpXhY1deTU1NTrqpnZODgKwCeMO4HIfWBr/vHJ18g5TkACgnXLPqX6J395bCl5N5Zywwe81AdgEW4VvWL6hd+uyY9ZMKGzrkXqcq3gWPNop8Gh6a/TO+jkB2LiRB+8lBHCd1MQErcQFhLiy9bTXibJfSEvKruHyOBMd35k6i9FXN12A10IMulsk6qTQtZrY4PKQ4rh/uOXVvFJXUt5EhX+m03Jnegcp9s/I1er6KPJwjAIeR7U49oddT9/ZGPbA2m3x8fGuVGXMVHoCsHEjC4v2flhTHaU72EaxgNO/Mf39nq3LzsYsnB9HV85M4iMAmzCakpyqV1zUuh4mg6yJDszsenJdTfjG7O8xkTMTeMki38QoRi1eENm3OfOAPsArjekguxXW7/E6UfoMvGk65UYtAZgZBMUmz/UeWBz7FOyJvWzk8xjZid/RL/Xdl3tXXVGplClgHY2fkeEcrbN02hudljJ7ICvxucGF0T+mwz/Gw+0f7Pb/KGdN3eXiUiZyHI2XAAxzxKIzUiNVy5NeGEqN2IbJMomMp1IrfPd+k12fW1RMV4aj8RGAURyxqCULE5TrUt6Czdg1FFlHyLlDWrXf++cX1V8uLqfD72g8BGA0Ryz8rhVrlXfO/7ve1z2Sqgh+l0Lm/965RbXXK7uo8joaPdmmoDliTccunvZ/93SaJLdmJ8dopCRFP8szUnHn/N2UmByUmHgwFgYucnVmZt93F3097OXmTUWczxcFjzR9cWYvFR5HoyUAY2nE4pLnzu7blL5XHR+yClckd1AzHLjra5+ayiolLo+j0ZEpkqURq712va3zpQ+zIYTndxzMGdPgJuKpY4OzWWqCXYohAGN5WNreP/Ki95HCR3HFqqMDv49L64h0BGA2GLXmA6f3gCf7I45og59HAkRfiHBoHZGGAMwGowaACXLRDRtwRLto9QNAN2PXwiTgEAcFFGggKjZYlZX4vHJlEtbREq9vAM7Ba9QUVDgUKQEYi8MVO39eXM/mzC+14bOScMUKGzo+xaV1RDoCMBZGDbyWiy7YJ0u+OfM47IW54YrkKYdU4tr2HFx6R6QjAGM4anHx8T4DWQnb4SB8h5FLbSnleaLsEZge0Rpsxj4EYAyGFgIT5/dsSv9EG+qHPSWOqUOJvPBziIF6h2AlAKMxTDAlekIg4k/lq5NfpMHOQVOj99GSh8F7YW7J0tFiHzwEYBTHISY9NaHnvoyPtXP8F1BkHSHn9UHg4Z6LGbVl1+R0+B2Nh9qiwdF6x2J70UJenTD7vv570w4YxUJa+4eCzv5a349yVkhLym+y2DS7FkUAhjE8sQnxnhBe8/pQeszjGOQmSUTSm6d9vsjfDGeWfXRlOCIfAZiVUYtOTw3rfXDpSX2gVyLdAXa/LP2Lx5ny3zhjVR4CMAuoiVyRkdK7Nesbg0TkRQdccAzE8TpavLH5y7NH6PDPBB4CMDOjGLE+a2XPlszzHAG99yBha3eR98H8ByFVrX4mAIVuHwjATFgufP2y7N6Hlp+la1SYDp+T5NW+BaUIBunKmCl89L6eM6X3JvoRtSJjfveWpbTAxZcrZF4H8++XXSosmcEmotQ1ArBx5oIk26DurVlnULUcqo/kSu1bHqfK/xe8llO9JVqzEwHYOAsp7k57Hxb0/taMNv5zrlqn8PqyYDNkGZ1sp8LoJLQEYKMDDaUzV/TGBn+HyrgLWruLfT7P31JX6NwLeUs2IwAbtQ4U/d1FBVySfOlbHifLyJRoxWgEYGCgqGXp8fJAr1QsgMHxtNex4idcS2QfwnprGIvHiYkIwGDwNRGzsOtMeB2/+nTLpyf/5cSYodR1Woe2lDTYOTEcYgsMnm4JOM2EMgGvt3xy/B0cWkLzHws4PcDABi4GIc8DBxAeZ68RcOEYahyN0wMM1lFavmJIhmM3g5ebAIeO0HxrAacHGDIFr1tZhgMKnb9HCA4doSEAuw0D/L4BrANpbVTgvQQ81CxAPNiIB1O14phNExlwD7wUkEsWcIw1SkMABoaQVlT2Ctr7rJa01Ad5R+q93ShXNKQwHjOOlABsdEhF0vavcEZXnRL+AA4doSHbFLdhQFR74zAOKIbmRzwTGxvri0NLaMg+2C0MCNp767gDGqt5isM+Ej9tXHAGAQ+eBcgUOWqn2praHteK5n/gmE25cu6b4MXQfd7ksWIBArBxBnItrMeq/KwP9onVRQctIeiybgECsHE2arhSUiGs7/jGutk4HMXalH+CF8M6YsKRN1NpCMAmjKxbYd1LOIMNeZLhmviQFTi0zkxDADZh9KFeVxGvR9WJA4qB1clvEy9m2VIEYBPsg5I23K9IX8EBmG6W5xx1asRmHFpnpSEAMzHy4quyA9wBtdUtC8Sqyp63OyYxgRyCm/kGEYCZMIy0qvqGpLD+NRyvM+zhKh5cEv8MDq0z0kxJZnd0dDSqW4qSDRGgkU5U4tvo4uKir6urG7JHw8fOS4rofHaDDEo1WW2ei94w7PfXYwkNV6/VWSWeRoKEhAQUzzY2BmgckJceGYvq6mqdLZpmM4ABqFz1s33nQojLndqYoHuNIoGnUcj3Qr8NIr6bi5Gj5t/oKRPc6M3jdfRfEcgV1bzO/pb6qpo+W3SUqkyImuBCFcNXIdtoOw6vqL7jnM/HOXfBGs5uSpIDoNzQ2642wDNJH+Cdrgv0WgB/JxnEAh8ozDLootEruFq9Av6tEsI4wHHZF+Im+bWqqirWSh7YBGBzshdnDi6O/Y02KewunMEZo4EbYXtFJQ27Xa/K9sgKy6bdG6BSmb1blhyFL0Xg6DcffePHvvUoo2hsnYa8wqD7mfInGy/kT3vZgLi5SYGDqREbh+6IfEoXhJktNToIEFVSIrkq+6tbiewQeDUFlfEzRcsqwMBreanWpPx+KCvxWSYNc9HoOJAW9jYstv/RmDf9N8MC0FD5prEMrDFQIduN2Q9NMzrwXtN6a1rsHclRAKwH4drnp/R+HqFMxgCAVuR5sfK3sq8unGQihzWARSbFh6vuXrhLkxK+iUmDxvO6GIwcANk+ycXKXzeUlLewJXemyYGra3xUK5K2D8wP/zHkDbB6uuBxofL3nnDpKkybtMqtswKw8CVpGX3bVuUZXYXUq4ZgjDbEzHe5n6t4uuXw+YMY5E5FErVycYZy1dw/aaIDbXYtoKv05nHf/ZcfBZBRvgKaEcCioqJc1Itin1HdlfbXqRhVt8u1bwLQXq6rqsbaaZ+KNk2XDvBaswbSo7cBuF6DNaLNm8FTquVBbx5PBZC1UVHGCGCh967crNi85DMqCpnSQsGREgDZzwUNHSgTCL1aj6yJYMvDVF9w+jdCM8o/fl01xjv2f+M/G+vG2KJ//Kbs+P8ztVlrrk0T+zGeF/GgFwn0Ixz2loQBsHYMzQtjbTmCMy5QJVsa8M9ziwBkvTj0I3bFJZxIF5E6b17PL++9Rpef8DmmBTzhRl+Py9KXAGRYJx20dvJhapzV/1AWVoixY5qRtNqcBRTZ8/4At/Teg2shygADcAlV9yx8YzjIJwpXCaGbWRZA9zPFZKbNx+kV5eo6ED3wfXV6DKN7piH2ncPr6r8Gey25cDF6IOwwZw4HeQfhNJjQTL8FjGKBRLE+dVdi3+C9MFVa3PujBLDImGj/vsx4rLuozZnB/fjVn7heqUXbDV319fV6RAcbtAEQvLdItTH9A4NE7Df9JiQtsGYBmCZXDqRF/oBTVfW6JVpKi/zgret/MbBhwU5rys197vfnw+my8utF5j6PiYkJ630s+xPdHP9ldHUQvqmzgKBLcWPWBxcyq8srms1pxV6DRSbERagzYp6n23y38xWvWAIXkguRFS1eH55/EM4kKW/o0W2Xs/DBckTqebr817PePZ0JP0vcL1b+H9O+Q8BliGpB5MOW5GBPkeqM2EeG/T1pJZxCIkWp5ML1XTgdaqiVtoV9VfxE/4NLyVsqjsEwaIRNXeX+e3O+B4fXlWPkCXJlpWdO9b6OZzdcGnYXizHEmCQZTIt6Nr4s5UDN1fJaUwRYHiwiOSlmKCNmB91G8G/2XYb1FrZX4sNmKl1dhG+yBcBbPT8eXIgC/u6Hn2LPsxU/Y2IzvY/EfyAt6glGUyRMjY8bvCW0UQ5xXnlUOgFTZA+3f5DW4SoVPc5AC96rUtQkzzfXV1FDxyWmdoDF/s8T7kgxuW1l1YNFRkb66iIDGNXF4g5qsL0X6qzRaNQDTw/TjhN+OFdq7PoKrhE0e7uui0otBxBWMbEVhI3z1KG+c2lNkUYf91BdRADlS8/HK4MoyjQqHTDyuaLhQK8wKjyE1qwFLJZaR2HrwKllaj+4YvpOWgDTRgQsZKpcF+JDKZREH+KbZORada5Mm+Us/BYNCbMFK7X+taF+2YmJid4TjWpRORwLcXWxwQ8yHQkInV4NkRf34ciBTVfJ0OK43+PQEhosC1iM0QMPNhalgSXMHJE2zC/RIBIEUwIYoNtXkxCylpHmUWbVhgUHATwott3sA59zIeT6dc3csPVs6CQyRixgcSsKxhhFRWBvV1myqSbcf9JSyqIH08cEz6V74+vEhhjcxdzu7RvrICFkBQDJfeLnkcmJQX2PrrwM8fw/JMBg1QIWT2vAgyEPx0rEojZ81t0TW24WufD26DIYFfhf1rrKb+upFjZ2fsavaTsk6FT0a2OD0yFNbatmfsRGEyBz73ss+4Koui0vqDMln98qvwiH3QHDwT5Z/REB98HLwCTgjXwF23qaQcfnQmn7l/yO/jbQsQJ0PATlLCmt7az1ZYZ+bjFui00Ppp3tuwylysH+2q20N0uuUQLV/OZZMrrH/rwtoormkw0NDf236CqqZLB2OyGqubEepsX3wXNNKtSmSZi9hIN+OByrm3yeBy4/Ib7esh+Okb49tb9W2QDnlkfFpY1ZqnXzX4fivBEzFBxsdMvi9AceDC3yWXmjggLJESBPBPKwAMY1+HqYvcPH+50TWc25JSY36QBwCk5Dw/6oiuZLPb/aVA8go7VJ6/PuyZVNl4ovmrIyAE4Oh5dfRtffLFZ8P2ufJi7EqQrC8dv7NHCFcym/R1UO9kFpc7cytdHCHTwTAg36f4u5jeBtekMaE47AfpkX8GmBbwh+j4Wij7wAGPk8z2Fvt9ihpNCllhAPl7nyDQIeyuK/FVJtCd0u4MEmvRUgBTDFnTMHrvENAKDdCPssd13/46u/ofpVBB1FYMQca3xwBNUcccrz5wCwK9ZoZ8rnsDHa5vtJ7joX/XALbKLe8uyQCMKFvw3wG4ENLTfQ+urb2cWMAeBMEgUxICdgAMB1jyeDKQ/JQLOQp1txQ1r3w8sPWbIjYAbdGHwrMcQiwCANzaQscU7lr3AHS9DUVQBgKYVpMRWXB9G5Xqr6JYAHfQOtPny58iroKAcdKVaJHZyA36Xg+P774ipI8pVO7AoCF/o/+I3WXdhJwAAqRGuSHj5DUyjyggpONac1RqVZ1vnUWrPHS8NiwW3raEtzr8m3D5dhA4d/o/c67jiBF9NwO/opnXeN6sBOKIHpUsvrVFD2krh9sCc6t6KGF02Ba6rayO9WFoqrb5i19ehb6a3mUF7c8W72NcqkdZQKfAjauikNPui4ASCjVIADdFyYKiNPpx5ejxKtuabtAY+m5feqzDqY/2yrfftQBhgs2CnHhMGFn3OoWAR0zAJ6SlnioMMpklBg2ULZ/lRsj0NrcBWaDWufmJ5qCWBGKOszSR/UPvCMWJAcgNMQRANbFiJdkHcWLj2iQ/cyQngQpSQQ0LGKig5HpYWiJgugGAur9Seo2AIW/f6Q+JtojgcK19w2u1kCmMFlyPQhu2Ze2P24jYKaYP7DoX6UqzGr54Zin4HCnlgA1K5fjdsmR6aDIidPquNDJm1iT1WflMsTt8Md58nm9PE0+tuWNpbeIo0AsG6Ol9skdziwLnVXZE7VJzKZrM9Sx8B7CVTr79gNG6HeVA0AOv4YnVuzF21DWOJFJaOGFsVu14f4WC9FSLURdkrft2XJ3lBPtyA43TgBb5XIPmMREeNfzFA1BAO8UVoN3IRtDWQ7tBWBjoyQLORZDKP7aS5wXOiq93efo1wS/4IyKdRy0u2g5ra3UUsAAw+muQmKTM23gv4frj0c+dE3W2XXq00WwwBwuas2ZXygXhC1ie449f1gzcmoj4QbGyqqTMZ7g+eaPbA04YWBtSk/oqvDUfkU30n9C7Qd/Vh8Qi5Wvnzjn4d+a44IwCXqfmT5RThHXGRNFs7nXLXuNkBbApgaylvm6CMDTUYq6sP8l3fv+G5r8NHCJyCp4wLUlh/ZoDPyuK7gTWL71t+xB2jCzTUKFZnjyZUdKPHW4GP62h9dqF+C/Ln7amYfm7NdUHfz5Fj9etAhAh3zerOTd+uiAiNxOu7ENCbPd8fZA+28W4xywbUdZC6hi11vq/VqFmAw/Q2HtIWfAoYnLSkYuCf9PQRZnnKI46IY6oUMbR8AgFkW9yOFP4PN15OwOdox6o6F8NborZvtlzq0LOFlyImMncisvCtt5Ns6qkMHOgSWdOAaxEnorO0UoM9ZCdeBG+tQziu2B+Pw23uwNzshLpvD8XD1MTdoPLmi3+fNr1Nh47XRBE0Xp4wjja5pOw/3Md6v+u6id0zJGdXBSmiJk4ALddNacjVac7FSYVp4s+8i7JPdtvVgEd0whbWiOhJsPO6HCraYAdct8bCgl7uWNX4haOxsYEMnkTFiAWsAQzujk/ejaBhP0NozKWvfIsBgmlQLrzf/m4au21igzup5QbPc6sE1YgKQdYpKG99kqpPw37IATh0vHBqLJuX3DiihQN2k2cna/MwR1NzYw3SwoB7+efBe2Ec/EC1wmqlOwo8NMFOVGymbT1R380tgui0SAwmxCjChrLOC6TQJi39KUx68Ld5EC3rysGIBa1MkzjRqtSHi+o59sP6aNGhWASarlXYKq1v3W9VggQAOrqkuIrWQEIr24MjD0AJGN1EwihOzIEYAJbMonRVPlCWQK3vAg5msmmQVYEiYsKThDSb9hG2FxVT4IfHWFRJvKZ1FUpHvTLRQxwslYpi9lAHi6FP1/h6MTkHEla17wHuZzB7HAhgs0IuEEHtPd2Ag8XYF7Oxjb+ZB4u18knhL19q38w37uosGF0SavNMS7eLDrSBPM9UEAPvYnAwsgMHbpB7eBGnXk4LE2wXaeXNMppZPbBgAMQASb19g2mnC/60FBjLjXohYn7UJAIWuxBl5ICIjSJUZ+zKAbxMTWwG4TsEUabYaEs4CcEQ/pLG5KbdmHdMmhq6k0yCuSq30/fOhFEt7YXBw7QeJtzshN/K/6eggPJYtIJK2X+X1DzbBTXdGCPu5QxMVEMHUZr6f5q1vtHCfETbAUENC12auVTy6Ch0f0XoQyDw+y70fjoquggA5gG1k/wW8lsTgJgxVbl76OZwtmjz7pKWQMNnUAuKqtjOdL//bYuY/JYCBFxOoHlhyEC68YlTOCRI0rkGc/lUIc86Dw25/COfJhEP1OyHxlpUzMZtalQi/ZQH/j3JWNZzIuWDJJJQANuLFVmQsUfxgTS6xs3NbwLWsaX/HXz7eYs0KWIv88UIEzV0F4uL6T60JJp/PbAtIihv+hNNDygAbeaMsqHuDY8BKWcRpA6FxMAtAAu4nDecul+I0mzLAkNDm3OICANkHOAoIzcyyAGSTc9yK6q1G0o71mhbAELO4QPoWXCo+s6xHemPVAgCudxpyCrG8FxJGG2DNBWVXRfm1b1ttESGYMRbgQpaZpEhG6aYXRtsCrgXS3doFUf8DIc92bUT30+W7eK3yE5Alo4bMY5QtM769Y3+M/z3x/0boUZoOylw2c/npRBtMvFB0RMTozxgt+htF6Lr2P5C5H7Zs7NqOULbgjborxZQiYxgBrKn0enVQQdSrg9nJz9mzZSD8p6jl7BXaZ6m27hsc2wi5iqFmABijqAZbthPap4LpcTdVHbSnyDFFonzpv7i9KhVVxVNJz+tVmUx7m8o2WNIFxUy0PMWQzF7aY6odkqL6V+uKyyh5L0ZrsLFGNF2vroMFP+2DcFsbFZU/AA/Wbms9TOVzFYN2G//G71Z1wr7X3+n0kbEHQ0pd8+ve43f226WBeN3KXo5Gh10ri44R2eDhK9V2+yWAqXFnbVmF2dtCLPWfFYBB1GsrTJWvsGFotmUAwNA1KXYff83tG6hju+9syIOLzBoBYP+iK4sVgCHlME1+zG+WY+dR0m0wVT4AWDVkKjG+KoWqXqr0sE7ELupHVTYTeklh/Yu1VdW0741iDWBwhNTjmlfN6LplJoYwx8vrVqHQILt/+L2DjfbWSKhkeKrls5OMTmxYAxgyjvB6yxHhtaYT9mQo8GAV9tQec21xUQ31uKip5sbYrmfoSMg9t5pxZDGrAEOJuq651X+A3Ujb9ZyiZACYyeo/FMXYnBzdegbRpnaz3SPJrXmt4fyVAqYdZxVgqDEtl4qviC9V/41pw9jgh0tNjXC8YbWMNxu6mMqAEwKNsL33G6Zy2OCHqkpSABj2gbYlnawDDCkT51Xv4vaopn1gITT7AjTHagE2NgaFqQypVDosaOj4iqkcNvhhanxeWlk1KUubjmybAKzpWpUUFvzTvm0hbJGfhTdIhwAYGjzwHJSunqYz4NZ43Eob9zUdPn/QGh3u5zYB2IgXy5f+DRb8tBNEcDtgiY7fJD/HhpypkgHXwtQJuhS0twSYthNqtt2UnL+OfckGjj6bAQwW/CrJmfLtMFVSqqmP02gcGigBJeN39NXg0NoLDZxJDsCNcp9PV3vcz1X8tL64DFUpZO2xGcBQC5uKr5UDyBhnDtPpraii5R2YHqfNG9Bp84jnr2x9jy4vEz7Jpeo3mo+cZ1SDxJR+mwIMKYRpci+sx95n0nmqvKgakKiy5RBVPnugh7sxyyFB1mQhEVu1DyooFXucqzBbKJiJXpsDDCWJuJ4q2wFvdFN2jATgOigrr5x0WRQTQ00VL7xNqsWVbVP2hURh7wCuZ2B6xq7fRsUWNgcYakxjXX2n5EjhNqjpbvOIC3R5hPiK9FUqRrA3WnGpbB/c3zgl60evo0UPy85fuWwrG0wJwFDjm/NLi90/vbQRQNZlq84guW55NTub8q8W21KHrWWDF+uTXK7ZYWs93gevbGs+dO4jW+qZMoCNgqwAQLYJQMbKJt5Ew/Dbe1vFudVYCaG2NCobsoW17YdhT+oIG7JMyRgF14e2kj8md0oBNgqyPADZ3WyDDM4c5V6f5q6B2DSHe3M0NcjgxQyeR4oeg7fKs2yDAMD1OHgum4MLtZtybQq2Ohu+IDl5cO38nZrkOeuYykQn/76vHYqQVdU0MZVlb/yxsbG+ffcvPqCZG5bNtG38jv4Oj9NlP2o6cekwU1m4/NMGMNRAqNbjq86M/8nAmpTfcYT0EpzAE7Z4v/X1QigF1YnbaUejg6wjH+Xq5J0DS+Mfo9t21/LmYx5nyn9RV1I+JS8PY+2cVoCNNSJsefrqwTUpb0BtMLPXxJkyrLi44bD74YJtAK5bt9zTHQB75wNP5gpe7CEA2jtw8Tqly1oBWK+55db8EabdKQ8HsguAocGFInR+uuigRbqYoI2aqMC7h4N9QkwNOhwB1QurWj+G1/jjvPbe/LEidvYOELbaF5M6L04dF3KPNiFkC/xONyUXwpQ4YunNL4TN8uNw4F9QV1hazpZ+qnLsBmDjG44K3cHffBOZ1Ki9OnTRPNWOzjR68GhCsI8Y4siMo5nqKMoT/aCyR+i3BjZP7Sfyc6YNAOkPsQCxALEAsQCxALEAsYAdW+D/AW5XV4WdVK+FAAAAAElFTkSuQmCC">
+</head>
+<body>
+  <div id="app"></div>
+
+  <div id="launch" class="screen" hidden title="Click to start">
+    <div class="green-flag">
+      <svg viewBox="0 0 16.63 17.5" width="42" height="44">
+        <defs><style>.cls-1,.cls-2{fill:#007AF4;stroke:#003080;stroke-linecap:round;stroke-linejoin:round;}.cls-2{stroke-width:1.5px;}</style></defs>
+        <path class="cls-1" d="M.75,2A6.44,6.44,0,0,1,8.44,2h0a6.44,6.44,0,0,0,7.69,0V12.4a6.44,6.44,0,0,1-7.69,0h0a6.44,6.44,0,0,0-7.69,0"/>
+        <line class="cls-2" x1="0.75" y1="16.75" x2="0.75" y2="0.75"/>
+      </svg>
+    </div>
+  </div>
+
+  <div id="loading" class="screen">
+    <noscript>Enable JavaScript</noscript>
+    
+    
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="loading-inner"></div></div>
+  </div>
+
+  <div id="error" class="screen" hidden>
+    <h1>Error</h1>
+    <details>
+      <summary id="error-message"></summary>
+      <p id="error-stack"></p>
+    </details>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const appElement = document.getElementById('app');
+    const launchScreen = document.getElementById('launch');
+    const loadingScreen = document.getElementById('loading');
+    const loadingInner = document.getElementById('loading-inner');
+    const errorScreen = document.getElementById('error');
+    const errorScreenMessage = document.getElementById('error-message');
+    const errorScreenStack = document.getElementById('error-stack');
+
+    const handleError = (error) => {
+      console.error(error);
+      if (!errorScreen.hidden) return;
+      errorScreen.hidden = false;
+      errorScreenMessage.textContent = '' + error;
+      let debug = error && error.stack || 'no stack';
+      debug += '\nUser agent: ' + navigator.userAgent;
+      errorScreenStack.textContent = debug;
+    };
+    const setProgress = (progress) => {
+      if (loadingInner) loadingInner.style.width = progress * 100 + '%';
+    };
+    const interpolate = (a, b, t) => a + t * (b - a);
+
+    try {
+      setProgress(0.1);
+
+      const scaffolding = new Scaffolding.Scaffolding();
+      scaffolding.width = 480;
+      scaffolding.height = 360;
+      scaffolding.resizeMode = "preserve-ratio";
+      scaffolding.editableLists = false;
+      scaffolding.usePackagedRuntime = true;
+      scaffolding.setup();
+      scaffolding.appendTo(appElement);
+
+      const vm = scaffolding.vm;
+      window.scaffolding = scaffolding;
+      window.vm = scaffolding.vm;
+      window.Scratch = {
+        vm,
+        renderer: vm.renderer,
+        audioEngine: vm.runtime.audioEngine,
+        bitmapAdapter: vm.runtime.v2BitmapAdapter,
+        videoProvider: vm.runtime.ioDevices.video.provider
+      };
+
+      scaffolding.setUsername("player####".replace(/#/g, () => Math.floor(Math.random() * 10)));
+      scaffolding.setAccentColor("#00c3ff");
+
+      scaffolding.addCloudProvider(new Scaffolding.Cloud.WebSocketProvider(["wss://clouddata.turbowarp.org","wss://clouddata.turbowarp.xyz"], "46170951"));
+
+      vm.setTurboMode(false);
+      if (vm.setInterpolation) vm.setInterpolation(true);
+      if (vm.setFramerate) vm.setFramerate(30);
+      if (vm.renderer.setUseHighQualityRender) vm.renderer.setUseHighQualityRender(true);
+      if (vm.setRuntimeOptions) vm.setRuntimeOptions({
+        fencing: false,
+        miscLimits: true,
+        maxClones: 300,
+      });
+      if (vm.setCompilerOptions) vm.setCompilerOptions({
+        enabled: true,
+        warpTimer: false
+      });
+      if (vm.renderer.setMaxTextureDimension) vm.renderer.setMaxTextureDimension(2048);
+
+      if (typeof ScaffoldingAddons !== 'undefined') {
+        ScaffoldingAddons.run(scaffolding, {"gamepad":false,"pointerlock":false,"specialCloudBehaviors":false,"unsafeCloudBehaviors":false,"pause":false});
+      }
+
+      scaffolding.setExtensionSecurityManager({
+        getSandboxMode: () => 'unsandboxed',
+        canLoadExtensionFromProject: () => true
+      });
+      for (const extension of ["data:text/javascript;,(function(Scratch)%20%7B%20%2F%2F%20Name%3A%20Runtime%20Options%0A%2F%2F%20ID%3A%20runtimeoptions%0A%2F%2F%20Description%3A%20Get%20and%20modify%20turbo%20mode%2C%20framerate%2C%20interpolation%2C%20clone%20limit%2C%20stage%20size%2C%20and%20more.%0A%0A(function%20(Scratch)%20%7B%0A%20%20%22use%20strict%22%3B%0A%0A%20%20if%20(!Scratch.extensions.unsandboxed)%20%7B%0A%20%20%20%20throw%20new%20Error(%22Runtime%20Options%20extension%20needs%20to%20be%20run%20unsandboxed%22)%3B%0A%20%20%7D%0A%0A%20%20const%20greenFlagURI%20%3D%0A%20%20%20%20%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAABFFBMVEUAAACAgABVqlVJkklAn0BNmTNLljxGlzpDmzdFmjpGmzxHmz9Fmj1FmT5Emj1GmT1GmD1EmDxGmTxEmT1GmjxGmT1FmDxEmT5EmTxGmT5FmD1GmT5FmT1Gmj1EmT5FmT1FmT1FmDxGmT1FmjxLs09LtE9Jr0xJsk1Js05JtVBKtU5KtVBKtlBJrkpJsE1KtlFIrEpIsExLt1FLuFJKuVNIqkhLulNIp0VJqkhKtlJLvVRMvFNFmT5GpUVFmT1HpEVHokNMvlVFmT1Ho0NFmTxLvlVGoUFMvlVLvlVGn0BFmT1Nv1ZEmz5FmTxFmTxFmT1NvlZFmz9FmT5FnT9FnD5GnT9Mv1ZMv1ZMv1ZFmT1Mv1b%2F%2F%2F%2F70P2GAAAAWXRSTlMAAgMHCAoRFhcwMz0%2FRkdQVGFmaWpxcnh7gIGEhZKZo6eprLq%2Fv8DAwMDAwMDBwcHCwsPDxcbIysrLzM3Pz9DQ1NTV1dfZ29vg4uXm5%2Bjp6ens7fDx9Pv8%2FnPb5aAAAAABYktHRFt0vJU0AAAAsUlEQVQoz2NgwA3YhNiwS4hHykoou9goCrKiSUhGhqhZe7gbm3rxQwQ4BJihEupRYODooMDFyMAu6uMsgyoRFW5kHxjkqeuhL4cmAQM4JXRwSWjjktDEJaGFS0IVIeFtZuIaAZdQgUmY2%2FoqyTu5WcEkNGAS%2FkJMQJrbySAAJBxmGSoIlYAoYGCR8rPVM7QItuNlQJVgYGDlE5MU5kSErhz2%2BKCihEikNHYJJh5mBhIAADBcR%2Fr5OJzCAAAAAElFTkSuQmCC%22%3B%0A%20%20const%20TURBO_MODE%20%3D%20%22turbo%20mode%22%3B%0A%20%20const%20INTERPOLATION%20%3D%20%22interpolation%22%3B%0A%20%20const%20REMOVE_FENCING%20%3D%20%22remove%20fencing%22%3B%0A%20%20const%20REMOVE_MISC_LIMITS%20%3D%20%22remove%20misc%20limits%22%3B%0A%20%20const%20HIGH_QUALITY_PEN%20%3D%20%22high%20quality%20pen%22%3B%0A%0A%20%20class%20RuntimeOptions%20%7B%0A%20%20%20%20getInfo()%20%7B%0A%20%20%20%20%20%20return%20%7B%0A%20%20%20%20%20%20%20%20id%3A%20%22runtimeoptions%22%2C%0A%20%20%20%20%20%20%20%20name%3A%20%22Runtime%20Options%22%2C%0A%20%20%20%20%20%20%20%20color1%3A%20%22%238c9abf%22%2C%0A%20%20%20%20%20%20%20%20color2%3A%20%22%237d8aab%22%2C%0A%20%20%20%20%20%20%20%20color3%3A%20%22%236f7b99%22%2C%0A%20%20%20%20%20%20%20%20blocks%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22getEnabled%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22%5Bthing%5D%20enabled%3F%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.BOOLEAN%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20thing%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20TURBO_MODE%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20menu%3A%20%22thing%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22setEnabled%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22set%20%5Bthing%5D%20to%20%5Benabled%5D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20thing%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20TURBO_MODE%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20menu%3A%20%22thing%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20enabled%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%22true%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20menu%3A%20%22enabled%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%22---%22%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22getFramerate%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22framerate%20limit%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.REPORTER%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22setFramerate%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22set%20framerate%20limit%20to%20%5Bfps%5D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20fps%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.NUMBER%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%2230%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%22---%22%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22getCloneLimit%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22clone%20limit%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.REPORTER%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22setCloneLimit%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22set%20clone%20limit%20to%20%5Blimit%5D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20limit%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.NUMBER%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%22300%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20menu%3A%20%22clones%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%22---%22%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22getDimension%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22stage%20%5Bdimension%5D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.REPORTER%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20dimension%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%22width%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20menu%3A%20%22dimension%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22setDimensions%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22set%20stage%20size%20width%3A%20%5Bwidth%5D%20height%3A%20%5Bheight%5D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.NUMBER%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%22480%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20height%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.NUMBER%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%22360%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%22---%22%2C%0A%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22setUsername%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22set%20username%20to%20%5Busername%5D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20username%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.STRING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20defaultValue%3A%20%22%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20opcode%3A%20%22greenFlag%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22run%20green%20flag%20%5Bflag%5D%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20blockType%3A%20Scratch.BlockType.COMMAND%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20arguments%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20flag%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20Scratch.ArgumentType.IMAGE%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20dataURI%3A%20greenFlagURI%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20menus%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20thing%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20acceptReporters%3A%20true%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20items%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22turbo%20mode%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20TURBO_MODE%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22interpolation%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20INTERPOLATION%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22remove%20fencing%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20REMOVE_FENCING%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22remove%20misc%20limits%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20REMOVE_MISC_LIMITS%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22high%20quality%20pen%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20HIGH_QUALITY_PEN%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%0A%20%20%20%20%20%20%20%20%20%20enabled%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20acceptReporters%3A%20true%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20items%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22enabled%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20%22true%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22disabled%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20%22false%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%0A%20%20%20%20%20%20%20%20%20%20clones%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20acceptReporters%3A%20true%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20items%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22default%20(300)%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20%22300%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22Infinity%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20%22Infinity%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%0A%20%20%20%20%20%20%20%20%20%20dimension%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20acceptReporters%3A%20true%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20items%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22width%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20%22width%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20text%3A%20%22height%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20value%3A%20%22height%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7D%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20getEnabled(%7B%20thing%20%7D)%20%7B%0A%20%20%20%20%20%20if%20(thing%20%3D%3D%3D%20TURBO_MODE)%20%7B%0A%20%20%20%20%20%20%20%20return%20Scratch.vm.runtime.turboMode%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20INTERPOLATION)%20%7B%0A%20%20%20%20%20%20%20%20return%20Scratch.vm.runtime.interpolationEnabled%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20REMOVE_FENCING)%20%7B%0A%20%20%20%20%20%20%20%20return%20!Scratch.vm.runtime.runtimeOptions.fencing%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20REMOVE_MISC_LIMITS)%20%7B%0A%20%20%20%20%20%20%20%20return%20!Scratch.vm.runtime.runtimeOptions.miscLimits%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20HIGH_QUALITY_PEN)%20%7B%0A%20%20%20%20%20%20%20%20return%20Scratch.renderer.useHighQualityRender%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20return%20false%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20setEnabled(%7B%20thing%2C%20enabled%20%7D)%20%7B%0A%20%20%20%20%20%20enabled%20%3D%20Scratch.Cast.toBoolean(enabled)%3B%0A%0A%20%20%20%20%20%20if%20(thing%20%3D%3D%3D%20TURBO_MODE)%20%7B%0A%20%20%20%20%20%20%20%20Scratch.vm.setTurboMode(enabled)%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20INTERPOLATION)%20%7B%0A%20%20%20%20%20%20%20%20Scratch.vm.setInterpolation(enabled)%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20REMOVE_FENCING)%20%7B%0A%20%20%20%20%20%20%20%20Scratch.vm.setRuntimeOptions(%7B%0A%20%20%20%20%20%20%20%20%20%20fencing%3A%20!enabled%2C%0A%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20REMOVE_MISC_LIMITS)%20%7B%0A%20%20%20%20%20%20%20%20Scratch.vm.setRuntimeOptions(%7B%0A%20%20%20%20%20%20%20%20%20%20miscLimits%3A%20!enabled%2C%0A%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(thing%20%3D%3D%3D%20HIGH_QUALITY_PEN)%20%7B%0A%20%20%20%20%20%20%20%20Scratch.renderer.setUseHighQualityRender(enabled)%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20getFramerate()%20%7B%0A%20%20%20%20%20%20return%20Scratch.vm.runtime.frameLoop.framerate%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20setFramerate(%7B%20fps%20%7D)%20%7B%0A%20%20%20%20%20%20fps%20%3D%20Scratch.Cast.toNumber(fps)%3B%0A%20%20%20%20%20%20Scratch.vm.setFramerate(fps)%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20getCloneLimit()%20%7B%0A%20%20%20%20%20%20return%20Scratch.vm.runtime.runtimeOptions.maxClones%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20setCloneLimit(%7B%20limit%20%7D)%20%7B%0A%20%20%20%20%20%20limit%20%3D%20Scratch.Cast.toNumber(limit)%3B%0A%20%20%20%20%20%20Scratch.vm.setRuntimeOptions(%7B%0A%20%20%20%20%20%20%20%20maxClones%3A%20limit%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20getDimension(%7B%20dimension%20%7D)%20%7B%0A%20%20%20%20%20%20if%20(dimension%20%3D%3D%3D%20%22width%22)%20%7B%0A%20%20%20%20%20%20%20%20return%20Scratch.vm.runtime.stageWidth%3B%0A%20%20%20%20%20%20%7D%20else%20if%20(dimension%20%3D%3D%3D%20%22height%22)%20%7B%0A%20%20%20%20%20%20%20%20return%20Scratch.vm.runtime.stageHeight%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20return%200%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20setDimensions(%7B%20width%2C%20height%20%7D)%20%7B%0A%20%20%20%20%20%20width%20%3D%20Scratch.Cast.toNumber(width)%3B%0A%20%20%20%20%20%20height%20%3D%20Scratch.Cast.toNumber(height)%3B%0A%20%20%20%20%20%20Scratch.vm.setStageSize(width%2C%20height)%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20setUsername(%7B%20username%20%7D)%20%7B%0A%20%20%20%20%20%20Scratch.vm.runtime.ioDevices.userData._username%20%3D%0A%20%20%20%20%20%20%20%20Scratch.Cast.toString(username)%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20greenFlag()%20%7B%0A%20%20%20%20%20%20Scratch.vm.runtime.greenFlag()%3B%0A%20%20%20%20%7D%0A%20%20%7D%0A%0A%20%20Scratch.extensions.register(new%20RuntimeOptions())%3B%0A%7D)(Scratch)%3B%0A%20%7D)(Scratch)%3B"]) {
+        vm.extensionManager.loadExtensionURL(extension);
+      }
+
+      vm.runtime.isProjectPermissionManagerDisabled = true;
+      
+    } catch (e) {
+      handleError(e);
+    }
+  </script>
+  
+  
+    <script>
+      const getProjectData = (function() {
+        const storage = scaffolding.storage;
+        storage.onprogress = (total, loaded) => {
+          setProgress(interpolate(0.2, 0.98, loaded / total));
+        };
+        
+        storage.addWebStore(
+          [
+            storage.AssetType.ImageVector,
+            storage.AssetType.ImageBitmap,
+            storage.AssetType.Sound,
+            storage.AssetType.Font
+          ].filter(i => i),
+          (asset) => new URL('./assets/' + asset.assetId + '.' + asset.dataFormat, location).href
+        );
+        return () => new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          resolve(xhr.response);
+        };
+        xhr.onerror = () => {
+          if (location.protocol === 'file:') {
+            reject(new Error('Zip environment must be used from a website, not from a file URL.'));
+          } else {
+            reject(new Error('Request to load project data failed.'));
+          }
+        };
+        xhr.onprogress = (e) => {
+          if (e.lengthComputable) {
+            setProgress(interpolate(0.1, 0.2, e.loaded / e.total));
+          }
+        };
+        xhr.responseType = 'arraybuffer';
+        xhr.open('GET', "./assets/project.json");
+        xhr.send();
+      });
+      })();
+    </script>
+  <script>
+    const run = async () => {
+      const projectData = await getProjectData();
+      await scaffolding.loadProject(projectData);
+      setProgress(1);
+      loadingScreen.hidden = true;
+      if (false) {
+        scaffolding.start();
+      } else {
+        launchScreen.hidden = false;
+        launchScreen.addEventListener('click', () => {
+          launchScreen.hidden = true;
+          scaffolding.start();
+        });
+        launchScreen.focus();
+      }
+    };
+    run().catch(handleError);
+  </script>
+</body>
+</html>
