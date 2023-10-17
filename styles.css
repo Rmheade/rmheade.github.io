@@ -21,13 +21,9 @@ h1 {
 }
 
 .out {
-  width: 100%;
-  height: 20%;
-}
-
-.outy {
-    width: 100%
+    width: 100%;
     height: 20%;
+    display: table;
 }
 
 /* Container needed to position the button. Adjust the width as needed */
@@ -35,7 +31,11 @@ h1 {
   position: relative;
   width: 300px;
   border-spacing: 10%;
-  display: table-cell;
+  display: table-row;
+}
+
+.column {
+    display: table-cell;
 }
 
 /* Make the image responsive */
