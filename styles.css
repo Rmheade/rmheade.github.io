@@ -36,6 +36,7 @@ h1 {
 
 .column {
     display: table-cell;
+    height: 20%;
 }
 
 /* Make the image responsive */
