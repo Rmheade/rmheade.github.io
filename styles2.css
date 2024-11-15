@@ -1,6 +1,7 @@
 .outerbox {
     display: grid;
     grid-template-columns: auto auto auto;
+    width:500px;
   }
 .box {
     text-align: center;
