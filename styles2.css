@@ -1,6 +1,15 @@
+h1 {
+    margin: auto;
+    text-align: center;
+}
+
 .outerbox {
     display: grid;
     grid-template-columns: auto auto auto;
+    width:100vw;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 5vw;
   }
 
 .imgg {
