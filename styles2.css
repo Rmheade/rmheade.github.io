@@ -16,16 +16,16 @@ h1{
     display: grid;
     grid-template-columns: auto auto auto auto auto;
     margin-top: 5vw;
-    margin-left:5vw;
-    margin-right:5vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
     max-width: 100% !important;
-    overflow-x: hidden !important;
+    column-gap: 5vw;
+    row-gap: 5vw;
 }
 
 .game {
     width:10vw;
     height:10vw;
-    padding:5vw;
 }
 
 img {
