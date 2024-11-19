@@ -1,8 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Bokor&display=swap');
+
+
 h1{
-    margin:auto
+    margin:auto;
+    text-align: center;
+    font-family: "Bokor", system-ui;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .grid {
     display: grid;
     grid-template-columns: auto auto auto auto auto;
+    margin-top: 5vw;
+}
+
+.game {
+    width:10vw;
+    height:10vw;
+    padding:5vw;
 }
