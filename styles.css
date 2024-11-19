@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bokor&display=swap');
 
 body {
-    background: blue;
-}
+    background: radial-gradient(circle at bottom, navy 0, black 100%);}
 
 h1{
     margin:auto;
