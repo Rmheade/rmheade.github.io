@@ -1,4 +1,4 @@
-function beep(url) {
+function open(url) {
   document.getElementById('all').hidden = true;
 
   var iframe = document.createElement("iframe");
