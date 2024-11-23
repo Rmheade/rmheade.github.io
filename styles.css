@@ -6,7 +6,10 @@
 #B95A25 Cinnamon Spice
 */
 body {
-    background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);}
+    background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
+    margin: 0;
+    overflow: hiddden;
+}
 
 h1{
     margin:auto;
