@@ -1,4 +1,5 @@
-function open(url) {
+function beep(url) {
+  alert("itworkrs")
   document.getElementById('all').hidden = true;
 
   var iframe = document.createElement("iframe");
