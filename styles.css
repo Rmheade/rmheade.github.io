@@ -23,7 +23,7 @@ h1:hover {
       color: rgba(0, 194, 203, 0.2);
 }
 
-#grid {
+.grid {
     display: grid;
     grid-template-columns: auto auto auto auto;
     margin-top: 5%;
