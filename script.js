@@ -1,5 +1,4 @@
 function beep(url) {
-  alert("itworkrs")
   document.getElementById('all').hidden = true;
 
   var iframe = document.createElement("iframe");
@@ -19,10 +18,11 @@ function beep(url) {
   closeButton.style.right = "10px";
   closeButton.style.zIndex = "1001";
   closeButton.style.padding = "10px";
-  closeButton.style.background = "red";
+  closeButton.style.background = "black";
   closeButton.style.color = "white";
   closeButton.style.border = "none";
   closeButton.style.cursor = "pointer";
+  closeButton.style.font = "Bokor";
 
   closeButton.onclick = function () {
     document.body.removeChild(iframe);
