@@ -1,3 +1,14 @@
+function pass(){
+  document.getElementById('all').hidden = true;
+  user = input('Username?')
+  passy = input ('Password?')
+  if (user == "Student" & passy == "0nl7") {
+    document.getElementByIdById('all').hidden = false;
+  } else {
+    pass()
+  }
+}
+
 function beep(url) {
   document.getElementById('all').hidden = true;
 
