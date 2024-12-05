@@ -4,7 +4,7 @@ canvasElem2d.height = "150"
 
 let canvasElem1d = document.getElementById("canvas1d")
 canvasElem1d.width = "600"
-canvasElem1d.height = "5"
+canvasElem1d.height = "1px"
 
 let ctx2d = canvasElem2d.getContext("2d")
 let ctx1d = canvasElem1d.getContext("2d")
