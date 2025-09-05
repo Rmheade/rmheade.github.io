@@ -95,3 +95,8 @@ iframe {
     border-color: #B95A25;
     box-shadow: 0 0 8px #B95A25;
 }
+
+#intro{
+    text-align: center;
+    margin: auto;
+}
