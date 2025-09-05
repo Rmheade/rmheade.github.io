@@ -1,3 +1,4 @@
+// Function to show game in fullscreen iframe
 function beep(url) {
   document.getElementById('all').hidden = true;
 
@@ -22,7 +23,7 @@ function beep(url) {
   closeButton.style.color = "white";
   closeButton.style.border = "none";
   closeButton.style.cursor = "pointer";
-  closeButton.style.font = "Bokor";
+  closeButton.style.fontFamily = "Bokor";
 
   closeButton.onclick = function () {
     document.body.removeChild(iframe);
@@ -33,3 +34,27 @@ function beep(url) {
   document.body.appendChild(iframe);
   document.body.appendChild(closeButton);
 }
+
+// Function to sort all game tiles alphabetically by the text in <p>
+function sortGames() {
+  const grid = document.querySelector('.grid');
+  const games = Array.from(grid.children);
+
+  games.sort((a, b) => {
+    const nameA = a.querySelector('p').textContent.toUpperCase();
+    const nameB = b.querySelector('p').textContent.toUpperCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+
+  // Re-add sorted tiles to the grid
+  grid.innerHTML = '';
+  games.forEach(game => grid.appendChild(game));
+}
+
+// Run sorting and your existing onload logic
+window.onload = () => {
+  sortGames();
+  if (typeof pass === "function") pass(); // your existing function
+};
