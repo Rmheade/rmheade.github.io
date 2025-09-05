@@ -9,7 +9,7 @@
 body {
     background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
     margin: 0;
-    overflow: hiddden;
+    overflow: hidden;
 }
 
 h1{
