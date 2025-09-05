@@ -1,6 +1,7 @@
 // Function to show game in fullscreen iframe
 function beep(url) {
-  document.getElementById('all').hidden = true;
+  const allContent = document.getElementById('all');
+  allContent.hidden = true;
 
   const iframe = document.createElement("iframe");
   iframe.src = url;
@@ -27,8 +28,8 @@ function beep(url) {
   closeButton.style.fontFamily = "Bokor";
   closeButton.style.fontSize = "1rem";
   closeButton.style.transition = "opacity 0.3s ease, background 0.2s ease, box-shadow 0.2s ease";
-  closeButton.style.opacity = "0"; // hidden initially
-  closeButton.style.pointerEvents = "none"; // ignore clicks when hidden
+  closeButton.style.opacity = "0";           // hidden initially
+  closeButton.style.pointerEvents = "none";  // ignore clicks when hidden
 
   closeButton.onmouseover = () => {
     closeButton.style.background = "rgba(0, 0, 0, 0.8)";
@@ -43,7 +44,7 @@ function beep(url) {
     document.body.removeChild(iframe);
     document.body.removeChild(closeButton);
     document.removeEventListener("mousemove", mouseMoveHandler);
-    document.getElementById('all').hidden = false;
+    allContent.hidden = false;
   };
 
   document.body.appendChild(iframe);
@@ -67,7 +68,6 @@ function beep(url) {
   document.addEventListener("mousemove", mouseMoveHandler);
 }
 
-
 // Function to sort game tiles
 function sortGames() {
   const grid = document.querySelector('.grid');
@@ -79,9 +79,7 @@ function sortGames() {
   normalTiles.sort((a, b) => {
     const nameA = a.querySelector('p').textContent.toUpperCase();
     const nameB = b.querySelector('p').textContent.toUpperCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
+    return nameA.localeCompare(nameB);
   });
 
   grid.innerHTML = '';
@@ -96,9 +94,7 @@ function setupSearch() {
 
   searchInput.addEventListener('input', () => {
     const query = searchInput.value.toUpperCase();
-    const games = grid.children;
-
-    for (let game of games) {
+    for (let game of grid.children) {
       const name = game.querySelector('p').textContent.toUpperCase();
       game.style.display = name.includes(query) ? '' : 'none';
     }
@@ -107,7 +103,7 @@ function setupSearch() {
 
 // Run everything on page load
 window.onload = () => {
-  sortGames();          // Sort tiles with priority first
-  setupSearch();        // Enable live search
-  if (typeof pass === "function") pass(); // existing onload function
+  sortGames();
+  setupSearch();
+  if (typeof pass === "function") pass();
 };
