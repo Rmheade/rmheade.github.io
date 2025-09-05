@@ -1,37 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Bokor&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Bokor&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
-/* Color palette:
+/*
 #4D511F Olive Drab
 #D0BF94 Goldenrod Yellow
-#EFE8DC Champagne Beige
+#EFE8DC Champaigne Beige
 #B95A25 Cinnamon Spice
 */
 
 body {
-    margin: 0;
-    overflow-y: auto;
-    font-family: "Atma", system-ui;
     background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
-    position: relative;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, #03260c, #4D511F, #03260c);
-    background-size: 200% 200%;
-    z-index: -1;
-    animation: moveBackground 20s linear infinite;
-}
-
-@keyframes moveBackground {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    margin: 0;
+    overflow: auto; /* allow scrolling */
 }
 
 h1 {
@@ -39,6 +19,7 @@ h1 {
     text-align: center;
     font-family: "Bokor", system-ui;
     font-weight: 400;
+    font-style: normal;
     font-size: 5vw;
     color: #D0BF94;
     padding-bottom: 10px;
@@ -55,43 +36,44 @@ h1:hover {
 p {
     color: #EFE8DC;
     font-family: "Atma", system-ui;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-top: 5px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 3vw;
-    padding: 3vw 5vw;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    column-gap: 4vw;
+    row-gap: 4vw;
+    margin: 5% 5% 0 5%;
 }
 
 .game {
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 14px;
+    border-radius: 12px;
+    padding: 12px;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    backdrop-filter: blur(2px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .game:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(208, 191, 148, 0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.08);
 }
 
 .game img {
-    border-radius: 12px;
+    border-radius: 10px;
     width: 100%;
-    height: auto;
-    margin-bottom: 8px;
-    transition: transform 0.2s ease;
+    height: 180px; /* slightly taller for more impact */
+    object-fit: cover; /* ensures images fit tile nicely */
+    margin-bottom: 10px;
 }
 
-.game img:hover {
-    transform: scale(1.03);
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 #search-bar::placeholder {
