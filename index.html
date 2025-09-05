@@ -16,17 +16,30 @@
   <body>
     <div id="all">
       <h1>HimeSpider Games</h1>
-      <div id="search-container" style="text-align:center; margin-top: 20px;">
+      <div id="search-container" style="
+          position: absolute;
+          top: 20px;
+          right: 20px;
+      ">
         <input 
           type="text" 
           id="search-bar" 
-          placeholder="Search for a game..." 
-          style="padding:10px; width:50%; font-size:1rem;">
+          placeholder="Search..." 
+          style="
+              padding: 8px 12px; 
+              font-size: 0.9rem; 
+              border-radius: 6px; 
+              border: 1px solid #D0BF94;
+              background: rgba(255, 255, 255, 0.1);
+              color: #D0BF94;
+              outline: none;
+          ">
       </div>
+
 
       <div class="grid">
           <!--Form-->
-          <div class="game">
+          <div class="game priority">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSeog95fl57i1Jv28IUltDQdAHghnphJHIKCL3biTzReZtLXVA/viewform?usp=dialog" target="_blank"><img src="images/form.svg" alt="Form"></a>
             <p>Suggestions or Issues Form</p>
           </div>
@@ -168,23 +181,29 @@
           <!--Getaway Shootout-->
           <div class="game">
             <img src="pages/getawayshootout/934bde36-a4a1-43d0-8b35-30f15feddbb4.png" alt="Getaway Shootout" onclick="beep('https://rmheade.github.io/pages/getawayshootout/index.html')">
-            <p></p>
+            <p>Getaway Shootout</p>
           </div>
           <!--BalloonsTD-->
           <div class="game">
             <img src="pages/balloonstd/bloonstd.jpg" alt="BallonsTD" onclick="beep('https://rmheade.github.io/pages/baloonstd/index.html')">
-            <p></p>
+            <p>Balloons TD</p>
           </div>
           <!--BalloonsTD2-->
           <div class="game">
             <img src="pages/balloonstd2/bloonstd2.png" alt="BallonsTD2" onclick="beep('https://rmheade.github.io/pages/baloonstd2/index.html')">
-            <p></p>
+            <p>Balloons TD 2</p>
           </div>
           <!--Eaglercraft-->
           <div class="game">
             <img src="pages/Eaglercraft/minecraft.jpg" alt="Minecraft" onclick="beep('https://rmheade.github.io/pages/Eaglercraft/Eaglercraft.html')">
             <p>Minecraft</p>
           </div>
+          <!--Celeste-->
+          <div class="game">
+            <img src="pages/Celeste/celeste.js" alt="Minecraft" onclick="beep('https://rmheade.github.io/pages/Celeste/celeste.html')">
+            <p>Celeste</p>
+          </div>
+
       </div>
     <script src="script.js"></script>
   </body>

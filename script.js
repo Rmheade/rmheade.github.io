@@ -2,7 +2,7 @@
 function beep(url) {
   document.getElementById('all').hidden = true;
 
-  var iframe = document.createElement("iframe");
+  const iframe = document.createElement("iframe");
   iframe.src = url;
   iframe.style.position = "absolute";
   iframe.style.top = "0";
@@ -12,7 +12,7 @@ function beep(url) {
   iframe.style.border = "none";
   iframe.style.zIndex = "1000";
 
-  var closeButton = document.createElement("button");
+  const closeButton = document.createElement("button");
   closeButton.textContent = "Back";
   closeButton.style.position = "absolute";
   closeButton.style.top = "10px";
@@ -35,12 +35,17 @@ function beep(url) {
   document.body.appendChild(closeButton);
 }
 
-// Function to sort all game tiles alphabetically by the text in <p>
+// Function to sort game tiles
 function sortGames() {
   const grid = document.querySelector('.grid');
   const games = Array.from(grid.children);
 
-  games.sort((a, b) => {
+  // Separate priority tiles from normal tiles
+  const priorityTiles = games.filter(game => game.classList.contains('priority'));
+  const normalTiles = games.filter(game => !game.classList.contains('priority'));
+
+  // Sort normal tiles alphabetically by <p> text
+  normalTiles.sort((a, b) => {
     const nameA = a.querySelector('p').textContent.toUpperCase();
     const nameB = b.querySelector('p').textContent.toUpperCase();
     if (nameA < nameB) return -1;
@@ -48,39 +53,31 @@ function sortGames() {
     return 0;
   });
 
-  // Re-add sorted tiles to the grid
+  // Rebuild the grid: priority first, then sorted normal tiles
   grid.innerHTML = '';
-  games.forEach(game => grid.appendChild(game));
+  priorityTiles.forEach(game => grid.appendChild(game));
+  normalTiles.forEach(game => grid.appendChild(game));
 }
 
-// Run sorting and your existing onload logic
-window.onload = () => {
-  sortGames();
-  if (typeof pass === "function") pass(); // your existing function
-};
-
-// Live search function
+// Function to set up live search
 function setupSearch() {
   const searchInput = document.getElementById('search-bar');
-  const games = document.querySelectorAll('.grid .game');
+  const grid = document.querySelector('.grid');
 
   searchInput.addEventListener('input', () => {
     const query = searchInput.value.toUpperCase();
+    const games = grid.children;
 
-    games.forEach(game => {
+    for (let game of games) {
       const name = game.querySelector('p').textContent.toUpperCase();
-      if (name.includes(query)) {
-        game.style.display = ''; // show matching
-      } else {
-        game.style.display = 'none'; // hide non-matching
-      }
-    });
+      game.style.display = name.includes(query) ? '' : 'none';
+    }
   });
 }
 
-// Call search setup on page load
+// Run everything on page load
 window.onload = () => {
-  sortGames();          // your sorting function
-  setupSearch();        // new search function
-  if (typeof pass === "function") pass(); // existing logic
+  sortGames();          // Sort tiles with priority first
+  setupSearch();        // Enable live search
+  if (typeof pass === "function") pass(); // existing onload function
 };
