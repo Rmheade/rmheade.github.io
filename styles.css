@@ -13,13 +13,17 @@ body {
 }
 
 h1{
-    margin:auto;
+    margin:20px auto;
     text-align: center;
     font-family: "Bokor", system-ui;
     font-weight: 400;
     font-style: normal;
     font-size: 5vw;
     color: #D0BF94;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #B95A25;
+    width: fit-content;
+
 }
 
 h1:hover {
@@ -29,10 +33,11 @@ h1:hover {
 }
 
 p {
-    color:#D0BF94;
+    color: #EFE8DC;
     font-family: "Atma", system-ui;
-    font-weight: 400;
-    font-style: normal;
+    font-size: 1.1rem;
+    margin-top: 5px;
+
 }
 
 .grid {
@@ -49,6 +54,25 @@ p {
 .game {
     width:10%;
     height:10%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+.game:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.game img {
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 8px;
 }
 
 img {
@@ -66,7 +90,18 @@ iframe {
     opacity: 0.7;
 }
 
-#search-bar:focus {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #B95A25;
+#search-bar {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #D0BF94;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #EFE8DC;
+  transition: all 0.2s ease;
 }
+
+#search-bar:focus {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: #B95A25;
+    box-shadow: 0 0 8px #B95A25;
+}
+  
