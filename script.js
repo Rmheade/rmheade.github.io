@@ -58,3 +58,29 @@ window.onload = () => {
   sortGames();
   if (typeof pass === "function") pass(); // your existing function
 };
+
+// Live search function
+function setupSearch() {
+  const searchInput = document.getElementById('search-bar');
+  const games = document.querySelectorAll('.grid .game');
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toUpperCase();
+
+    games.forEach(game => {
+      const name = game.querySelector('p').textContent.toUpperCase();
+      if (name.includes(query)) {
+        game.style.display = ''; // show matching
+      } else {
+        game.style.display = 'none'; // hide non-matching
+      }
+    });
+  });
+}
+
+// Call search setup on page load
+window.onload = () => {
+  sortGames();          // your sorting function
+  setupSearch();        // new search function
+  if (typeof pass === "function") pass(); // existing logic
+};
