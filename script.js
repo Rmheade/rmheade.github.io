@@ -1,6 +1,5 @@
 // Function to show game in fullscreen iframe
 function beep(url) {
-  // Hide main content
   document.getElementById('all').hidden = true;
 
   const iframe = document.createElement("iframe");
@@ -27,7 +26,9 @@ function beep(url) {
   closeButton.style.cursor = "pointer";
   closeButton.style.fontFamily = "Bokor";
   closeButton.style.fontSize = "1rem";
-  closeButton.style.transition = "all 0.2s ease";
+  closeButton.style.transition = "opacity 0.3s ease, background 0.2s ease, box-shadow 0.2s ease";
+  closeButton.style.opacity = "0"; // hidden initially
+  closeButton.style.pointerEvents = "none"; // ignore clicks when hidden
 
   closeButton.onmouseover = () => {
     closeButton.style.background = "rgba(0, 0, 0, 0.8)";
@@ -41,26 +42,29 @@ function beep(url) {
   closeButton.onclick = function () {
     document.body.removeChild(iframe);
     document.body.removeChild(closeButton);
+    document.removeEventListener("mousemove", mouseMoveHandler);
     document.getElementById('all').hidden = false;
   };
 
   document.body.appendChild(iframe);
   document.body.appendChild(closeButton);
 
-  // Try loading iframe, if blocked by X-Frame-Options, open in new tab
-  iframe.onload = function() {
-    try {
-      // Accessing contentDocument may throw if blocked
-      const test = iframe.contentDocument.body;
-    } catch (e) {
-      // Remove iframe and open in new tab
-      document.body.removeChild(iframe);
-      document.body.removeChild(closeButton);
-      document.getElementById('all').hidden = false;
-      window.open(url, "_blank");
-      alert("This game cannot be displayed in an iframe and has been opened in a new tab.");
+  // Show button when mouse is near top-right corner
+  function mouseMoveHandler(e) {
+    const threshold = 100; // pixels from top/right
+    const nearRight = window.innerWidth - e.clientX < threshold;
+    const nearTop = e.clientY < threshold;
+
+    if (nearTop && nearRight) {
+      closeButton.style.opacity = "1";
+      closeButton.style.pointerEvents = "auto";
+    } else {
+      closeButton.style.opacity = "0";
+      closeButton.style.pointerEvents = "none";
     }
-  };
+  }
+
+  document.addEventListener("mousemove", mouseMoveHandler);
 }
 
 // Function to sort game tiles
@@ -102,7 +106,7 @@ function setupSearch() {
 
 // Run everything on page load
 window.onload = () => {
-  sortGames();
-  setupSearch();
-  if (typeof pass === "function") pass();
+  sortGames();          // Sort tiles with priority first
+  setupSearch();        // Enable live search
+  if (typeof pass === "function") pass(); // existing onload function
 };
