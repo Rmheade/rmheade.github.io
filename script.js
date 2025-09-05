@@ -51,9 +51,9 @@ function beep(url) {
 
   // Show button when mouse is near top-right corner
   function mouseMoveHandler(e) {
-    const threshold = 100; // pixels from top/right
-    const nearRight = window.innerWidth - e.clientX < threshold;
-    const nearTop = e.clientY < threshold;
+    const threshold = 150; // pixels from top/right
+    const nearRight = window.innerWidth - e.clientX <= threshold;
+    const nearTop = e.clientY <= threshold;
 
     if (nearTop && nearRight) {
       closeButton.style.opacity = "1";
@@ -66,6 +66,7 @@ function beep(url) {
 
   document.addEventListener("mousemove", mouseMoveHandler);
 }
+
 
 // Function to sort game tiles
 function sortGames() {
