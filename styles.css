@@ -1,35 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Bokor&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Bokor&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
-/*
+
+/* Color palette:
 #4D511F Olive Drab
 #D0BF94 Goldenrod Yellow
-#EFE8DC Champaigne Beige
+#EFE8DC Champagne Beige
 #B95A25 Cinnamon Spice
 */
+
 body {
-    background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
     margin: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    font-family: "Atma", system-ui;
+    background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
+    position: relative;
 }
 
-h1{
-    margin:20px auto;
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, #03260c, #4D511F, #03260c);
+    background-size: 200% 200%;
+    z-index: -1;
+    animation: moveBackground 20s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+h1 {
+    margin: 20px auto;
     text-align: center;
     font-family: "Bokor", system-ui;
     font-weight: 400;
-    font-style: normal;
     font-size: 5vw;
     color: #D0BF94;
     padding-bottom: 10px;
     border-bottom: 2px solid #B95A25;
     width: fit-content;
-
 }
 
 h1:hover {
     text-shadow: 0.05em 0 0 #D0BF94, -0.025em -0.05em 0 #B95A25,
-      0.025em 0.05em 0 #4D511F;
-      color: rgba(0, 194, 203, 0.2);
+                 0.025em 0.05em 0 #4D511F;
+    color: rgba(0, 194, 203, 0.2);
 }
 
 p {
@@ -37,52 +57,41 @@ p {
     font-family: "Atma", system-ui;
     font-size: 1.1rem;
     margin-top: 5px;
-
 }
 
 .grid {
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    margin-top: 5%;
-    margin-left: 5%;
-    max-width: 100% !important;
-    column-gap: 5vw;
-    row-gap: 5vw;
-    margin-right: 5%;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 3vw;
+    padding: 3vw 5vw;
 }
 
 .game {
-    width:10%;
-    height:10%;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 10px;
+    border-radius: 16px;
+    padding: 14px;
     text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    backdrop-filter: blur(2px);
 }
 
 .game:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(208, 191, 148, 0.2);
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .game img {
-  border-radius: 10px;
-  width: 100%;
-  height: auto;
-  margin-bottom: 8px;
-}
-
-img {
-    width:17vw;
-}
-
-iframe {
+    border-radius: 12px;
     width: 100%;
-    height: 100%;
-    border: none;
+    height: auto;
+    margin-bottom: 8px;
+    transition: transform 0.2s ease;
+}
+
+.game img:hover {
+    transform: scale(1.03);
 }
 
 #search-bar::placeholder {
@@ -91,12 +100,12 @@ iframe {
 }
 
 #search-bar {
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid #D0BF94;
-  border-radius: 8px;
-  padding: 10px 14px;
-  color: #EFE8DC;
-  transition: all 0.2s ease;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #D0BF94;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #EFE8DC;
+    transition: all 0.2s ease;
 }
 
 #search-bar:focus {
@@ -104,4 +113,3 @@ iframe {
     border-color: #B95A25;
     box-shadow: 0 0 8px #B95A25;
 }
-  
