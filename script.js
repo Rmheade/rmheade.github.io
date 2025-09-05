@@ -1,5 +1,6 @@
 // Function to show game in fullscreen iframe
 function beep(url) {
+  // Hide main content
   document.getElementById('all').hidden = true;
 
   const iframe = document.createElement("iframe");
@@ -45,6 +46,21 @@ function beep(url) {
 
   document.body.appendChild(iframe);
   document.body.appendChild(closeButton);
+
+  // Try loading iframe, if blocked by X-Frame-Options, open in new tab
+  iframe.onload = function() {
+    try {
+      // Accessing contentDocument may throw if blocked
+      const test = iframe.contentDocument.body;
+    } catch (e) {
+      // Remove iframe and open in new tab
+      document.body.removeChild(iframe);
+      document.body.removeChild(closeButton);
+      document.getElementById('all').hidden = false;
+      window.open(url, "_blank");
+      alert("This game cannot be displayed in an iframe and has been opened in a new tab.");
+    }
+  };
 }
 
 // Function to sort game tiles
@@ -52,11 +68,9 @@ function sortGames() {
   const grid = document.querySelector('.grid');
   const games = Array.from(grid.children);
 
-  // Separate priority tiles from normal tiles
   const priorityTiles = games.filter(game => game.classList.contains('priority'));
   const normalTiles = games.filter(game => !game.classList.contains('priority'));
 
-  // Sort normal tiles alphabetically by <p> text
   normalTiles.sort((a, b) => {
     const nameA = a.querySelector('p').textContent.toUpperCase();
     const nameB = b.querySelector('p').textContent.toUpperCase();
@@ -65,7 +79,6 @@ function sortGames() {
     return 0;
   });
 
-  // Rebuild the grid: priority first, then sorted normal tiles
   grid.innerHTML = '';
   priorityTiles.forEach(game => grid.appendChild(game));
   normalTiles.forEach(game => grid.appendChild(game));
@@ -89,7 +102,7 @@ function setupSearch() {
 
 // Run everything on page load
 window.onload = () => {
-  sortGames();          // Sort tiles with priority first
-  setupSearch();        // Enable live search
-  if (typeof pass === "function") pass(); // existing onload function
+  sortGames();
+  setupSearch();
+  if (typeof pass === "function") pass();
 };
