@@ -1,25 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Bokor&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Bokor&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
-/*
-#4D511F Olive Drab
-#D0BF94 Goldenrod Yellow
-#EFE8DC Champaigne Beige
-#B95A25 Cinnamon Spice
-*/
+/* =========================
+   Color Palette
+   #4D511F Olive Drab
+   #D0BF94 Goldenrod Yellow
+   #EFE8DC Champaigne Beige
+   #B95A25 Cinnamon Spice
+========================= */
 
 body {
     background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
     margin: 0;
-    overflow: auto; /* allow scrolling */
+    overflow: auto;
+    font-family: 'Atma', system-ui;
 }
 
+/* =========================
+   Header
+========================= */
 h1 {
     margin: 20px auto;
     text-align: center;
     font-family: "Bokor", system-ui;
     font-weight: 400;
-    font-style: normal;
     font-size: 5vw;
     color: #D0BF94;
     padding-bottom: 10px;
@@ -28,11 +32,13 @@ h1 {
 }
 
 h1:hover {
-    text-shadow: 0.05em 0 0 #D0BF94, -0.025em -0.05em 0 #B95A25,
-                 0.025em 0.05em 0 #4D511F;
+    text-shadow: 0.05em 0 0 #D0BF94, -0.025em -0.05em 0 #B95A25, 0.025em 0.05em 0 #4D511F;
     color: rgba(0, 194, 203, 0.2);
 }
 
+/* =========================
+   Paragraphs
+========================= */
 p {
     color: #EFE8DC;
     font-family: "Atma", system-ui;
@@ -40,9 +46,17 @@ p {
     margin-top: 5px;
 }
 
+#intro {
+    text-align: center;
+    margin: auto;
+}
+
+/* =========================
+   Grid
+========================= */
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    grid-template-columns: repeat(4, 1fr);
     column-gap: 4vw;
     row-gap: 4vw;
     margin: 5% 5% 0 5%;
@@ -65,17 +79,14 @@ p {
 .game img {
     border-radius: 10px;
     width: 100%;
-    height: 180px; /* slightly taller for more impact */
-    object-fit: cover; /* ensures images fit tile nicely */
+    height: 180px;
+    object-fit: cover;
     margin-bottom: 10px;
 }
 
-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
+/* =========================
+   Search Bar
+========================= */
 #search-bar::placeholder {
     color: #D0BF94;
     opacity: 0.7;
@@ -96,7 +107,46 @@ iframe {
     box-shadow: 0 0 8px #B95A25;
 }
 
-#intro{
-    text-align: center;
-    margin: auto;
+/* =========================
+   Iframe (Game Frame)
+========================= */
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* =========================
+   Back Button Styling
+========================= */
+button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #D0BF94;
+    border: 2px solid #B95A25;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: "Bokor", system-ui;
+    font-size: 1rem;
+    transition: opacity 0.3s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    opacity: 0; /* hidden initially */
+    pointer-events: none; /* ignore clicks when hidden */
+}
+
+button:hover {
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px #B95A25;
+}
+
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px #B95A25 inset;
 }
