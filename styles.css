@@ -1,14 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bokor&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Bokor&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
-/* =========================
-   Color Palette
-   #4D511F Olive Drab
-   #D0BF94 Goldenrod Yellow
-   #EFE8DC Champaigne Beige
-   #B95A25 Cinnamon Spice
-========================= */
-
 body {
     background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
     margin: 0;
@@ -17,24 +9,125 @@ body {
 }
 
 /* =========================
-   Header
+   Header (Top Bar)
+========================= */
+#top-header {
+    display: flex;
+    justify-content: center;  /* centers title horizontally */
+    align-items: center;      /* centers children vertically */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    z-index: 3000;
+    background: transparent;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#top-header.scrolled {
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+#top-header h1 {
+  margin: 0;
+  text-align: center;
+  flex: 1;
+  font-family: "Bokor", system-ui;
+  font-weight: 400;
+  font-size: 3.5rem; /* bigger text */
+  color: #D0BF94;
+}/* =========================
+   Header (Top Bar)
+========================= */
+#top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    z-index: 3000;
+    background: transparent;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    justify-content: center;    /* center title horizontally */
+    align-items: center;        /* center title and search vertically */
+}
+
+/* background appears on scroll */
+#top-header.scrolled {
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* Title */
+#top-header h1 {
+    margin: 0 auto;             /* horizontal center */
+    font-family: "Bokor", system-ui;
+    font-weight: 400;
+    font-size: 3rem;            /* bigger title */
+    color: #D0BF94;
+}
+
+/* Updates box (top-left) */
+.header-left .updates-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    min-width: 180px;
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #B95A25;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-family: "Bokor", sans-serif;
+    color: #D0BF94;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    z-index: 3001;
+}
+
+/* Search bar (top-right) */
+.header-right {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%); /* vertically center */
+}
+
+#search-container input {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    border: 1px solid #D0BF94;
+    background: rgba(255, 255, 255, 0.1);
+    color: #D0BF94;
+    outline: none;
+}
+
+#search-container input::placeholder {
+    color: #D0BF94;
+    opacity: 0.7;
+}
+
+
+
+/* =========================
+   Main Title Border
 ========================= */
 h1 {
     margin: 20px auto;
     text-align: center;
     font-family: "Bokor", system-ui;
     font-weight: 400;
-    font-size: 5vw;
+    font-size: 8vw; /* bigger so it fills the space better */
     color: #D0BF94;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #B95A25;
-    width: fit-content;
+    padding-bottom: 8px; /* optional spacing */
+    border-bottom: none;  /* no underline */
 }
 
-h1:hover {
-    text-shadow: 0.05em 0 0 #D0BF94, -0.025em -0.05em 0 #B95A25, 0.025em 0.05em 0 #4D511F;
-    color: rgba(0, 194, 203, 0.2);
-}
+
+
 
 /* =========================
    Paragraphs
@@ -48,7 +141,7 @@ p {
 
 #intro {
     text-align: center;
-    margin: auto;
+    margin: 160px auto 5% auto; /* space below fixed header */
 }
 
 /* =========================
@@ -59,7 +152,7 @@ p {
     grid-template-columns: repeat(4, 1fr);
     column-gap: 4vw;
     row-gap: 4vw;
-    margin: 5% 5% 0 5%;
+    margin: 0 5% 5% 5%;
 }
 
 .game {
@@ -85,30 +178,7 @@ p {
 }
 
 /* =========================
-   Search Bar
-========================= */
-#search-bar::placeholder {
-    color: #D0BF94;
-    opacity: 0.7;
-}
-
-#search-bar {
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid #D0BF94;
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: #EFE8DC;
-    transition: all 0.2s ease;
-}
-
-#search-bar:focus {
-    background: rgba(0, 0, 0, 0.8);
-    border-color: #B95A25;
-    box-shadow: 0 0 8px #B95A25;
-}
-
-/* =========================
-   Iframe (Game Frame)
+   Iframe
 ========================= */
 iframe {
     width: 100%;
@@ -121,7 +191,7 @@ iframe {
 }
 
 /* =========================
-   Back Button Styling
+   Back Button
 ========================= */
 button {
     position: absolute;
@@ -138,7 +208,7 @@ button {
     font-size: 1rem;
     transition: opacity 0.3s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
     opacity: 0; /* hidden initially */
-    pointer-events: none; /* ignore clicks when hidden */
+    pointer-events: none;
 }
 
 button:hover {
@@ -152,6 +222,6 @@ button:active {
 }
 
 .priority {
-    position: relative; /* required for z-index */
+    position: relative;
     z-index: 2;
 }

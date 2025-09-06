@@ -14,24 +14,36 @@
   </head>
   <body>
     <div id="all">
-      <h1>HimeSpider Games</h1>
 
-      <div id="search-container" style="position: absolute; top: 20px; right: 20px;">
-        <input 
-          type="text" 
-          id="search-bar" 
-          placeholder="Search..." 
-          style="
-              padding: 8px 12px; 
-              font-size: 0.9rem; 
-              border-radius: 6px; 
-              border: 1px solid #D0BF94;
-              background: rgba(255, 255, 255, 0.1);
-              color: #D0BF94;
-              outline: none;
-          ">
+      <!-- =========================
+           Fixed Top Header
+      ========================= -->
+      <div id="top-header">
+        <div class="header-left">
+          <div class="updates-box" id="updates-box">
+            <h2>Site Updates</h2>
+            <ul>
+              <li>🎉 Search & sorting is fixed!</li>
+              <li>📝 Added fixed header with updates box.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h1>HimeSpider Games</h1>
+
+        <div class="header-right">
+          <div id="search-container">
+            <input type="text" id="search-bar" placeholder="Search...">
+          </div>
+        </div>
       </div>
 
+      <!-- Spacer to prevent intro being hidden behind fixed header -->
+      <div style="height: 140px;"></div>
+
+      <!-- =========================
+           Intro Paragraph
+      ========================= -->
       <div>
         <p id="intro">
           Welcome! This website will fufill your Unbl0cked game needs. It is password locked, so no admin can get in, and all games open on the same URL, meaning that there is no way in without the password. 

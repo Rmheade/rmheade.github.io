@@ -1,12 +1,10 @@
 // Function to show game in fullscreen iframe with hover-reveal Back button
 function beep(url) {
-  // Hide main UI and prevent background scroll
   const appRoot = document.getElementById('all');
   appRoot.hidden = true;
   const prevOverflow = document.body.style.overflow;
   document.body.style.overflow = 'hidden';
 
-  // Create fullscreen iframe
   const iframe = document.createElement('iframe');
   iframe.src = url;
   iframe.style.position = 'fixed';
@@ -18,7 +16,6 @@ function beep(url) {
   iframe.setAttribute('allowfullscreen', 'true');
   iframe.setAttribute('allow', 'fullscreen');
 
-  // Create Back button (initially hidden)
   const closeButton = document.createElement('button');
   closeButton.textContent = 'Back';
   closeButton.style.position = 'fixed';
@@ -34,8 +31,8 @@ function beep(url) {
   closeButton.style.fontFamily = 'Bokor';
   closeButton.style.fontSize = '1rem';
   closeButton.style.transition = 'opacity 0.25s ease, background 0.2s ease, box-shadow 0.2s ease';
-  closeButton.style.opacity = '0';            // hidden
-  closeButton.style.pointerEvents = 'none';   // non-interactive while hidden
+  closeButton.style.opacity = '0';
+  closeButton.style.pointerEvents = 'none';
 
   closeButton.onmouseover = () => {
     closeButton.style.background = 'rgba(0, 0, 0, 0.8)';
@@ -46,14 +43,13 @@ function beep(url) {
     closeButton.style.boxShadow = 'none';
   };
 
-  // Invisible hover zone to detect cursor at top-right (sits ABOVE the iframe)
   const hoverZone = document.createElement('div');
   hoverZone.style.position = 'fixed';
   hoverZone.style.top = '0';
   hoverZone.style.right = '0';
   hoverZone.style.width = '160px';
   hoverZone.style.height = '160px';
-  hoverZone.style.zIndex = '1001';     // above iframe, below button is fine
+  hoverZone.style.zIndex = '1001';
   hoverZone.style.background = 'transparent';
   hoverZone.style.pointerEvents = 'auto';
 
@@ -67,7 +63,7 @@ function beep(url) {
   }
 
   function hideButtonSoon() {
-    if (overButton) return; // don't hide while hovering the button
+    if (overButton) return;
     if (hideTimer) clearTimeout(hideTimer);
     hideTimer = setTimeout(() => {
       if (!overButton) {
@@ -82,7 +78,6 @@ function beep(url) {
   closeButton.addEventListener('mouseenter', () => { overButton = true; showButton(); });
   closeButton.addEventListener('mouseleave', () => { overButton = false; hideButtonSoon(); });
 
-  // Close logic
   closeButton.onclick = function () {
     document.body.removeChild(iframe);
     document.body.removeChild(closeButton);
@@ -91,7 +86,6 @@ function beep(url) {
     document.body.style.overflow = prevOverflow;
   };
 
-  // Mount
   document.body.appendChild(iframe);
   document.body.appendChild(hoverZone);
   document.body.appendChild(closeButton);
@@ -102,10 +96,8 @@ function sortAndFilterGames(rawQuery = '') {
   const grid = document.querySelector('.grid');
   if (!grid) return;
 
-  // Only element children
   const wrappers = Array.from(grid.children).filter(n => n.nodeType === Node.ELEMENT_NODE);
 
-  // Build tile objects: wrapper node, inner game element, title, isPriority
   const tiles = wrappers.map(node => {
     const innerGame = node.classList.contains('game') ? node : node.querySelector('.game') || node;
     const title = innerGame?.querySelector('p')?.textContent?.trim() || '';
@@ -118,21 +110,17 @@ function sortAndFilterGames(rawQuery = '') {
   const priorityTiles = tiles.filter(t => t.isPriority);
   const normalTiles = tiles.filter(t => !t.isPriority);
 
-  // Filter normal tiles
   normalTiles.forEach(t => {
     const match = query === '' || t.title.toUpperCase().includes(query);
     t.node.style.display = match ? '' : 'none';
   });
 
-  // Keep priority tiles visible
   priorityTiles.forEach(t => { t.node.style.display = ''; });
 
-  // Sort visible normal tiles alphabetically
   const visibleNormal = normalTiles
     .filter(t => t.node.style.display !== 'none')
     .sort((a, b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
 
-  // Rebuild grid
   const frag = document.createDocumentFragment();
   priorityTiles.forEach(t => frag.appendChild(t.node));
   visibleNormal.forEach(t => frag.appendChild(t.node));
@@ -148,9 +136,19 @@ function setupSearch() {
   });
 }
 
-// Run everything on page load
+// Run on page load
 window.onload = () => {
-  sortAndFilterGames(); // initial sort
+  sortAndFilterGames();
   setupSearch();
   if (typeof pass === 'function') pass();
 };
+
+// ===== Header background on scroll =====
+const topHeader = document.getElementById('top-header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 0) {
+    topHeader.classList.add('scrolled');
+  } else {
+    topHeader.classList.remove('scrolled');
+  }
+});
