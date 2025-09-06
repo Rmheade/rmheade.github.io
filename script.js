@@ -100,40 +100,52 @@ function beep(url) {
 // Function to sort game tiles
 function sortAndFilterGames(query = '') {
   const grid = document.querySelector('.grid');
-  const games = Array.from(grid.children);
+  const tiles = Array.from(grid.children);
 
-  const priorityTiles = games.filter(game => game.classList.contains('priority'));
-  const normalTiles = games.filter(game => !game.classList.contains('priority'));
+  // Detect priority whether it's on the element itself or inside (handles <a><div class="game priority">...)
+  const isPriority = el => el.classList.contains('priority') || !!el.querySelector('.priority');
 
-  // Filter normal tiles by search query
-  normalTiles.forEach(game => {
-    const name = game.querySelector('p').textContent.toUpperCase();
-    game.style.display = name.includes(query) ? '' : 'none';
-  });
+  const priorityTiles = tiles.filter(isPriority);
+  const normalTiles = tiles.filter(t => !isPriority(t));
 
-  // Clear grid and append tiles
-  grid.innerHTML = '';
-  priorityTiles.forEach(tile => grid.appendChild(tile)); // always first
+  // Filter normal tiles by query
   normalTiles.forEach(tile => {
-    if (tile.style.display !== 'none') grid.appendChild(tile);
+    const name = (tile.querySelector('p')?.textContent || '').toUpperCase();
+    tile.style.display = name.includes(query) ? '' : 'none';
   });
+
+  // Sort visible normal tiles alphabetically
+  const visibleNormal = normalTiles.filter(t => t.style.display !== 'none');
+  visibleNormal.sort((a, b) => {
+    const nameA = (a.querySelector('p')?.textContent || '').toUpperCase();
+    const nameB = (b.querySelector('p')?.textContent || '').toUpperCase();
+    return nameA.localeCompare(nameB);
+  });
+
+  // Rebuild grid: priority first, then sorted visible normal tiles
+  grid.innerHTML = '';
+  priorityTiles.forEach(tile => {
+    tile.style.display = ''; // ensure priority always visible
+    grid.appendChild(tile);
+  });
+  visibleNormal.forEach(tile => grid.appendChild(tile));
 }
 
 function setupSearch() {
   const searchInput = document.getElementById('search-bar');
-
   searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toUpperCase();
-    sortAndFilterGames(query);
+    const q = searchInput.value.toUpperCase();
+    sortAndFilterGames(q);
   });
 }
 
-// Run everything on page load
+// Run on load
 window.onload = () => {
-  sortAndFilterGames(); // initial sort with no filter
+  sortAndFilterGames(); // initial sort
   setupSearch();
   if (typeof pass === 'function') pass();
 };
+
 
 
 // Run everything on page load
