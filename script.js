@@ -97,60 +97,60 @@ function beep(url) {
   document.body.appendChild(closeButton);
 }
 
-// Function to sort game tiles
-function sortAndFilterGames(query = '') {
+// Function to sort and filter game tiles
+function sortAndFilterGames(rawQuery = '') {
   const grid = document.querySelector('.grid');
-  const tiles = Array.from(grid.children);
+  if (!grid) return;
 
-  // Detect priority whether it's on the element itself or inside (handles <a><div class="game priority">...)
-  const isPriority = el => el.classList.contains('priority') || !!el.querySelector('.priority');
+  // Only element children
+  const wrappers = Array.from(grid.children).filter(n => n.nodeType === Node.ELEMENT_NODE);
 
-  const priorityTiles = tiles.filter(isPriority);
-  const normalTiles = tiles.filter(t => !isPriority(t));
-
-  // Filter normal tiles by query
-  normalTiles.forEach(tile => {
-    const name = (tile.querySelector('p')?.textContent || '').toUpperCase();
-    tile.style.display = name.includes(query) ? '' : 'none';
+  // Build tile objects: wrapper node, inner game element, title, isPriority
+  const tiles = wrappers.map(node => {
+    const innerGame = node.classList.contains('game') ? node : node.querySelector('.game') || node;
+    const title = innerGame?.querySelector('p')?.textContent?.trim() || '';
+    const isPriority = innerGame?.classList?.contains('priority');
+    return { node, title, isPriority };
   });
+
+  const query = rawQuery.toUpperCase();
+
+  const priorityTiles = tiles.filter(t => t.isPriority);
+  const normalTiles = tiles.filter(t => !t.isPriority);
+
+  // Filter normal tiles
+  normalTiles.forEach(t => {
+    const match = query === '' || t.title.toUpperCase().includes(query);
+    t.node.style.display = match ? '' : 'none';
+  });
+
+  // Keep priority tiles visible
+  priorityTiles.forEach(t => { t.node.style.display = ''; });
 
   // Sort visible normal tiles alphabetically
-  const visibleNormal = normalTiles.filter(t => t.style.display !== 'none');
-  visibleNormal.sort((a, b) => {
-    const nameA = (a.querySelector('p')?.textContent || '').toUpperCase();
-    const nameB = (b.querySelector('p')?.textContent || '').toUpperCase();
-    return nameA.localeCompare(nameB);
-  });
+  const visibleNormal = normalTiles
+    .filter(t => t.node.style.display !== 'none')
+    .sort((a, b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
 
-  // Rebuild grid: priority first, then sorted visible normal tiles
+  // Rebuild grid
+  const frag = document.createDocumentFragment();
+  priorityTiles.forEach(t => frag.appendChild(t.node));
+  visibleNormal.forEach(t => frag.appendChild(t.node));
   grid.innerHTML = '';
-  priorityTiles.forEach(tile => {
-    tile.style.display = ''; // ensure priority always visible
-    grid.appendChild(tile);
-  });
-  visibleNormal.forEach(tile => grid.appendChild(tile));
+  grid.appendChild(frag);
 }
 
 function setupSearch() {
   const searchInput = document.getElementById('search-bar');
+  if (!searchInput) return;
   searchInput.addEventListener('input', () => {
-    const q = searchInput.value.toUpperCase();
-    sortAndFilterGames(q);
+    sortAndFilterGames(searchInput.value);
   });
 }
 
-// Run on load
-window.onload = () => {
-  sortAndFilterGames(); // initial sort
-  setupSearch();
-  if (typeof pass === 'function') pass();
-};
-
-
-
 // Run everything on page load
 window.onload = () => {
-  sortGames();
+  sortAndFilterGames(); // initial sort
   setupSearch();
   if (typeof pass === 'function') pass();
 };
