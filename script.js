@@ -98,41 +98,43 @@ function beep(url) {
 }
 
 // Function to sort game tiles
-function sortGames() {
+function sortAndFilterGames(query = '') {
   const grid = document.querySelector('.grid');
   const games = Array.from(grid.children);
 
   const priorityTiles = games.filter(game => game.classList.contains('priority'));
   const normalTiles = games.filter(game => !game.classList.contains('priority'));
 
-  normalTiles.sort((a, b) => {
-    const nameA = a.querySelector('p').textContent.toUpperCase();
-    const nameB = b.querySelector('p').textContent.toUpperCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
+  // Filter normal tiles by search query
+  normalTiles.forEach(game => {
+    const name = game.querySelector('p').textContent.toUpperCase();
+    game.style.display = name.includes(query) ? '' : 'none';
   });
 
+  // Clear grid and append tiles
   grid.innerHTML = '';
-  priorityTiles.forEach(game => grid.appendChild(game));
-  normalTiles.forEach(game => grid.appendChild(game));
+  priorityTiles.forEach(tile => grid.appendChild(tile)); // always first
+  normalTiles.forEach(tile => {
+    if (tile.style.display !== 'none') grid.appendChild(tile);
+  });
 }
 
-// Function to set up live search
 function setupSearch() {
   const searchInput = document.getElementById('search-bar');
-  const grid = document.querySelector('.grid');
 
   searchInput.addEventListener('input', () => {
     const query = searchInput.value.toUpperCase();
-    const games = grid.children;
-
-    for (let game of games) {
-      const name = game.querySelector('p').textContent.toUpperCase();
-      game.style.display = name.includes(query) ? '' : 'none';
-    }
+    sortAndFilterGames(query);
   });
 }
+
+// Run everything on page load
+window.onload = () => {
+  sortAndFilterGames(); // initial sort with no filter
+  setupSearch();
+  if (typeof pass === 'function') pass();
+};
+
 
 // Run everything on page load
 window.onload = () => {
