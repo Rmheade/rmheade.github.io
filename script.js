@@ -91,49 +91,65 @@ function beep(url) {
   document.body.appendChild(closeButton);
 }
 
-// Function to sort and filter game tiles
+// ========================
+// Search + Sort + "No results"
+// ========================
+
+// Keep a master list of tiles so we can always rebuild
+let masterTiles = [];
+
 function sortAndFilterGames(rawQuery = '') {
   const grid = document.querySelector('.grid');
   if (!grid) return;
 
-  const wrappers = Array.from(grid.children).filter(n => n.nodeType === Node.ELEMENT_NODE);
+  // Build masterTiles if empty (first run)
+  if (masterTiles.length === 0) {
+    masterTiles = Array.from(grid.querySelectorAll('.game')).map(tile => ({
+      node: tile,
+      title: tile.querySelector('p')?.textContent?.trim() || '',
+      isPriority: tile.classList.contains('priority')
+    }));
+  }
 
-  const tiles = wrappers.map(node => {
-    const innerGame = node.classList.contains('game') ? node : node.querySelector('.game') || node;
-    const title = innerGame?.querySelector('p')?.textContent?.trim() || '';
-    const isPriority = innerGame?.classList?.contains('priority');
-    return { node, title, isPriority };
-  });
+  const query = rawQuery.trim().toUpperCase();
 
-  const query = rawQuery.toUpperCase();
+  // Filter tiles
+  const visibleTiles = masterTiles.filter(t => query === '' || t.title.toUpperCase().includes(query));
 
-  const priorityTiles = tiles.filter(t => t.isPriority);
-  const normalTiles = tiles.filter(t => !t.isPriority);
+  // Separate priority and normal tiles
+  const priorityTiles = visibleTiles.filter(t => t.isPriority);
+  const normalTiles = visibleTiles.filter(t => !t.isPriority);
 
-  normalTiles.forEach(t => {
-    const match = query === '' || t.title.toUpperCase().includes(query);
-    t.node.style.display = match ? '' : 'none';
-  });
+  // Sort alphabetically
+  priorityTiles.sort((a, b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
+  normalTiles.sort((a, b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
 
-  priorityTiles.forEach(t => { t.node.style.display = ''; });
-
-  const visibleNormal = normalTiles
-    .filter(t => t.node.style.display !== 'none')
-    .sort((a, b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
-
-  const frag = document.createDocumentFragment();
-  priorityTiles.forEach(t => frag.appendChild(t.node));
-  visibleNormal.forEach(t => frag.appendChild(t.node));
+  // Rebuild grid
   grid.innerHTML = '';
-  grid.appendChild(frag);
+  priorityTiles.forEach(t => grid.appendChild(t.node));
+  normalTiles.forEach(t => grid.appendChild(t.node));
+
+  // "No results found"
+  let noResults = document.getElementById('no-results');
+  if (!noResults) {
+    noResults = document.createElement('div');
+    noResults.id = 'no-results';
+    noResults.style.textAlign = 'center';
+    noResults.style.fontSize = '1.2rem';
+    noResults.style.fontWeight = 'bold';
+    noResults.style.padding = '20px';
+    noResults.style.color = '#B95A25';
+    grid.parentNode.insertBefore(noResults, grid.nextSibling);
+  }
+
+  noResults.textContent = (query !== '' && visibleTiles.length === 0) ? 'No results found' : '';
 }
 
+// Setup search input
 function setupSearch() {
   const searchInput = document.getElementById('search-bar');
   if (!searchInput) return;
-  searchInput.addEventListener('input', () => {
-    sortAndFilterGames(searchInput.value);
-  });
+  searchInput.addEventListener('input', () => sortAndFilterGames(searchInput.value));
 }
 
 // Run on page load
@@ -143,12 +159,9 @@ window.onload = () => {
   if (typeof pass === 'function') pass();
 };
 
-// ===== Header background on scroll =====
+// Header background on scroll
 const topHeader = document.getElementById('top-header');
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 0) {
-    topHeader.classList.add('scrolled');
-  } else {
-    topHeader.classList.remove('scrolled');
-  }
+  if (window.scrollY > 0) topHeader.classList.add('scrolled');
+  else topHeader.classList.remove('scrolled');
 });
