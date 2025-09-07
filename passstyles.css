@@ -2,10 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Bokor&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
 body {
-    background: radial-gradient(circle at bottom, #4D511F 0, #03260c 100%);
+    background: #ffffff;
     margin: 0;
     overflow: auto;
     font-family: 'Atma', system-ui;
+    color: #333;
 }
 
 /* =========================
@@ -27,8 +28,8 @@ body {
 }
 
 #top-header.scrolled {
-    background: rgba(0, 0, 0, 0.85);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 #top-header h1 {
@@ -36,7 +37,7 @@ body {
     font-family: "Bokor", system-ui;
     font-weight: 400;
     font-size: 3rem;
-    color: #D0BF94;
+    color: #004080;
 }
 
 /* Updates box */
@@ -45,13 +46,13 @@ body {
     top: 10px;
     left: 10px;
     min-width: 180px;
-    background: rgba(0,0,0,0.85);
-    border: 2px solid #B95A25;
+    background: #f9f9f9;
+    border: 2px solid #004080;
     border-radius: 10px;
     padding: 6px 10px;
     font-family: "Bokor", sans-serif;
-    color: #D0BF94;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    color: #004080;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     z-index: 3001;
 }
 
@@ -67,20 +68,20 @@ body {
     padding: 6px 10px;
     font-size: 0.9rem;
     border-radius: 6px;
-    border: 1px solid #D0BF94;
-    background: rgba(255, 255, 255, 0.1);
-    color: #D0BF94;
+    border: 1px solid #004080;
+    background: #ffffff;
+    color: #004080;
     outline: none;
 }
 
 #search-container input::placeholder {
-    color: #D0BF94;
+    color: #0078d4;
     opacity: 0.7;
 }
 
 /* Paragraphs */
 p {
-    color: #EFE8DC;
+    color: #333333;
     font-family: "Atma", system-ui;
     font-size: 1.2rem;
     margin-top: 5px;
@@ -101,7 +102,8 @@ p {
 }
 
 .game {
-    background: rgba(255, 255, 255, 0.05);
+    background: #f0f6fb;
+    border: 1px solid #0078d4;
     border-radius: 12px;
     padding: 12px;
     text-align: center;
@@ -110,7 +112,7 @@ p {
 
 .game:hover {
     transform: translateY(-6px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 20px rgba(0, 64, 128, 0.25);
     cursor: pointer;
 }
 
@@ -142,7 +144,6 @@ button {
 }
 
 /* Back-to-top button */
-/* Back-to-top button */
 #back-to-top {
     position: fixed;
     bottom: 20px;
@@ -150,17 +151,17 @@ button {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 2px solid #B95A25;
-    background: rgba(0,0,0,0.6);
-    color: #D0BF94;
+    border: 2px solid #004080;
+    background: #f9f9f9;
+    color: #004080;
     font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5000;
-    opacity: 0;             /* initially hidden */
-    pointer-events: none;   /* prevent clicks when hidden */
-    transition: opacity 0.4s ease; /* smooth fade */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 #back-to-top.visible {
@@ -169,62 +170,107 @@ button {
 }
 
 #back-to-top:hover {
-    background: rgba(0,0,0,0.8);
-    box-shadow: 0 0 10px #B95A25;
+    background: #0078d4;
+    color: #fff;
+    box-shadow: 0 0 10px #004080;
 }
 
 #back-to-top:active {
     transform: scale(0.95);
-    box-shadow: 0 0 5px #B95A25 inset;
+    box-shadow: 0 0 5px #004080 inset;
 }
 
-
-
-/* Password Overlay */
+/* =========================
+   Password Overlay (Professional & Simple)
+========================= */
 #password-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: linear-gradient(135deg, #e6f0ff, #ffffff);
     z-index: 9999;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;       /* stack box and link vertically */
+    align-items: center;          /* center the box horizontally */
+    font-family: Arial, sans-serif;;
+    justify-content: center;      /* center the box vertically */
+}
+
+#password-overlay .sitelock {
+    margin-top: 10px;             /* space between box and link */
+    align-self: flex-start;       /* align link to the left of the box */
+    color: #0078d4;
+    text-decoration: underline;
+    font-size: 0.8rem;
+    margin-left: calc(50% - 170px); /* aligns to left edge of box if max-width 340px */
 }
 
 #password-box {
-    background: #111;
-    border: 2px solid #B95A25;
-    padding: 40px;
+    background: #ffffff;
+    border: 2px solid #004080;
     border-radius: 12px;
+    padding: 40px 30px;
+    max-width: 340px;
+    width: 90%;
     text-align: center;
-    color: #D0BF94;
-    font-family: "Bokor", sans-serif;
+    color: #004080;
+}
+
+#password-box h2 {
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 1.8rem;
+    color: #004080;
 }
 
 #password-box input {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #D0BF94;
-    margin-top: 10px;
-    width: 180px;
+    padding: 10px 14px;
+    width: 100%;
     font-size: 1rem;
-    background: rgba(255,255,255,0.05);
-    color: #D0BF94;
+    border-radius: 6px;
+    border: 1px solid #0078d4;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+#password-box input:focus {
+    border-color: #004080;
+    outline: none;
 }
 
 #password-box button {
-    margin-top: 15px;
-    padding: 8px 16px;
-    background: #B95A25;
+    padding: 10px 16px;
+    font-size: 1rem;
+    color: #ffffff;
+    background: #004080;
     border: none;
     border-radius: 6px;
-    color: #EFE8DC;
-    font-size: 1rem;
     cursor: pointer;
+    width: 100%;
+    font-family: Arial, sans-serif;;
+}
+
+#password-box button:hover {
+    background: #0078d4;
 }
 
 #password-error {
-    margin-top: 10px;
-    color: #ff4c4c;
+    margin-top: 12px;
     font-size: 0.9rem;
+    color: #d40000;
+    min-height: 1.2em;
+}
+
+/* Lock Icon + Authorized Users Only */
+#password-box .lock-message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+#password-box .lock-message span {
+    font-size: 1.2rem;
+    color: #0078d4;
 }
