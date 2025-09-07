@@ -1,23 +1,19 @@
 // ========================
 // Password Wall
 // ========================
-async function pass() {
+function pass() {
   const correctHash = '5d3017004abba56e7c08c25c89cefbd8d5eda88a90f87ad0bdd231b9d68c7b0b'; // SHA-256 of N0@dm1n
   const overlay = document.getElementById('password-overlay');
   const input = document.getElementById('password-input');
   const submit = document.getElementById('password-submit');
   const error = document.getElementById('password-error');
 
-  async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  function hashPassword(password) {
+    return sha256(password); // uses js-sha256 library
   }
 
-  submit.addEventListener('click', async () => {
-    const inputHash = await hashPassword(input.value);
+  submit.addEventListener('click', () => {
+    const inputHash = hashPassword(input.value);
     if (inputHash === correctHash) {
       overlay.style.display = 'none';
     } else {
@@ -25,7 +21,7 @@ async function pass() {
     }
   });
 
-  input.addEventListener('keydown', async (e) => {
+  input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') submit.click();
   });
 }
