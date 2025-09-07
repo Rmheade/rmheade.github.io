@@ -12,36 +12,6 @@ body {
    Header (Top Bar)
 ========================= */
 #top-header {
-    display: flex;
-    justify-content: center;  /* centers title horizontally */
-    align-items: center;      /* centers children vertically */
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 10px 20px;
-    box-sizing: border-box;
-    z-index: 3000;
-    background: transparent;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-#top-header.scrolled {
-  background: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-}
-
-#top-header h1 {
-  margin: 0;
-  text-align: center;
-  flex: 1;
-  font-family: "Bokor", system-ui;
-  font-weight: 400;
-  font-size: 3.5rem; /* bigger text */
-  color: #D0BF94;
-}/* =========================
-   Header (Top Bar)
-========================= */
-#top-header {
     position: fixed;
     top: 0;
     left: 0;
@@ -52,26 +22,24 @@ body {
     background: transparent;
     transition: background 0.3s ease, box-shadow 0.3s ease;
     display: flex;
-    justify-content: center;    /* center title horizontally */
-    align-items: center;        /* center title and search vertically */
+    justify-content: center;
+    align-items: center;
 }
 
-/* background appears on scroll */
 #top-header.scrolled {
     background: rgba(0, 0, 0, 0.85);
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
-/* Title */
 #top-header h1 {
-    margin: 0 auto;             /* horizontal center */
+    margin: 0 auto;
     font-family: "Bokor", system-ui;
     font-weight: 400;
-    font-size: 3rem;            /* bigger title */
+    font-size: 3rem;
     color: #D0BF94;
 }
 
-/* Updates box (top-left) */
+/* Updates box */
 .header-left .updates-box {
     position: absolute;
     top: 10px;
@@ -87,12 +55,12 @@ body {
     z-index: 3001;
 }
 
-/* Search bar (top-right) */
+/* Search bar */
 .header-right {
     position: absolute;
     right: 20px;
     top: 50%;
-    transform: translateY(-50%); /* vertically center */
+    transform: translateY(-50%);
 }
 
 #search-container input {
@@ -110,28 +78,7 @@ body {
     opacity: 0.7;
 }
 
-
-
-/* =========================
-   Main Title Border
-========================= */
-h1 {
-    margin: 20px auto;
-    text-align: center;
-    font-family: "Bokor", system-ui;
-    font-weight: 400;
-    font-size: 8vw; /* bigger so it fills the space better */
-    color: #D0BF94;
-    padding-bottom: 8px; /* optional spacing */
-    border-bottom: none;  /* no underline */
-}
-
-
-
-
-/* =========================
-   Paragraphs
-========================= */
+/* Paragraphs */
 p {
     color: #EFE8DC;
     font-family: "Atma", system-ui;
@@ -141,12 +88,10 @@ p {
 
 #intro {
     text-align: center;
-    margin: 160px auto 5% auto; /* space below fixed header */
+    margin: 160px auto 5% auto;
 }
 
-/* =========================
-   Grid
-========================= */
+/* Grid */
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -172,15 +117,14 @@ p {
 .game img {
     border-radius: 10px;
     width: 100%;
-    aspect-ratio: 1 / 1;   /* make all images square */
-    object-fit: cover;     /* fill square without distortion */
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     margin-bottom: 10px;
     display: block;
 }
 
-
 /* =========================
-   Iframe
+   Iframe & Back Button
 ========================= */
 iframe {
     width: 100%;
@@ -192,38 +136,45 @@ iframe {
     z-index: 1000;
 }
 
-/* =========================
-   Back Button
-========================= */
 button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1001;
-    padding: 12px 20px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #D0BF94;
-    border: 2px solid #B95A25;
-    border-radius: 10px;
-    cursor: pointer;
     font-family: "Bokor", system-ui;
-    font-size: 1rem;
-    transition: opacity 0.3s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
-    opacity: 0; /* hidden initially */
-    pointer-events: none;
+    cursor: pointer;
 }
 
-button:hover {
-    background: rgba(0, 0, 0, 0.8);
+/* Back-to-top button */
+/* Back-to-top button */
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #B95A25;
+    background: rgba(0,0,0,0.6);
+    color: #D0BF94;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+    opacity: 0;             /* initially hidden */
+    pointer-events: none;   /* prevent clicks when hidden */
+    transition: opacity 0.4s ease; /* smooth fade */
+}
+
+#back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#back-to-top:hover {
+    background: rgba(0,0,0,0.8);
     box-shadow: 0 0 10px #B95A25;
 }
 
-button:active {
+#back-to-top:active {
     transform: scale(0.95);
     box-shadow: 0 0 5px #B95A25 inset;
 }
 
-.priority {
-    position: relative;
-    z-index: 2;
-}

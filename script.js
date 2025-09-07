@@ -1,4 +1,6 @@
-// Function to show game in fullscreen iframe with hover-reveal Back button
+// ========================
+// Fullscreen iframe + Back button for games
+// ========================
 function beep(url) {
   const appRoot = document.getElementById('all');
   appRoot.hidden = true;
@@ -33,15 +35,6 @@ function beep(url) {
   closeButton.style.transition = 'opacity 0.25s ease, background 0.2s ease, box-shadow 0.2s ease';
   closeButton.style.opacity = '0';
   closeButton.style.pointerEvents = 'none';
-
-  closeButton.onmouseover = () => {
-    closeButton.style.background = 'rgba(0, 0, 0, 0.8)';
-    closeButton.style.boxShadow = '0 0 10px #B95A25';
-  };
-  closeButton.onmouseout = () => {
-    closeButton.style.background = 'rgba(0, 0, 0, 0.6)';
-    closeButton.style.boxShadow = 'none';
-  };
 
   const hoverZone = document.createElement('div');
   hoverZone.style.position = 'fixed';
@@ -92,17 +85,14 @@ function beep(url) {
 }
 
 // ========================
-// Search + Sort + "No results"
+// Search + Sort
 // ========================
-
-// Keep a master list of tiles so we can always rebuild
 let masterTiles = [];
 
 function sortAndFilterGames(rawQuery = '') {
   const grid = document.querySelector('.grid');
   if (!grid) return;
 
-  // Build masterTiles if empty (first run)
   if (masterTiles.length === 0) {
     masterTiles = Array.from(grid.querySelectorAll('.game')).map(tile => ({
       node: tile,
@@ -112,24 +102,17 @@ function sortAndFilterGames(rawQuery = '') {
   }
 
   const query = rawQuery.trim().toUpperCase();
-
-  // Filter tiles
   const visibleTiles = masterTiles.filter(t => query === '' || t.title.toUpperCase().includes(query));
-
-  // Separate priority and normal tiles
   const priorityTiles = visibleTiles.filter(t => t.isPriority);
   const normalTiles = visibleTiles.filter(t => !t.isPriority);
 
-  // Sort alphabetically
-  priorityTiles.sort((a, b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
-  normalTiles.sort((a, b) => a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
+  priorityTiles.sort((a,b)=>a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
+  normalTiles.sort((a,b)=>a.title.toUpperCase().localeCompare(b.title.toUpperCase()));
 
-  // Rebuild grid
   grid.innerHTML = '';
   priorityTiles.forEach(t => grid.appendChild(t.node));
   normalTiles.forEach(t => grid.appendChild(t.node));
 
-  // "No results found"
   let noResults = document.getElementById('no-results');
   if (!noResults) {
     noResults = document.createElement('div');
@@ -145,23 +128,45 @@ function sortAndFilterGames(rawQuery = '') {
   noResults.textContent = (query !== '' && visibleTiles.length === 0) ? 'No results found' : '';
 }
 
-// Setup search input
 function setupSearch() {
   const searchInput = document.getElementById('search-bar');
   if (!searchInput) return;
   searchInput.addEventListener('input', () => sortAndFilterGames(searchInput.value));
 }
 
-// Run on page load
-window.onload = () => {
-  sortAndFilterGames();
-  setupSearch();
-  if (typeof pass === 'function') pass();
-};
-
-// Header background on scroll
+// ========================
+// Header scroll effect
+// ========================
 const topHeader = document.getElementById('top-header');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 0) topHeader.classList.add('scrolled');
   else topHeader.classList.remove('scrolled');
 });
+
+// ========================
+// Back-to-top button
+// ========================
+// Back-to-top button
+const backToTop = document.getElementById('back-to-top');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    backToTop.classList.add('visible');   // fade in
+  } else {
+    backToTop.classList.remove('visible'); // fade out
+  }
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+
+// ========================
+// On page load
+// ========================
+window.onload = () => {
+  sortAndFilterGames();
+  setupSearch();
+  if (typeof pass === 'function') pass();
+};
