@@ -73,6 +73,26 @@
   .deck-card-title{font-weight:700;font-size:16px;margin-bottom:4px}
   .deck-card-meta{font-size:12px;color:var(--muted)}
   .deck-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .quiz-settings {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+.quiz-settings label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.quiz-settings select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e6e9ef;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
@@ -239,15 +259,27 @@
         </div>
 
         <!-- Quick Review -->
-        <div id="tab-review" class="card tab" style="display:none">
-          <strong>Quiz Practice</strong>
-          <p style="margin:6px 0 10px;color:var(--muted)">Test your knowledge with practice questions.</p>
-          <div id="quizArea"></div>
-          <div style="margin-top:12px">
-            <button id="newQuiz" class="ghost">New Set</button>
-            <span style="margin-left:8px;color:var(--muted)">Score: <strong id="quizScore">0/0</strong></span>
-          </div>
-        </div>
+        <!-- Quick Review -->
+<div id="tab-review" class="card tab" style="display:none">
+  <strong>Quiz Practice</strong>
+  <p style="margin:6px 0 10px;color:var(--muted)">Test your knowledge with practice questions.</p>
+  <div class="quiz-settings">
+    <label for="quizLength">Questions:</label>
+    <select id="quizLength">
+      <option value="3">3 Questions</option>
+      <option value="5">5 Questions</option>
+      <option value="10">10 Questions</option>
+      <option value="15">15 Questions</option>
+      <option value="20">20 Questions</option>
+      <option value="max">All Available</option>
+    </select>
+  </div>
+  <div id="quizArea"></div>
+  <div style="margin-top:12px">
+    <button id="newQuiz" class="ghost">New Set</button>
+    <span style="margin-left:8px;color:var(--muted)">Score: <strong id="quizScore">0/0</strong></span>
+  </div>
+</div>
 
         <!-- Timer -->
         <div id="tab-timer" class="card tab" style="display:none">
@@ -971,8 +1003,25 @@ function newQuizSet(){
     document.getElementById("quizArea").innerHTML = '<div style="color:var(--muted);padding:20px;text-align:center">No quiz questions available. Add some in the deck editor!</div>';
     return;
   }
+  
+  // Get selected quiz length
+  const quizLengthSelect = document.getElementById("quizLength");
+  let numQuestions = 3; // default
+  
+  if(quizLengthSelect) {
+    const selectedValue = quizLengthSelect.value;
+    if(selectedValue === "max") {
+      numQuestions = bank.length;
+    } else {
+      numQuestions = parseInt(selectedValue);
+    }
+  }
+  
+  // Don't ask for more questions than available
+  numQuestions = Math.min(numQuestions, bank.length);
+  
   const shuffled = bank.slice().sort(()=>Math.random()-0.5);
-  const pick = shuffled.slice(0, Math.min(3, bank.length)).map(q=>JSON.parse(JSON.stringify(q)));
+  const pick = shuffled.slice(0, numQuestions).map(q=>JSON.parse(JSON.stringify(q)));
   currentQuiz.questions = pick;
   currentQuiz.answers = Array(pick.length).fill(null);
   renderQuiz();
