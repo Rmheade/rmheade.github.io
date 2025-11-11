@@ -1,0 +1,118 @@
+.oooh-baby-regular {
+    font-family: "Oooh Baby", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header{
+    background-color: #A3B087;
+    padding: 2%;
+    margin-top: none;
+    margin-left: none;
+    margin-right: none;
+    border: #A3B087 outset;
+}
+.hlinks {
+    color: #313647;
+    text-decoration: none;
+    padding: 1.5%;
+    font-size: large;
+    font-family: 'Courier New', monospace;
+}
+.hlinks:hover{
+    background-color:#FFF8D4;
+}
+
+body{
+    background-color: #313647;
+    margin: 0;
+    padding: 0;
+}
+H1 {
+    color: #A3B087;
+    text-align: center;
+    font-size-adjust: .75;
+}
+#words {
+    color: #FFF8D4;
+    text-align: center;
+    font-size-adjust: .5;
+}
+#game{
+    border: #435663 outset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2%;
+}
+#guess{
+    width: 15%;
+    background-color: #313647;
+    color:#A3B087;
+    border: solid #435663;
+    text-align: center;
+}
+#go{
+    width: 5%;
+    margin:5px;
+    background-color: #313647;
+    color:#A3B087;
+    border: solid #435663;
+
+}
+input::-webkit-outer-spin-button,  /*Removes the up down arrows from label*/
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#go:hover{
+    background-color:#435663;
+}
+#high-score{
+    color: #FFF8D4;
+    margin-top: 2px;
+    font-size-adjust: .5;
+    margin: 5px;
+}
+#response{
+    font-size-adjust: .5;
+    color: #FFF8D4;
+}
+#numberline{
+    border: #A3B087 solid 1px;
+    position: relative;
+    height: .01px;
+    width: 80%  ;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0px;
+}
+#enddot1 {
+    position: absolute;
+    left: -1%;
+    top: -4.5px;
+    background-color: #A3B087;
+}
+#enddot2 {
+    position: absolute;
+    left: calc(100% - 5px);
+    top: -4.5px;
+    background-color: #A3B087;  
+}
+.numm {
+    position: absolute;
+    width: 10px;
+    display: inline-block;
+    margin: 0px;
+    color: #FFF8D4;
+}
+#git{
+    width: 2%;
+    float: right;
+}

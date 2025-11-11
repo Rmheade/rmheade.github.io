@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Number Guessing</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
+        <link href="guess.css" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    </head>
+    <body>
+        <header>
+            <a href="index.html" class="hlinks">Home</a>
+            <a href="index2.html" class="hlinks">Simple Page</a>
+            <a href="guess.html" class="hlinks">Guessing Game</a>
+            <a href="dino.html" class="hlinks">Dino Game</a>
+            <a href="https://www.github.com/Rmheade/htmlstuff" target="_blank"><img src="github-mark.svg" id="git"></a>
+        </header>
+        <main>
+            <H1 class="oooh-baby-regular">Guessing Game</H1>
+            <p class="oooh-baby-regular" id="words">To play, simply enter a number and hit <b>GO!</b> for the game to start. Your goal is to guess the number in the least guesses</p>```
+            <div id="game">
+                <div id="numberline">
+                    <span class="dot" id="enddot1"></span>
+                    <span class="dot" id="enddot2"></span>
+                </div>
+                <input id="guess" type="number" placeholder="Enter Guess Here" min="1" max="100">
+                <button id="go" class="oooh-baby-regular">GO!</button>
+                <label id="response" class="oooh-baby-regular">Type a Number to get started!</label>
+                <label id="high-score" class="oooh-baby-regular">0</label>
+            </div>
+        </main>
+        <script src="guess.js"></script>
+    </body>
+</html>

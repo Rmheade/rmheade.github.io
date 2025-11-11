@@ -1,0 +1,46 @@
+.oooh-baby-regular {
+    font-family: "Oooh Baby", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header{
+    background-color: #A3B087;
+    padding: 2%;
+    margin-top: none;
+    margin-left: none;
+    margin-right: none;
+    border: #A3B087 outset;
+}
+.hlinks {
+    color: #313647;
+    text-decoration: none;
+    padding: 1.5%;
+    font-size: large;
+    font-family: 'Courier New', monospace;
+}
+.hlinks:hover{
+    background-color:#FFF8D4;
+}
+
+body{
+    background-color: #313647;
+    margin: 0;
+    padding: 0;
+}
+H1 {
+    color: #A3B087;
+    text-align: center;
+    font-size-adjust: .75;
+}
+.bodytext {
+    margin-left: 5%;
+    margin-right: 5%;
+    color: #FFF8D4;
+    font-family: 'Courier New', monospace;
+}
+
+#git{
+    width: 2%;
+    float: right;
+}
