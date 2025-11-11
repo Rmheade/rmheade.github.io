@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
         <link rel="icon" sizes="192x192" href="icon.jpeg" />
         <link rel="shortcut icon" href="icon.jpeg" type="image/x-icon" />
         <link rel="apple-touch-icon" href="icon.jpeg" type="image/x-icon" />

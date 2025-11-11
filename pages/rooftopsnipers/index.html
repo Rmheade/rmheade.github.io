@@ -1,5 +1,12 @@
 <html>
 <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
   <title>Rooftop Snipers | 3kh0</title>
   
  <link rel="icon" sizes="192x192" href="img/thumb.png">

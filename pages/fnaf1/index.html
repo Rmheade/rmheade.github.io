@@ -28,7 +28,14 @@
       margin-left: -260px;
     }
   </style>
-  <head> 
+  <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+ 
  <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 

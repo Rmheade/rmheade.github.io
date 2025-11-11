@@ -2,6 +2,13 @@
 <!-- Created with https://studio.penguinmod.site/PenguinMod-Packager/ -->
 <html>
 <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <!-- We only include this to explicitly loosen the CSP of various packager environments. It does not provide any security. -->

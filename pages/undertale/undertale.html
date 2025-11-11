@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
     <base href="https://cdn.jsdelivr.net/gh/genizy/web-port@1102f068fff0083d2a5ed979ebac6425540d78a5/undertale/" />
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

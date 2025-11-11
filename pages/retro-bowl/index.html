@@ -2,6 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta http-equiv="X-Frame-Options" content="DENY">
         <meta http-equiv="pragma" content="no-cache"/>

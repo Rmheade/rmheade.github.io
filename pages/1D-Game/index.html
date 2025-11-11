@@ -1,5 +1,12 @@
 <html>
     <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
         <style>
             html, body {
                 margin: 0px;

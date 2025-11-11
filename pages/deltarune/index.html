@@ -1,4 +1,11 @@
 <html><head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
   <base href="https://cdn.jsdelivr.net/gh/genizy/web-port@a6e2b184812dd22c58e6b6a18325083b7a131981/deltarune/">
   <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css">

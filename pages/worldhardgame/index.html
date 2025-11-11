@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
     <link rel="icon" type="image/x-icon" href="images/splash.jpg" />
     <link rel="shortcut icon" type="image/x-icon" href="images/splash.jpg" />
     <script src="//www.google.com/jsapi"></script>
