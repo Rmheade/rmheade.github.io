@@ -94,6 +94,12 @@
   font-size: 13px;
 }
 </style>
+<script>
+  // Block direct access to /pages/ directory
+  if (window.location.pathname.startsWith('/pages/')) {
+    window.location.href = '/index.html';
+  }
+</script>
 </head>
 <body>
 <div class="wrap">

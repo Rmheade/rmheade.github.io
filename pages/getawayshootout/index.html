@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     <script>
       // Prevent direct access - only allow iframe loading
       if (window.self === window.top) {
@@ -8,38 +8,25 @@
       }
     </script>
 
-	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Getaway Shootout Unblocked</title>
-	<link rel="canonical" href="https://ubg44.github.io/GetawayShootout/" />
-	<script>
-		window.location= "https://ubg44.github.io/GetawayShootout/";
-	</script>
-	<script>
-	window.config = {
-		loader: 'unity',
-		debug: false,
-		maxRatio: 16 / 9,
-		minRatio: 9 / 16,
-
-		title: 'Getaway Shootout',
-		thumbnail: '934bde36-a4a1-43d0-8b35-30f15feddbb4.png',
-		numScreenshots:  4 ,
-		unityVersion: '2019.3.10f1',
-		unityWebglBuildUrl: 'Build\/GetawayShootoutPoki.json',
-
-		fileSize:  8 ,
-		cachedDecompressedFileSizes: {
-			'GetawayShootoutPoki.data.unityweb':  4624365 ,
-			'GetawayShootoutPoki.wasm.code.unityweb':  4177058 ,
-			'GetawayShootoutPoki.wasm.framework.unityweb':  81582 ,
-		},
-	};
-	</script>
-</head>
-<body>
-	<script src="js/v2/master-loader.js"></script>
-	<script src="js/analytics_ubg_v1_4.js"></script>
-  <script src="js/ubg235_client_v1_1.js"></script>
-</body>
+        <title>Getaway Shootout</title>
+    </head>
+    <body>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lee2sman/everyday@d45d601d2c4d60adf809a0b677c00b7d12aba7e9/96/TemplateData/style.css">
+        <script src="https://cdn.jsdelivr.net/gh/lee2sman/everyday@d45d601d2c4d60adf809a0b677c00b7d12aba7e9/96/TemplateData/UnityProgress.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/lordsofdank/GetawayShootout@9e99964c43638346680fce45d3b296408da61181/Build/UnityLoader.js"></script>
+        <script>
+          var gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/lordsofdank/GetawayShootout@9e99964c43638346680fce45d3b296408da61181/Build/GetawayShootoutTwoPlayerGamesOrg.json", {
+            onProgress: UnityProgress,
+            Module: {
+              onRuntimeInitialized: function() {
+                UnityProgress(gameInstance, "complete")
+              }
+            }
+          });
+        </script>
+        <script src="https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/addc4348-16c2-4645-9dff-f99b962e39ef%2Fscr.js"></script>
+        <div class="webgl-content">
+          <div id="gameContainer" style="width: 100vw; height: 100vh"></div>
+        </div>
+    </body>
 </html>
