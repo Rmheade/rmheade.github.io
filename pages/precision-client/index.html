@@ -2,6 +2,13 @@
 
 <html>
 <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/index.html';
+      }
+    </script>
+
 <title>Precision Client (1.5.2-beta_0.2)</title>
 <meta charset="utf-8"/>
 <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." name="description"/>
