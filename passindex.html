@@ -51,10 +51,22 @@
          #top-header h1 {
          color: var(--accent);
          font-family: Inter, system-ui;
-         font-size: 36px;
-         font-weight: 700;
+         font-size: 56px;
+         font-weight: 800;
          margin: 0 auto;
          letter-spacing: -0.5px;
+         }
+
+         @media (max-width: 1024px) {
+         #top-header h1 {
+             font-size: 44px;
+         }
+         }
+
+         @media (max-width: 768px) {
+         #top-header h1 {
+             font-size: 32px;
+         }
          }
          .header-left .updates-box {
          background: #ffffff;
@@ -270,114 +282,28 @@
          box-shadow: inset 0 0 5px rgba(37, 99, 235, 0.3);
          transform: scale(0.95);
          }
-         /* Popup styles */
-         #suggestion-popup {
-         align-items: center;
-         background: rgba(0, 0, 0, 0.5);
-         display: none;
-         inset: 0;
-         justify-content: center;
-         position: fixed;
-         z-index: 1000;
-         }
-
-         #suggestion-popup.visible {
-         display: flex;
-         }
-
-         .popup-content {
-         background: #ffffff;
-         border: 1px solid #e6e9ef;
-         border-radius: 12px;
-         box-shadow: 0 12px 40px rgba(16, 24, 40, 0.1);
-         max-width: 500px;
-         padding: 28px;
-         position: relative;
-         text-align: center;
-         width: 90%;
-         }
-
-         .popup-close {
-         align-items: center;
-         background: none;
-         border: 1px solid #e6e9ef;
-         border-radius: 6px;
-         color: #6b7280;
-         cursor: pointer;
-         display: flex;
-         font-size: 1.5rem;
-         height: 32px;
-         justify-content: center;
-         padding: 0;
-         position: absolute;
-         right: 12px;
-         top: 12px;
-         transition: all 0.2s ease;
-         width: 32px;
-         }
-
-         .popup-close:hover {
-         background: #f3f4f6;
-         color: #0f172a;
-         }
-
-         .popup-content h2 {
-         color: #0f172a;
-         font-size: 20px;
-         font-weight: 700;
-         margin: 0 0 12px 0;
-         }
-
-         .popup-content p {
-         color: #6b7280;
-         font-size: 0.95rem;
-         margin: 0 0 20px 0;
-         line-height: 1.6;
-         }
-
-         .popup-button {
-         background: var(--accent);
-         border: none;
-         border-radius: 8px;
-         color: #ffffff;
-         font-size: 0.95rem;
-         font-weight: 600;
-         padding: 10px 20px;
-         transition: all 0.2s ease;
-         }
-
-         .popup-button:hover {
-         background: #1d4ed8;
-         box-shadow: 0 6px 12px rgba(37, 99, 235, 0.2);
-         }
-
-         .popup-button:active {
-         transform: scale(0.98);
-         }
       </style>
    </head>
    <body>
-      <div id="suggestion-popup">
-         <div class="popup-content">
-            <button class="popup-close" onclick="closeSuggestionPopup()">&#215;</button>
-            <h2>Have a Game Suggestion?</h2>
-            <p>Know a great game that should be on HimeSpider Games? Submit your recommendations using the form at the top left! Your suggestions help grow our collection.</p>
-            <button class="popup-button" onclick="openSuggestionsForm()">Go to Form</button>
-         </div>
-      </div>
-
       <div id="all">
       <div id="top-header">
          <div class="header-left">
             <div class="updates-box" id="updates-box">
-               <h2>Site Updates</h2>
-               <ul>
-                  <li>Added TONS of New Games!</li>
-                  <li>Password Change on the 1st of Decembergit</li>
-               </ul>
+                <h2>Site Updates</h2>
+                <ul>
+                    <li>Added TONS of New Games!</li>
+                    <li>Password changes Dec 1</li>
+                </ul>
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e6e9ef; font-size: 12px; color: #0f172a; line-height: 1.6; font-style: italic;">
+                    <p style="margin: 0 0 6px 0; font-weight: 600; color: var(--accent);">Password Hint:</p>
+                    Still thy bright lamp, let daylight fade,<br>
+                    Call forth the hush that dusk has made.<br>
+                    For runes lie hid where shadows keep,<br>
+                    And only stir when light grows deep.
+                </div>
             </div>
          </div>
-         <h1>HimeSpider Games</h1>
+         <h1>HIMESPIDER</h1>
          <div class="header-right">
             <div id="search-container"><input type="text" id="search-bar" placeholder="Search..."></div>
          </div>
@@ -622,8 +548,8 @@
              <p>Abandoned</p>
          </div>
 
-         <div class="game" onclick='beep("/pages/a-dark-room/index.html")'>
-             <img loading="lazy" src="pages/a-dark-room/adr.png" alt="A Dark Room">
+         <div class="game" onclick='beep("/poem.html")'>
+             <img loading="lazy" src="images/adr.png" alt="A Dark Room">
              <p>A Dark Room</p>
          </div>
 
@@ -1011,88 +937,42 @@
 window.appState = {
     isLoggedIn: false,
     isInGame: false,
-    chatbotInitialized: false,
-    chatbotDisabled: false,
-    popupShown: false
 };
 
-// Store original chatbase if it exists
-window.originalChatbase = window.chatbase || null;
+function beep(e) {
+    try {
+        window.appState.isInGame = true;
 
-// Override the chatbase function to prevent initialization when disabled
-window.chatbaseQueue = [];
-window.chatbase = function(...args) {
-    if (window.appState.chatbotDisabled) {
-        return;
-    }
-    if (window.originalChatbase && typeof window.originalChatbase === 'function') {
-        return window.originalChatbase(...args);
-    }
-    window.chatbaseQueue.push(args);
-};
+        let t = document.getElementById("all"),
+            o = (t.hidden = !0, document.body.style.overflow),
+            n = (document.body.style.overflow = "hidden", document.createElement("iframe")),
+            l = (n.src = e, n.style.position = "fixed", n.style.inset = "0", n.style.width = "100%", n.style.height = "100%", n.style.border = "none", n.style.zIndex = "1000", n.setAttribute("allowfullscreen", "true"), n.setAttribute("allow", "fullscreen"), document.createElement("button")),
+            s = (l.id = "back-button", l.textContent = "\u2936", l.style.position = "fixed", l.style.top = "20px", l.style.right = "20px", l.style.zIndex = "1002", l.style.opacity = "0", l.style.pointerEvents = "none", l.style.transition = "opacity 0.25s ease", document.createElement("div")),
+            d = (s.style.position = "fixed", s.style.top = "0", s.style.right = "0", s.style.width = "100px", s.style.height = "100px", s.style.zIndex = "1001", s.style.background = "transparent", s.style.pointerEvents = "auto", null),
+            i = !1;
 
-// Safe no-op implementations so callers like `beep()` won't fail
-function disableChatbot(){
-    try{ window.appState.chatbotDisabled = true; }catch(e){}
-}
+        function r() {
+            d && (clearTimeout(d), d = null), l.style.opacity = "1", l.style.pointerEvents = "auto"
+        }
 
-function enableChatbot(){
-    try{ window.appState.chatbotDisabled = false; }catch(e){}
-}
-
-function showSuggestionPopup() {
-    if (!window.appState.popupShown) {
-        const popup = document.getElementById('suggestion-popup');
-        popup.classList.add('visible');
-        window.appState.popupShown = true;
-    }
-}
-
-function closeSuggestionPopup() {
-    const popup = document.getElementById('suggestion-popup');
-    popup.classList.remove('visible');
-}
-
-function openSuggestionsForm() {
-    window.open('https://docs.google.com/forms/d/e/1FAIpQLSeog95fl57i1Jv28IUltDQdAHghnphJHIKCL3biTzReZtLXVA/viewform', '_blank');
-    closeSuggestionPopup();
-}
-
-function beep(e) { try {
-    window.appState.isInGame = true;
-    disableChatbot();
-    
-    let t = document.getElementById("all"),
-        o = (t.hidden = !0, document.body.style.overflow),
-        n = (document.body.style.overflow = "hidden", document.createElement("iframe")),
-        l = (n.src = e, n.style.position = "fixed", n.style.inset = "0", n.style.width = "100%", n.style.height = "100%", n.style.border = "none", n.style.zIndex = "1000", n.setAttribute("allowfullscreen", "true"), n.setAttribute("allow", "fullscreen"), document.createElement("button")),
-        s = (l.id = "back-button", l.textContent = "\u2936", l.style.position = "fixed", l.style.top = "20px", l.style.right = "20px", l.style.zIndex = "1002", l.style.opacity = "0", l.style.pointerEvents = "none", l.style.transition = "opacity 0.25s ease", document.createElement("div")),
-        d = (s.style.position = "fixed", s.style.top = "0", s.style.right = "0", s.style.width = "100px", s.style.height = "100px", s.style.zIndex = "1001", s.style.background = "transparent", s.style.pointerEvents = "auto", null),
-        i = !1;
-
-    function r() {
-        d && (clearTimeout(d), d = null), l.style.opacity = "1", l.style.pointerEvents = "auto"
-    }
-
-    function a() {
-        i || (d && clearTimeout(d), d = setTimeout(() => {
-            i || (l.style.opacity = "0", l.style.pointerEvents = "none")
-        }, 400))
-    }
-    
-    s.addEventListener("mouseenter", r), s.addEventListener("mouseleave", () => {
-        d && clearTimeout(d), d = setTimeout(() => {
-            i || (l.style.opacity = "0", l.style.pointerEvents = "none")
-        }, 100)
-    }), l.addEventListener("mouseenter", () => {        
-        i = !0, r()
-    }), l.addEventListener("mouseleave", () => {
-        i = !1, a()
-    }), l.onclick = function() {
-        window.appState.isInGame = false;
-        document.body.removeChild(n), document.body.removeChild(l), document.body.removeChild(s), t.hidden = !1, document.body.style.overflow = o;
-        enableChatbot();
-    }, document.body.appendChild(n), document.body.appendChild(s), document.body.appendChild(l)
+        function a() {
+            i || (d && clearTimeout(d), d = setTimeout(() => {
+                i || (l.style.opacity = "0", l.style.pointerEvents = "none")
+            }, 400))
+        }
+        
+        s.addEventListener("mouseenter", r), s.addEventListener("mouseleave", () => {
+            d && clearTimeout(d), d = setTimeout(() => {
+                i || (l.style.opacity = "0", l.style.pointerEvents = "none")
+            }, 100)
+        }), l.addEventListener("mouseenter", () => {        
+            i = !0, r()
+        }), l.addEventListener("mouseleave", () => {
+            i = !1, a()
+        }), l.onclick = function() {
+            window.appState.isInGame = false;
+            document.body.removeChild(n), document.body.removeChild(l), document.body.removeChild(s), t.hidden = !1, document.body.style.overflow = o;
+        }, document.body.appendChild(n), document.body.appendChild(s), document.body.appendChild(l)
     } catch(err) {
         console.error('beep error', err);
         try { window.open(e, '_blank'); } catch(e2) {}
