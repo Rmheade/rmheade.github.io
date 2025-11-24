@@ -306,7 +306,11 @@
          <h1>HIMESPIDER</h1>
          <div class="header-right">
             <div id="search-container"><input type="text" id="search-bar" placeholder="Search..."></div>
-         </div>
+            <div id="password-container" style="margin-top: 8px; display: flex; gap: 8px; align-items: center;">
+                <input type="password" id="password-input" placeholder="Test Password" style="background: #ffffff; border: 1px solid #e6e9ef; border-radius: 8px; color: #0f172a; font-size: 0.9rem; outline: none; padding: 10px 12px; font-family: Inter, system-ui; flex: 1; max-width: 200px;">
+                <div id="password-result" style="font-size: 0.9rem; font-weight: 600; height: 20px; min-width: 60px; text-align: center;"></div>
+            </div>
+        </div>
       </div>
       <div style="height:80px"></div>
       <div>
@@ -1032,4 +1036,28 @@ document.addEventListener('DOMContentLoaded', function () {
     sortAndFilterGames();
     setupSearch();
 });
+function verifyPassword() {
+    const input = document.getElementById('password-input');
+    const result = document.getElementById('password-result');
+    const encoded = atob('VjFrMW5nMg=='); // Base64 encoded
+    
+    if (input.value === '') {
+        result.textContent = '';
+        result.style.color = '';
+    } else if (input.value === encoded) {
+        result.textContent = '✓ Correct';
+        result.style.color = '#10b981';
+    } else {
+        result.textContent = '✗ Incorrect';
+        result.style.color = '#ef4444';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.getElementById('password-input');
+    if (passwordInput) {
+        passwordInput.addEventListener('input', verifyPassword);
+    }
+});
+
 </script>
