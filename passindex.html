@@ -537,17 +537,13 @@
             <img loading="lazy" src="pages/deltarune/deltarune.jpg" alt="Deltarune">
             <p>Deltarune</p>
          </div>
-         <div class="game" onclick='beep("pages/motox3m/game.html")'>
+         <div class="game" onclick='beep("pages/motox3m/index.html")'>
             <img loading="lazy" src="pages/motox3m/moto-x3m.png" alt="MotoX3M">
             <p>Moto X3M</p>
          </div>
          <div class="game" onclick='beep("pages/Sonic&Knuckles/index.html")'>
             <img loading="lazy" src="pages/Sonic&Knuckles/s&n.webp" alt="Sonic & Knuckles">
             <p>Sonic & Knuckles</p>
-         </div>
-         <div class="game" onclick='beep("pages/wbwwb/index.html")'>
-              <img loading="lazy" src="pages/wbwwb/wbwwb.webp" alt="Wbwwb">
-              <p>We Become What We Behold</p>
          </div>
          <div class="game" onclick='beep("pages/tsunset/index.html")'>
               <img loading="lazy" src="pages/tsunset/img/cover.png" alt="Tanuki Sunset">
@@ -915,16 +911,10 @@
          <div class="game" onclick='beep("/pages/web-osu/index.html")'>
              <img loading="lazy" src="pages/web-osu/webosu.jpeg" alt="Web Osu">
              <p>Web Osu</p>
-         <div class="game" onclick='beep("/pages/where-is-the-water/index.html")'>
-             <img loading="lazy" src="pages/where-is-the-water/with.jpg" alt="Where is the Water">
-             <p>Where is the Water</p>
-         </div>
-
          <div class="game" onclick='beep("/pages/x-trench-run/index.html")'>
              <img loading="lazy" src="pages/x-trench-run/xtr.jpeg" alt="X Trench Run">
              <p>X Trench Run</p>
          </div>
-
          <div class="game" onclick='beep("/pages/yohoho/index.html")'>
              <img loading="lazy" src="pages/yohoho/img/banner1024x512.jpg" alt="Yohoho">
              <p>Yohoho</p>
@@ -956,7 +946,9 @@
       </div>
       <button id="back-to-top">&#8593;</button>
       <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.11.0/src/sha256.min.js"></script>
-      <script>
+<!-- Add this script section to your passindex.html, replacing the existing script -->
+
+<script>
 // State management for application
 window.appState = {
     isLoggedIn: false,
@@ -996,7 +988,30 @@ function beep(e) {
         }), l.onclick = function() {
             window.appState.isInGame = false;
             document.body.removeChild(n), document.body.removeChild(l), document.body.removeChild(s), t.hidden = !1, document.body.style.overflow = o;
-        }, document.body.appendChild(n), document.body.appendChild(s), document.body.appendChild(l)
+        }, document.body.appendChild(n), document.body.appendChild(s), document.body.appendChild(l);
+        
+        // FIX: Focus the iframe so keyboard events are captured properly
+        n.addEventListener('load', function() {
+            try {
+                n.focus();
+                n.contentWindow.focus();
+            } catch(err) {
+                console.warn('Could not focus iframe content:', err);
+            }
+        });
+        
+        // Also try to focus after a short delay to ensure iframe is ready
+        setTimeout(() => {
+            try {
+                n.focus();
+                if (n.contentWindow) {
+                    n.contentWindow.focus();
+                }
+            } catch(err) {
+                console.warn('Could not focus iframe:', err);
+            }
+        }, 100);
+        
     } catch(err) {
         console.error('beep error', err);
         try { window.open(e, '_blank'); } catch(e2) {}
@@ -1056,6 +1071,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sortAndFilterGames();
     setupSearch();
 });
+
 function verifyPassword() {
     const input = document.getElementById('password-input');
     const result = document.getElementById('password-result');
@@ -1079,5 +1095,4 @@ document.addEventListener('DOMContentLoaded', function () {
         passwordInput.addEventListener('input', verifyPassword);
     }
 });
-
 </script>
