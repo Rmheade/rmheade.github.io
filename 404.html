@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        :root {
+            --bg: #f6f8fb;
+            --card: #ffffff;
+            --muted: #6b7280;
+            --accent: #2563eb;
+            --accent-purple: #7c3aed;
+            --success: #10b981;
+            --danger: #ef4444;
+            --radius: 12px;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(180deg, #f6f8fb, #eef2ff 60%);
+            color: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1;
+            animation: floatError 3s ease-in-out infinite;
+        }
+
+        @keyframes floatError {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .error-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .error-description {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .splash-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: splashRotate 0.5s ease-out;
+            display: inline-block;
+            transform-origin: center;
+        }
+
+        @keyframes splashRotate {
+            0% {
+                transform: rotate(-15deg) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button.secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid #dbe5ff;
+        }
+
+        button.secondary:hover {
+            background: #f0f4ff;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-purple);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 40px 24px;
+            }
+
+            .error-code {
+                font-size: 80px;
+            }
+
+            .error-title {
+                font-size: 22px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="error-code">404</div>
+            
+            <h1 class="error-title">Page Not Found</h1>
+            
+            <p class="error-description">
+                Oops! It looks like you've ventured into uncharted territory. The page you're looking for doesn't exist or has been moved.
+            </p>
+
+            <div class="splash-text" id="splashText"></div>
+
+            <div class="button-group">
+                <button onclick="window.history.back()">← Go Back</button>
+                <button class="secondary" onclick="window.location.href='/'">Home</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        const splashTexts = [
+            "Not found!",
+            "404'd!",
+            "Page? Gone!",
+            "Respawning...",
+            "Try again!",
+            "Wrong portal!",
+            "Level error!",
+            "Oops!",
+            "Dead end!",
+            "Brick wall!",
+            "Gap too wide!",
+            "Out of bounds!",
+            "Missing!",
+            "Nowhere to go!",
+            "Game over!",
+            "Lost the plot!",
+            "Wrong turn!",
+            "Stuck!",
+            "No exit here!",
+            "Glitched!",
+            "Invalid path!",
+            "Void detected!",
+            "Error 404!",
+            "Broken link!",
+            "Vanished!",
+            "Here be dragons!",
+            "Off the map!",
+            "Cease and desist!",
+            "You died!",
+            "Respawn?",
+            "Try the other way!",
+            "Maybe next time!",
+            "Connection lost!",
+            "Signal lost!",
+            "Page escaped!",
+            "Can't get there!",
+            "Wrong dimension!",
+            "Check the map!",
+            "Go back!",
+            "Nope!",
+            "Ah, spawn!",
+            "One does not simply walk here!",
+            "It's dangerous to go alone!",
+            "Phantom pain!",
+            "Game over, dude!",
+            "Too bad!",
+            "Sucks to be you!",
+            "Oof!",
+            "The page is a lie!",
+            "Not this page!",
+            "404: The Final Boss!",
+            "Critical error!",
+            "System failure!",
+            "Where am I?",
+            "Who am I?",
+            "What is happening?",
+            "Run!",
+            "Hide!",
+            "Pray!",
+            "Panic!",
+            "Don't panic!",
+            "Relax!",
+            "Keep calm!",
+            "Stay cool!",
+            "Chill out!",
+            "No worries!",
+            "In and out!",
+            "Twenty minute adventure!",
+            "Wubba lubba dub dub!",
+            "Et voilà!",
+            "Plot twist!",
+            "Surprise!",
+            "You have been redirected!",
+            "Houston, we have a problem!",
+            "Status: Critical!",
+            "Condition: Offline!",
+            "State: Nonexistent!",
+            "This is fine!",
+            "Everything is fine!",
+            "Nothing to see here!",
+            "Move along!",
+            "Wandering off?",
+            "Getting lost?",
+            "Need a map?",
+            "Wrong house!",
+            "Wrong dimension!",
+            "Wrong universe!",
+            "Wrong game!",
+            "Déjà vu?",
+            "Groundhog day?",
+            "The Twilight Zone!",
+            "Outta here!",
+            "Ghost town!",
+            "Abandoned!",
+            "Forsaken!",
+            "Left for dead!",
+            "MIA!",
+            "KIA!",
+            "DOA!",
+            "RIP!",
+            "Farewell!",
+            "Adios!",
+            "Sayonara!",
+            "Au revoir!",
+            "Arrivederci!",
+            "404 - Electric Boogaloo!"
+        ];
+
+        function getRandomSplash() {
+            return splashTexts[Math.floor(Math.random() * splashTexts.length)];
+        }
+
+        document.getElementById('splashText').textContent = getRandomSplash();
+    </script>
+</body>
+</html>
