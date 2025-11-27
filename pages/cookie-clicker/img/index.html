@@ -1,15 +1,28 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
  <head>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script>
       // Prevent direct access - only allow iframe loading
       if (window.self === window.top) {
         window.location.href = '/';
       }
+      
+      // Listen for tilde key from parent window
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "tilde-pressed") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
+      
+      // Send tilde key press to parent window
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "`") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
     </script>
 
-  <title>StudyBuddy - Personal Study Tool</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"><title>StudyBuddy - Personal Study Tool</title>
  </head>
  <body>
 <h1>Index of /cookieclicker/img</h1>

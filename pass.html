@@ -15,18 +15,26 @@
          --accent: #2563eb;
          --accent-purple: #7c3aed;
          --radius: 12px;
+         --text: #0f172a;
+         }
+         [data-theme="dark"] {
+         --bg: #0f172a;
+         --card: #1e293b;
+         --muted: #94a3b8;
+         --text: #f1f5f9;
          }
          body {
-         background: linear-gradient(180deg, #f6f8fb, #eef2ff 60%);
-         color: #0f172a;
+         background: linear-gradient(180deg, var(--bg), var(--bg));
+         color: var(--text);
          font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
          margin: 0;
          overflow: auto;
          min-height: 100vh;
+         transition: background 0.3s, color 0.3s;
          }
          #password-overlay {
          align-items: center;
-         background: linear-gradient(180deg, #f6f8fb, #eef2ff 60%);
+         background: linear-gradient(180deg, var(--bg), var(--bg));
          display: flex;
          flex-direction: column;
          font-family: Inter, sans-serif;
@@ -34,24 +42,30 @@
          justify-content: center;
          position: fixed;
          z-index: 5;
+         transition: background 0.3s;
          }
          #password-box {
-         background: #ffffff;
+         background: var(--card);
          border: 1px solid #e6e9ef;
          border-radius: 12px;
-         color: #0f172a;
+         color: var(--text);
          box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
          max-width: 400px;
          padding: 32px;
          text-align: center;
          width: 90%;
+         transition: background 0.3s, border 0.3s, color 0.3s;
+         }
+         [data-theme="dark"] #password-box {
+         border-color: #334155;
          }
          #password-box h2 {
-         color: #0f172a;
+         color: var(--text);
          font-family: Inter, sans-serif;
          font-size: 24px;
          font-weight: 700;
          margin: 16px 0 24px 0;
+         transition: color 0.3s;
          }
          #password-box input {
          border: 1px solid #e6e9ef;
@@ -62,10 +76,15 @@
          padding: 10px 12px;
          width: 100%;
          font-family: Inter, system-ui;
-         color: #0f172a;
+         color: var(--text);
+         background: var(--card);
+         transition: background 0.3s, color 0.3s, border 0.3s;
+         }
+         [data-theme="dark"] #password-box input {
+         border-color: #334155;
          }
          #password-box input::placeholder {
-         color: #6b7280;
+         color: var(--muted);
          }
          #password-box input:focus {
          border-color: #2563eb;
@@ -97,6 +116,7 @@
          font-size: 0.85rem;
          margin-top: 12px;
          min-height: 1.2em;
+         transition: color 0.3s;
          }
          #password-box .lock-message {
          align-items: center;
@@ -106,17 +126,19 @@
          justify-content: center;
          margin-bottom: 12px;
          font-size: 13px;
-         color: #6b7280;
+         color: var(--muted);
+         transition: color 0.3s;
          }
          #password-box .lock-message span {
          color: #2563eb;
          font-size: 1.1rem;
          }
          .sitelock {
-         color: #6b7280;
+         color: var(--muted);
          font-size: 0.75rem;
          text-decoration: none;
          margin-top: 16px;
+         transition: color 0.3s;
          }
          .sitelock:hover {
          color: #2563eb;
@@ -136,6 +158,23 @@
 
       <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.11.0/src/sha256.min.js"></script>
       <script>
+// Apply theme immediately (before DOMContentLoaded)
+const theme = localStorage.getItem('studybuddy-theme') || 'light';
+document.documentElement.setAttribute('data-theme', theme);
+
+// Listen for theme changes from parent
+window.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'THEME_CHANGED') {
+    document.documentElement.setAttribute('data-theme', event.data.theme);
+    localStorage.setItem('studybuddy-theme', event.data.theme);
+  }
+});
+
+// Request current theme from parent on load
+window.addEventListener('load', () => {
+  window.parent.postMessage({ type: 'GET_THEME' }, '*');
+});
+
 function pass() {
     let t = document.getElementById("password-overlay"),
         o = document.getElementById("password-input"),

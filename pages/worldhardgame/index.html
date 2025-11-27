@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script>
       // Prevent direct access - only allow iframe loading
       if (window.self === window.top) {
         window.location.href = '/';
       }
+      
+      // Listen for tilde key from parent window
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "tilde-pressed") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
+      
+      // Send tilde key press to parent window
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "`") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
     </script>
 
-    <link rel="icon" type="image/x-icon" href="images/splash.jpg" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"><link rel="icon" type="image/x-icon" href="images/splash.jpg" />
     <link rel="shortcut icon" type="image/x-icon" href="images/splash.jpg" />
     <script src="//www.google.com/jsapi"></script>
     <script>

@@ -21,17 +21,25 @@
          --accent: #2563eb;
          --accent-purple: #7c3aed;
          --radius: 12px;
+         --text: #0f172a;
+         }
+         [data-theme="dark"] {
+         --bg: #0f172a;
+         --card: #1e293b;
+         --muted: #94a3b8;
+         --text: #f1f5f9;
          }
          body {
-         background: linear-gradient(180deg, #f6f8fb, #eef2ff 60%);
-         color: #0f172a;
+         background: linear-gradient(180deg, var(--bg), var(--bg));
+         color: var(--text);
          font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
          margin: 0;
          overflow: auto;
          min-height: 100vh;
+         transition: background 0.3s, color 0.3s;
          }
          #top-header {
-         align-items: center;
+         align-items: flex-start;
          background: transparent;
          box-sizing: border-box;
          display: flex;
@@ -43,10 +51,14 @@
          transition: background 0.3s ease, box-shadow 0.3s ease;
          width: 100%;
          z-index: 2;
+         min-height: 120px;
          }
          #top-header.scrolled {
          background: rgba(255, 255, 255, 0.95);
          box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
+         }
+         [data-theme="dark"] #top-header.scrolled {
+         background: rgba(30, 41, 59, 0.95);
          }
          #top-header h1 {
          color: var(--accent);
@@ -69,7 +81,7 @@
          }
          }
          .header-left .updates-box {
-         background: #ffffff;
+         background: var(--card);
          border: 1px solid #e6e9ef;
          border-radius: 12px;
          box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
@@ -81,6 +93,10 @@
          position: absolute;
          top: 10px;
          z-index: 3;
+         transition: background 0.3s, border 0.3s;
+         }
+         [data-theme="dark"] .header-left .updates-box {
+         border-color: #334155;
          }
          .header-left .updates-box h2 {
          font-size: 14px;
@@ -101,29 +117,40 @@
          .header-right {
          position: absolute;
          right: 20px;
-         top: 50%;
-         transform: translateY(-50%);
+         top: 18px;
+         display: flex;
+         flex-direction: column;
+         gap: 8px;
+         align-items: flex-end;
          }
          #search-container input {
-         background: #ffffff;
+         background: var(--card);
          border: 1px solid #e6e9ef;
          border-radius: 8px;
-         color: #0f172a;
+         color: var(--text);
          font-size: 0.9rem;
          outline: none;
          padding: 10px 12px;
          font-family: Inter, system-ui;
+         transition: background 0.3s, border 0.3s, color 0.3s;
          }
+         [data-theme="dark"] #search-container input {
+         border-color: #334155;
+         }
+        [data-theme="dark"] #password-container input {
+            border-color: #334155 !important;
+        }
          #search-container input::placeholder {
          color: var(--muted);
          opacity: 0.7;
          }
          p {
-         color: #0f172a;
+         color: var(--text);
          font-family: Inter, system-ui;
          font-size: 1rem;
          margin-top: 5px;
          line-height: 1.5;
+         transition: color 0.3s;
          }
          #intro {
          margin: 100px auto 5%;
@@ -154,13 +181,16 @@
          }
          }
          .game {
-         background: #ffffff;
+         background: var(--card);
          border: 1px solid #e6e9ef;
          border-radius: 12px;
          padding: 12px;
          text-align: center;
          transition: all 0.2s ease;
          box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
+         }
+         [data-theme="dark"] .game {
+         border-color: #334155;
          }
          .game:hover {
          box-shadow: 0 12px 32px rgba(37, 99, 235, 0.15);
@@ -179,7 +209,8 @@
          font-size: 14px;
          font-weight: 600;
          margin: 8px 0 0;
-         color: #0f172a;
+         color: var(--text);
+         transition: color 0.3s;
          }
 
          /* Glow animation for suggestions form */
@@ -224,7 +255,7 @@
          }
          #back-to-top {
          align-items: center;
-         background: #ffffff;
+         background: var(--card);
          border: 1px solid #e6e9ef;
          border-radius: 8px;
          bottom: 20px;
@@ -242,6 +273,9 @@
          z-index: 4;
          box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
          }
+         [data-theme="dark"] #back-to-top {
+         border-color: #334155;
+         }
          #back-to-top.visible {
          opacity: 1;
          pointer-events: auto;
@@ -257,7 +291,7 @@
          }
          #back-button {
          align-items: center;
-         background: #ffffff;
+         background: var(--card);
          border: 1px solid #e6e9ef;
          border-radius: 8px;
          box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
@@ -272,6 +306,9 @@
          transition: all 0.2s ease;
          width: 48px;
          }
+         [data-theme="dark"] #back-button {
+         border-color: #334155;
+         }
          #back-button:hover {
          background: #2563eb;
          color: #ffffff;
@@ -283,18 +320,52 @@
          transform: scale(0.95);
          }
          #password-container input {
-         background: #ffffff;
+         background: var(--card);
          border: 1px solid #e6e9ef;
          border-radius: 8px;
-         color: #0f172a;
+         color: var(--text);
          font-size: 0.9rem;
          outline: none;
          padding: 10px 12px;
          font-family: Inter, system-ui;
+         transition: background 0.3s, border 0.3s, color 0.3s;
+         }
+         [data-theme="dark"] #password-container input {
+         border-color: #334155;
          }
          #password-container input::placeholder {
          color: var(--muted);
          opacity: 0.7;
+         }
+
+         /* Theme Toggle Button */
+         .theme-toggle-btn {
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         width: 40px;
+         height: 40px;
+         background: var(--card);
+         border: 2px solid var(--accent);
+         border-radius: 8px;
+         cursor: pointer;
+         padding: 0;
+         margin-left: 8px;
+         color: var(--accent);
+         transition: background 0.3s, border 0.3s, color 0.3s;
+         }
+
+         .theme-toggle-btn:hover {
+         background: var(--accent);
+         color: white;
+         }
+
+         .theme-icon {
+         width: 20px;
+         height: 20px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
          }
       </style>
    </head>
@@ -308,7 +379,7 @@
                     <li>237 Games!</li>
                     <li>Password changes Dec 1</li>
                 </ul>
-                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e6e9ef; font-size: 12px; color: #0f172a; line-height: 1.6; font-style: italic;">
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e6e9ef; font-size: 12px; color: var(--text); line-height: 1.6; font-style: italic;">
                     <p style="margin: 0 0 6px 0; font-weight: 600; color: var(--accent);">Password Hint:</p>
                     Still thy bright lamp, let daylight fade,<br>
                     Call forth the hush that dusk has made.<br>
@@ -320,10 +391,15 @@
          <h1>HIMESPIDER</h1>
          <div class="header-right">
             <div id="search-container"><input type="text" id="search-bar" placeholder="Search..."></div>
-            <div id="password-container" style="margin-top: 8px; display: flex; gap: 8px; align-items: center;">
-                <input type="password" id="password-input" placeholder="Test Password" style="background: #ffffff; border: 1px solid #e6e9ef; border-radius: 8px; color: #0f172a; font-size: 0.9rem; outline: none; padding: 10px 12px; font-family: Inter, system-ui; flex: 1; max-width: 200px;">
-                <div id="password-result" style="font-size: 0.9rem; font-weight: 600; height: 20px; min-width: 60px; text-align: center;"></div>
+            <div id="password-container" style="display: flex; gap: 8px; align-items: center;">
+                <input type="password" id="password-input" placeholder="Test Password" style="background: var(--card); border: 1px solid #e6e9ef; border-radius: 8px; color: var(--text); font-size: 0.9rem; outline: none; padding: 10px 12px; font-family: Inter, system-ui; flex: 1; max-width: 200px;">
+                <div id="password-result" style="font-size: 0.9rem; font-weight: 600; height: 20px; min-width: 0; text-align: center; white-space: nowrap;"></div>
             </div>
+            <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">
+              <div class="theme-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              </div>
+            </button>
         </div>
       </div>
       <div style="height:80px"></div>
@@ -1351,20 +1427,103 @@
              <img loading="lazy" src="pages/worlds-hardest-game-2/the-worlds-hardest-game-2.jpg">
              <p>Worlds Hardest Game 2</p>
          </div>
-         <div class="game" onclick='beep("/pages/you-are-bezos/index.html")'>
-             <img loading="lazy" src="pages/you-are-bezos/img/banner.png">
-             <p>You Are Bezos</p>
-         </div>
       </div>
       <button id="back-to-top">&#8593;</button>
       <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.11.0/src/sha256.min.js"></script>
 
 <script>
+// Apply theme immediately from localStorage
+const theme = localStorage.getItem('studybuddy-theme') || 'light';
+document.documentElement.setAttribute('data-theme', theme);
+
+// Theme Management Class
+class ThemeManager {
+  constructor() {
+    this.theme = localStorage.getItem('studybuddy-theme') || 'light';
+    this.init();
+  }
+
+  init() {
+    this.applyTheme(this.theme);
+    this.setupButton();
+    this.listenForExternalChanges();
+  }
+
+  applyTheme(theme) {
+    this.theme = theme || 'light';
+    document.documentElement.setAttribute('data-theme', this.theme);
+    localStorage.setItem('studybuddy-theme', this.theme);
+    this.updateButton();
+    this.broadcastToParent();
+  }
+
+  toggle() {
+    const newTheme = this.theme === 'light' ? 'dark' : 'light';
+    this.applyTheme(newTheme);
+  }
+
+  setupButton() {
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+      btn.addEventListener('click', () => this.toggle());
+    }
+  }
+
+  updateButton() {
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+      const icon = btn.querySelector('.theme-icon');
+      if (icon) {
+        icon.innerHTML = this.theme === 'light' 
+          ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>'
+          : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+      }
+    }
+  }
+
+  broadcastToParent() {
+    try {
+      window.parent.postMessage({
+        type: 'THEME_CHANGED',
+        theme: this.theme
+      }, '*');
+    } catch (e) {
+      // Silently fail
+    }
+  }
+
+  listenForExternalChanges() {
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'THEME_CHANGED') {
+        this.applyTheme(event.data.theme);
+      }
+    });
+  }
+}
+
+// Initialize theme manager
+document.addEventListener('DOMContentLoaded', () => {
+  new ThemeManager();
+});
+
 // State management for application
 window.appState = {
     isLoggedIn: false,
     isInGame: false,
 };
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "`") {
+        window.location.href = "/error404.html";
+    }
+});
+
+// Listen for messages from iframes
+window.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "tilde-pressed") {
+        window.location.href = "/error404.html";
+    }
+});
 
 function beep(e) {
     try {

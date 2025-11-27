@@ -2,15 +2,28 @@
 <html>
 
 <head>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script>
       // Prevent direct access - only allow iframe loading
       if (window.self === window.top) {
         window.location.href = '/';
       }
+      
+      // Listen for tilde key from parent window
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "tilde-pressed") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
+      
+      // Send tilde key press to parent window
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "`") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
     </script>
 
-  <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="UTF-8">
   <title>StudyBuddy - Personal Study Tool</title>
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">

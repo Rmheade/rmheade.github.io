@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script>
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = '/';
+      }
+      
+      // Listen for tilde key from parent window
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "tilde-pressed") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
+      
+      // Send tilde key press to parent window
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "`") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Double Wires | 3kh0</title>
     <link rel="icon" type="image/x-icon" href="doublewires.png" />

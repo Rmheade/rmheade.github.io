@@ -1,15 +1,28 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script>
       // Prevent direct access - only allow iframe loading
       if (window.self === window.top) {
         window.location.href = '/';
       }
+      
+      // Listen for tilde key from parent window
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "tilde-pressed") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
+      
+      // Send tilde key press to parent window
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "`") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
     </script>
 
-<script type="text/javascript">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"><script type="text/javascript">
     window.cookieconsent_options = {"message":"Unsurprisingly, this website uses cookies for ads and traffic analysis.","dismiss":"Got it!","learnMore":"Learn more","link":"//orteil.dashnet.org/cookieconsentpolicy.html","target":"_blank","theme":"//orteil.dashnet.org/cookieconsent.css","domain":"dashnet.org"};
 </script>
 
