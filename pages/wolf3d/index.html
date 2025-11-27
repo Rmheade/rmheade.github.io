@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />

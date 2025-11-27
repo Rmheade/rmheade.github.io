@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-    <link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="utf-8">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="utf-8">
 <link rel="stylesheet" href="css/embed.css">
 <meta name="csrf-token" content="rRt7iDPW1usInp8RS5n2SeShtZJpc5JpHtdnt0bq" />
 <title>StudyBuddy - Personal Study Tool</title>

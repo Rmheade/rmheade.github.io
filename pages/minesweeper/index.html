@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-      <title>Minesweeper | 3kh0</title>
+<title>Minesweeper | 3kh0</title>
       <meta charset="utf-8">
   </head>
   <script src="/js/main.js"></script>

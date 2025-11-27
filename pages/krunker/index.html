@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-    <meta property="og:url" content="https://3kh0.github.io/" />
+<meta property="og:url" content="https://3kh0.github.io/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Krunker | 3kh0" />
     <meta property="og:description" content="Krunker" />

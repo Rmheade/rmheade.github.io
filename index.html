@@ -234,6 +234,12 @@ class ThemeManager {
           theme: this.theme
         }, '*');
       }
+      // Listen for messages from iframes
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "tilde-pressed") {
+            window.location.href = "/";
+        }
+    });
     });
   }
 }

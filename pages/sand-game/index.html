@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-        <link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
         <title>Sand Game | 3kh0</title>
         <meta name="keywords" content="sand, falling, game" />
         <meta name="description" content="Project Sand: A modern version of the classic Hell of Sand Falling Game" />

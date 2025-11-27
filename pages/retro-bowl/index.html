@@ -19,11 +19,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-    <link rel="icon" href="/favicon.ico" type="image/x-icon"><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link rel="icon" href="/favicon.ico" type="image/x-icon"><meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta http-equiv="X-Frame-Options" content="DENY">
         <meta http-equiv="pragma" content="no-cache"/>
         <meta name="apple-mobile-web-app-capable" content="yes" />

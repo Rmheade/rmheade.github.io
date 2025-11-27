@@ -16,11 +16,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-    <link rel="icon" href="/favicon.ico" type="image/x-icon"><title>StudyBuddy - Personal Study Tool</title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon"><title>StudyBuddy - Personal Study Tool</title>
 <meta name="viewport" content="width=device-width">
 <script type="text/javascript">
 

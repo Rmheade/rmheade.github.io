@@ -376,7 +376,7 @@
             <div class="updates-box" id="updates-box">
                 <h2>Site Updates</h2>
                 <ul>
-                    <li>237 Games!</li>
+                    <li><strong>PRESS '~' to quick exit!</strong></li>
                     <li>Password changes Dec 1</li>
                 </ul>
                 <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e6e9ef; font-size: 12px; color: var(--text); line-height: 1.6; font-style: italic;">
@@ -1514,14 +1514,14 @@ window.appState = {
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "`") {
-        window.location.href = "/error404.html";
+        window.location.href = "/";
     }
 });
 
 // Listen for messages from iframes
 window.addEventListener("message", (event) => {
     if (event.data && event.data.type === "tilde-pressed") {
-        window.location.href = "/error404.html";
+        window.location.href = "/";
     }
 });
 

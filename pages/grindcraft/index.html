@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-    <link rel="icon" type="image/x-icon" href="img/pick-nobg.png" />
+<link rel="icon" type="image/x-icon" href="img/pick-nobg.png" />
     <link rel="shortcut icon" type="image/x-icon" href="img/pick.png" />
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />

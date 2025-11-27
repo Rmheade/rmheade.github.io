@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-    <link rel="icon" href="/favicon.ico" type="image/x-icon"><base href="https://cdn.jsdelivr.net/gh/genizy/web-port@9b7e3159341783134f3c16c160e6288e6226e02f/deltarune/chapter2/">
+<link rel="icon" href="/favicon.ico" type="image/x-icon"><base href="https://cdn.jsdelivr.net/gh/genizy/web-port@9b7e3159341783134f3c16c160e6288e6226e02f/deltarune/chapter2/">
     <script>
       // better debugging for me
       const ogalert = window.alert;

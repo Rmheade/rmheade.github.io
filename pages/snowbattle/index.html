@@ -27,11 +27,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-            <script type="application/javascript" src="/js/main.js"></script>
+<script type="application/javascript" src="/js/main.js"></script>
             <meta charset="utf-8" />
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <title>SnowBattle.io | 3kh0</title>

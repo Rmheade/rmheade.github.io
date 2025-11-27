@@ -18,11 +18,11 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = '/';
         }
       });
     </script>
-
-		<title>Choose a File</title>
+<title>Choose a File</title>
 	</head>
 	<body>
 		<h2>I'm supposed to be an invisible iframe... (you shouldn't see this)</h2>
