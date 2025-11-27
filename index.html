@@ -28,7 +28,8 @@
 
   *{box-sizing:border-box}
   body{margin:0;background:linear-gradient(180deg,var(--bg), var(--bg));color:var(--text);min-height:100vh;transition:background 0.3s, color 0.3s}
-  .wrap{max-width:1000px;margin:28px auto;padding:18px;min-height:calc(100vh - 56px)}
+  /* FIX: Removed min-height from .wrap to ensure content naturally pushes the footer down */
+  .wrap{max-width:1000px;margin:28px auto;padding:18px;} 
   header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
   .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px}
   h1{font-size:20px;margin:0}
@@ -160,6 +161,67 @@
     align-items: center;
     justify-content: center;
   }
+  /* Notebook Tab System */
+  .notebook-tabs-container {
+    display: flex;
+    gap: 2px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .notebook-tab {
+    background: var(--card);
+    border: 1px solid #e6e9ef;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--muted);
+    transition: all 0.2s;
+    position: relative;
+    transform: perspective(500px) rotateX(5deg);
+    transform-origin: bottom;
+  }
+
+  [data-theme="dark"] .notebook-tab {
+    border-color: #334155;
+  }
+
+  .notebook-tab:hover {
+    background: #f9fafb;
+    color: var(--text);
+    transform: perspective(500px) rotateX(2deg);
+  }
+
+  [data-theme="dark"] .notebook-tab:hover {
+    background: #334155;
+  }
+
+  .notebook-tab.active {
+    background: linear-gradient(180deg, var(--accent), #2563eb);
+    color: white;
+    border-color: var(--accent);
+    transform: perspective(500px) rotateX(0deg) translateY(1px);
+    box-shadow: 0 -2px 8px rgba(37, 99, 235, 0.2);
+  }
+
+  .notebook-tab.active:hover {
+    background: linear-gradient(180deg, var(--accent), #1d4ed8);
+  }
+
+  .notebook-content-wrapper {
+    border: 1px solid #e6e9ef;
+    border-radius: 0 8px 8px 8px;
+    background: var(--card);
+    transition: background 0.3s, border 0.3s;
+  }
+
+  [data-theme="dark"] .notebook-content-wrapper {
+    border-color: #334155;
+  }
 </style>
 
 <script>
@@ -239,6 +301,21 @@ class ThemeManager {
         if (event.data && event.data.type === "tilde-pressed") {
             window.location.href = "/";
         }
+      if (!event.data) return;
+      if (event.data === 'closeLogin') {
+        document.getElementById("loginModal").style.display = "none";
+      }
+      // if notebook broadcasted deck changes
+      if (event.data.type === 'DECKS_UPDATED') {
+        // reload decks and UI
+        decks = loadDecks();
+        renderDeckList();
+        // if currently studying the deck, refresh it too
+        if (currentDeckId) {
+          currentDeck = decks.find(d => d.id === currentDeckId);
+          renderAll();
+        }
+      }
     });
     });
   }
@@ -266,26 +343,43 @@ document.addEventListener('DOMContentLoaded', () => {
     </button>
   </header>
 
-  <!-- Login Modal -->
   <div id="loginModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--card);z-index:1000;transition:background 0.3s">
     <iframe id="loginIframe" src="pass.html" style="width:100%;height:100%;border:none"></iframe>
   </div>
 
-  <div id="deckListCard" class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-      <div>
-        <strong style="font-size:18px">My Study Decks</strong>
-        <p style="margin:4px 0 0;color:var(--muted);font-size:13px">Create and manage your flashcard decks and quiz sets.</p>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button id="importDeck" class="ghost">Import Deck</button>
-        <button id="createNewDeck" class="secondary">Create New Deck</button>
+  <div class="notebook-tabs-container">
+    <div class="notebook-tab active" data-notebook-tab="flashcards" onclick="window.location.href='index.html'">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span>📚 Flashcards</span>
       </div>
     </div>
-    <div id="deckList"></div>
+    <div class="notebook-tab" data-notebook-tab="notebook" onclick="window.location.href='notebook.html'">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span>📝 Notebook</span>
+      </div>
+    </div>
+    <div class="notebook-tab" data-notebook-tab="calculator" onclick="window.location.href='graph.html'">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span>🧮 Calculator</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Import Modal -->
+  <div class="notebook-content-wrapper">
+    <div id="deckListCard" class="card" style="border:none;border-radius:0 8px 8px 8px;box-shadow:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div>
+          <strong style="font-size:18px">My Study Decks</strong>
+          <p style="margin:4px 0 0;color:var(--muted);font-size:13px">Create and manage your flashcard decks and quiz sets.</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="importDeck" class="ghost">Import Deck</button>
+          <button id="createNewDeck" class="secondary">Create New Deck</button>
+        </div>
+      </div>
+      <div id="deckList"></div>
+    </div>
+  </div>
   <div id="importModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
     <div class="card" style="width:90%;max-width:500px;max-height:80vh;overflow:auto">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
@@ -304,7 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
-  <!-- Export Modal -->
   <div id="exportModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
     <div class="card" style="width:90%;max-width:500px;max-height:80vh;overflow:auto">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
@@ -322,7 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
-  <!-- Create/Edit Deck Screen -->
   <div id="editDeckCard" class="card" style="display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
       <strong style="font-size:18px" id="editDeckTitle">Create New Deck</strong>
@@ -340,7 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <button data-edit-tab="quiz">Quiz Questions</button>
     </div>
 
-    <!-- Flashcards Tab -->
     <div id="edit-tab-flashcards" class="edit-tab">
       <div class="form-group">
         <label>Add Flashcard</label>
@@ -354,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
 
-    <!-- Quiz Tab -->
     <div id="edit-tab-quiz" class="edit-tab" style="display:none">
       <div class="form-group">
         <label>Add Quiz Question</label>
@@ -405,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="grid">
       <div>
-        <!-- Flashcards -->
         <div id="tab-flashcards" class="card tab">
           <strong>Flashcards</strong>
           <p style="margin:6px 0 10px;color:var(--muted)">Flip, mark known, and track mastery.</p>
@@ -418,8 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
-        <!-- Quick Review -->
-<div id="tab-review" class="card tab" style="display:none">
+        <div id="tab-review" class="card tab" style="display:none">
   <strong>Quiz Practice</strong>
   <p style="margin:6px 0 10px;color:var(--muted)">Test your knowledge with practice questions.</p>
   <div class="quiz-settings">
@@ -440,7 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
-        <!-- Timer -->
         <div id="tab-timer" class="card tab" style="display:none">
           <strong>Study Timer</strong>
           <p style="margin:6px 0 10px;color:var(--muted)">Track your focused study sessions.</p>
@@ -454,7 +541,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="session-list" id="sessionList"></div>
         </div>
 
-        <!-- Progress -->
         <div id="tab-progress" class="card tab" style="display:none">
           <strong>Progress</strong>
           <p style="margin:6px 0 10px;color:var(--muted)">Summary of your study time and flashcard mastery.</p>
@@ -499,13 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </aside>
     </div>
-
-    <footer class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>Your personal study tool • Local storage</div>
-        <div style="color:var(--muted)">v2.0</div>
-      </div>
-    </footer>
   </div>
 </div>
 
@@ -1318,6 +1397,30 @@ function renderAll(){
   renderSessions(); 
   renderProgress();
 }
+/* Notebook Tab System */
+(function(){
+  const tabs = document.querySelectorAll('.notebook-tab');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const tabName = this.getAttribute('data-notebook-tab');
+      
+      // Update active tab styling
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Since navigation is now handled via onclick in HTML, only need to manage internal state for 'flashcards'
+      if(tabName === 'flashcards') {
+        if(document.getElementById('app').style.display === 'block') {
+          document.getElementById('app').style.display = 'none';
+          document.getElementById('deckListCard').parentElement.style.display = 'block';
+          removeKeyboardHandlers();
+        }
+      }
+      // Other tabs navigate away via HTML onclick
+    });
+  });
+})();
 </script>
 </body>
 </html>
