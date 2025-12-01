@@ -50,7 +50,7 @@
          top: 0;
          transition: background 0.3s ease, box-shadow 0.3s ease;
          width: 100%;
-         z-index: 2;
+         z-index: 200;
          min-height: 120px;
          }
          #top-header.scrolled {
@@ -133,13 +133,12 @@
          padding: 10px 12px;
          font-family: Inter, system-ui;
          transition: background 0.3s, border 0.3s, color 0.3s;
+         width: 100%;
+         box-sizing: border-box;;
          }
          [data-theme="dark"] #search-container input {
          border-color: #334155;
          }
-        [data-theme="dark"] #password-container input {
-            border-color: #334155 !important;
-        }
          #search-container input::placeholder {
          color: var(--muted);
          opacity: 0.7;
@@ -165,6 +164,12 @@
          margin: 0 5% 5%;
          row-gap: 4vw;
          }
+         .category-container {
+            /* Clear the grid layout properties */
+            display: block; 
+            margin: 0; 
+            padding: 0 5% 5%; /* Apply padding to the container instead of margin to the grid */
+        }
          @media (max-width: 1200px) {
          .grid {
          grid-template-columns: repeat(3, 1fr);
@@ -188,6 +193,9 @@
          text-align: center;
          transition: all 0.2s ease;
          box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
+         z-index: 1; 
+         overflow: visible;
+         position: relative;
          }
          [data-theme="dark"] .game {
          border-color: #334155;
@@ -196,6 +204,7 @@
          box-shadow: 0 12px 32px rgba(37, 99, 235, 0.15);
          transform: translateY(-4px);
          border-color: #2563eb;
+         z-index: 101;
          }
          .game img {
          aspect-ratio: 1/1;
@@ -319,25 +328,6 @@
          box-shadow: inset 0 0 5px rgba(37, 99, 235, 0.3);
          transform: scale(0.95);
          }
-         #password-container input {
-         background: var(--card);
-         border: 1px solid #e6e9ef;
-         border-radius: 8px;
-         color: var(--text);
-         font-size: 0.9rem;
-         outline: none;
-         padding: 10px 12px;
-         font-family: Inter, system-ui;
-         transition: background 0.3s, border 0.3s, color 0.3s;
-         }
-         [data-theme="dark"] #password-container input {
-         border-color: #334155;
-         }
-         #password-container input::placeholder {
-         color: var(--muted);
-         opacity: 0.7;
-         }
-
          /* Theme Toggle Button */
          .theme-toggle-btn {
          display: inline-flex;
@@ -350,7 +340,6 @@
          border-radius: 8px;
          cursor: pointer;
          padding: 0;
-         margin-left: 8px;
          color: var(--accent);
          transition: background 0.3s, border 0.3s, color 0.3s;
          }
@@ -367,6 +356,210 @@
          align-items: center;
          justify-content: center;
          }
+         .game .favorite-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+        [data-theme="dark"] .game .favorite-btn {
+            background: rgba(30, 41, 59, 0.8);
+        }
+        .game .favorite-btn:hover {
+            transform: scale(1.1);
+        }
+        .game .favorite-btn.active svg {
+            fill: #ef4444; /* Tailwind red-500 */
+            stroke: #ef4444;
+        }
+        .game {
+            position: relative; /* Needed for absolute positioning of the heart button */
+        }
+        #quick-exit-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0.8;
+            z-index: 1000;
+            transition: opacity 0.3s;
+        }
+        #quick-exit-hint:hover {
+            opacity: 1;
+        }
+        .game-popover {
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translate(10px, -50%);
+            width: 250px; 
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            /* *** CRITICAL FIX: Increase z-index and remove clip prevention ***
+            */
+            z-index: 100; /* Increased to ensure it layers over all adjacent cards */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            text-align: left;
+        }
+        .game-popover h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--bg);
+            padding-bottom: 5px;
+        }
+        .game-popover p {
+            font-size: 0.9rem;
+            margin: 0;
+            color: var(--text);
+        }
+        .game-popover .controls {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .game:hover .game-popover {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(20px, -50%); /* Slight movement effect */
+        }
+        /* 4-column layout (Default/ >1200px) - Target 4th, 8th, 12th, etc. */
+        .grid .game:nth-child(4n):not(.priority) .game-popover {
+            left: auto; /* Clear the default left: 100% */
+            right: 100%; /* Stick to the left of the parent */
+            /* Adjusted transform: The popover is now positioned left of the card,
+               and the hover shift is to the left. */
+            transform: translate(-10px, -50%); 
+        }
+
+        .grid .game:nth-child(4n):not(.priority):hover .game-popover {
+            transform: translate(-20px, -50%);
+        }
+
+        /* 3-column layout (max-width: 1200px) - Target 3rd, 6th, 9th, etc. */
+        @media (max-width: 1200px) {
+            .grid .game:nth-child(4n):not(.priority) .game-popover {
+                left: 100%;
+                right: auto;
+                transform: translate(10px, -50%);
+            }
+            .grid .game:nth-child(4n):not(.priority):hover .game-popover {
+                transform: translate(20px, -50%);
+            }
+
+            .grid .game:nth-child(3n):not(.priority) .game-popover {
+                left: auto;
+                right: 100%;
+                transform: translate(-10px, -50%);
+            }
+            .grid .game:nth-child(3n):not(.priority):hover .game-popover {
+                transform: translate(-20px, -50%);
+            }
+        }
+
+        /* 2-column layout (max-width: 768px) - Target 2nd, 4th, 6th, etc. */
+        @media (max-width: 768px) {
+            /* Reset 3n rule */
+            .grid .game:nth-child(3n):not(.priority) .game-popover {
+                left: 100%;
+                right: auto;
+                transform: translate(10px, -50%);
+            }
+            .grid .game:nth-child(3n):not(.priority):hover .game-popover {
+                transform: translate(20px, -50%);
+            }
+
+            /* Apply 2n rule for the right column */
+            .grid .game:nth-child(2n):not(.priority) .game-popover {
+                left: auto;
+                right: 100%;
+                transform: translate(-10px, -50%);
+            }
+            .grid .game:nth-child(2n):not(.priority):hover .game-popover {
+                transform: translate(-20px, -50%);
+            }
+        }
+
+        /* 1-column layout (max-width: 480px) - All are 1st column, so no change needed */
+        @media (max-width: 480px) {
+            .grid .game:nth-child(2n):not(.priority) .game-popover {
+                left: 100%;
+                right: auto;
+                transform: translate(10px, -50%);
+            }
+            .grid .game:nth-child(2n):not(.priority):hover .game-popover {
+                transform: translate(20px, -50%);
+            }
+        }
+        .control-group {
+            max-width: 250px; /* Adjust this value (e.g., 200px, 300px) for desired width */
+            width: 100%; 
+            display: flex; /* Enable internal layout for sorting/filter groups */
+            gap: 8px; /* Standard gap between internal items (selects/buttons) */
+            align-items: center;
+        }
+        #sort-container select {
+        flex-grow: 1; /* Makes them share space evenly */
+        width: 0; /* Needed for correct flex behavior */
+        min-width: 0;
+        box-sizing: border-box;
+
+        /* Transferred visual styles from the old inline HTML */
+        background: var(--card); 
+        border: 1px solid #e6e9ef; 
+        border-radius: 8px; 
+        color: var(--text); 
+        font-size: 0.9rem; 
+        outline: none; 
+        padding: 10px 12px; 
+        font-family: Inter, system-ui;
+        transition: background 0.3s, border 0.3s, color 0.3s;
+    }
+
+    /* Re-apply dark theme border for selects */
+    [data-theme="dark"] #sort-container select {
+        border-color: #334155;
+    }
+
+    /* 4. Make the Favorites button take the remaining space and transfer its visual styles */
+    #filter-and-theme-group #favorites-toggle {
+        flex-grow: 1; /* Allows it to expand */
+        text-align: center;
+        padding: 10px 12px; /* Match padding of select/search input */
+        
+        /* Transferred visual styles from the old inline HTML */
+        background: var(--card); 
+        border: 1px solid var(--accent); 
+        border-radius: 8px; 
+        color: var(--accent); 
+        font-size: 0.9rem; 
+        outline: none; 
+        font-family: Inter, system-ui; 
+        font-weight: 600; 
+        cursor: pointer;
+    }
       </style>
    </head>
    <body>
@@ -376,36 +569,45 @@
             <div class="updates-box" id="updates-box">
                 <h2>Site Updates</h2>
                 <ul>
-                    <li><strong>PRESS '~' to quick exit!</strong></li>
-                    <li>Password changes Dec 1</li>
+                    <li>PRESS '~' to quick exit!</li>
+                    <li>New Dark Theme Option</li>
+                    <li>Favorite Your Games!</li>
+                    <li>Games Have Multiple Sort Options!</li>
                 </ul>
-                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e6e9ef; font-size: 12px; color: var(--text); line-height: 1.6; font-style: italic;">
-                    <p style="margin: 0 0 6px 0; font-weight: 600; color: var(--accent);">Password Hint:</p>
-                    Still thy bright lamp, let daylight fade,<br>
-                    Call forth the hush that dusk has made.<br>
-                    For runes lie hid where shadows keep,<br>
-                    And only stir when light grows deep.
-                </div>
             </div>
          </div>
          <h1>HIMESPIDER</h1>
          <div class="header-right">
-            <div id="search-container"><input type="text" id="search-bar" placeholder="Search..."></div>
-            <div id="password-container" style="display: flex; gap: 8px; align-items: center;">
-                <input type="password" id="password-input" placeholder="Test Password" style="background: var(--card); border: 1px solid #e6e9ef; border-radius: 8px; color: var(--text); font-size: 0.9rem; outline: none; padding: 10px 12px; font-family: Inter, system-ui; flex: 1; max-width: 200px;">
-                <div id="password-result" style="font-size: 0.9rem; font-weight: 600; height: 20px; min-width: 0; text-align: center; white-space: nowrap;"></div>
+            <div class="control-group" id="search-wrapper"> 
+                <div id="search-container"><input type="text" id="search-bar" placeholder="Search..."></div>
             </div>
-            <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">
-              <div class="theme-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-              </div>
-            </button>
+            
+            <div class="control-group" id="sort-container"> 
+                <select id="category-filter-select">
+                    <option value="all">All Categories</option>
+                </select>
+                <select id="sort-select">
+                    <option value="name-asc">A-Z (Name)</option>
+                    <option value="name-desc">Z-A (Name)</option>
+                    <option value="added-desc">Recently Added</option>
+                    <option value="category-asc">Category</option>
+                </select>
+            </div>
+            
+            <div class="control-group" id="filter-and-theme-group"> 
+                <button id="favorites-toggle">
+                    Show Favorites
+                </button>
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">
+                  <div class="theme-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                  </div>
+                </button>
+            </div>
         </div>
       </div>
       <div style="height:80px"></div>
       <div>
-        <H2 style="text-align: center; color: #2563eb;">Password Instructions</H2>
-        <p style="text-align: center;">The password will change on the first of December. I have left the first hint in the left corner of the screen.<br> You should have no need to leave the website to solve it. You can test the password in the right corner.<br> The first poem does not give you the password, but rather point you towards the second clue.</p>
         <p id="intro">Welcome! This website will fufill your Unbl0cked g@me needs. It is password locked, so no admin can get in, and all games open on the same URL, meaning that there is no way in without the password. <strong>To exit a game, you can move your mouse to the top right corner and a button will appear to exit the game and return to the home website without logging in. Have Fun!</strong><br><br>Yours Truly,<br>HimeSpider</p>
       </div>
 
@@ -419,252 +621,50 @@
 
     </div>
     
+    <script src="games.js"></script>
+
     <script>
-        // --- Game Data (Replaces static HTML) ---
-        // You should add all your games here in this format.
-        const allGames = [
-            { name: "Infinite Mario", url: "/pages/mario/main.html", image: "images/mario.jpg" },
-            { name: "Geometry Dash", url: "/pages/geodash/index.html", image: "images/goedash.png" },
-            { name: "Breakout", url: "/pages/breakout/index.html", image: "images/breakout.png" },
-            { name: "Pacman", url: "/pages/pac/index.html", image: "images/pac.png" },
-            { name: "Evil Glitch", url: "/pages/EvilGlitch/index.html", image: "images/evilglitch.jpg" },
-            { name: "Getting Over It Multiplayer", url: "/pages/goi/index.html", image: "images/gettingoverit.avif" },
-            { name: "Terraria", url: "/pages/terraria/index.html", image: "images/terraria.png" },
-            { name: "FNAF 1", url: "/pages/fnaf1/index.html", image: "pages/fnaf1/logo.jpg" },
-            { name: "FNAF 2", url: "/pages/fnaf2/index.html", image: "pages/fnaf2/logo.jpg" },
-            { name: "FNAF 3", url: "/pages/fnaf3/index.html", image: "pages/fnaf3/logo.webp" },
-            { name: "FNAF 4", url: "/pages/fnaf4/index.html", image: "pages/fnaf4/logo.webp" },
-            { name: "FNAF Ultimate Custom Night", url: "/pages/fnafucn/index.html", image: "pages/fnafucn/logo.webp" },
-            { name: "Diablo", url: "/pages/diablo/index.html", image: "images/diablo.webp" },
-            { name: "Takeover", url: "/pages/takover/index.html", image: "images/takeover.avif" },
-            { name: "1D Game", url: "/pages/1D-Game/index.html", image: "images/lines.jpg" },
-            { name: "Retro Bowl", url: "/pages/retro-bowl/index.html", image: "pages/retro-bowl/img/icon.jpg" },
-            { name: "Rooftop Snipers", url: "/pages/rooftopsnipers/index.html", image: "pages/rooftopsnipers/img/preview.png" },
-            { name: "Tunnel Rush", url: "/pages/tunnel-rush/index.html", image: "pages/tunnel-rush/img/tunnel.jpg" },
-            { name: "Doge Miner", url: "/pages/doge-miner/index.html", image: "pages/doge-miner/img/dogeminer_300x300.png" },
-            { name: "World's Hardest Game", url: "/pages/worldhardgame/index.html", image: "pages/worldhardgame/images/splash.jpg" },
-            { name: "Basketball Stars", url: "/pages/basketballstars/index.html", image: "pages/basketballstars/assets/images/basketball-stars.png" },
-            { name: "Backflip", url: "/pages/backflip/index.html", image: "pages/backflip/backflip-dive-3d.jpg" },
-            { name: "Cookie Clicker", url: "/pages/cookie-clicker/index.html", image: "images/cookie.webp" },
-            { name: "Battle For Gondor", url: "/pages/batforgondor/index.html", image: "pages/batforgondor/battleforgondor.jpg" },
-            { name: "Gimme the Airpod", url: "/pages/gimmetheairpod/index.html", image: "pages/gimmetheairpod/img/logo.png" },
-            { name: "Factory Balls", url: "/pages/factoryballs/index.html", image: "pages/factoryballs/images/splash.png" },
-            { name: "Subway Surfers", url: "/pages/subwaysurfers/index.html", image: "pages/subwaysurfers/splash.jpeg" },
-            { name: "Getaway Shootout", url: "/pages/getawayshootout/index.html", image: "pages/getawayshootout/934bde36-a4a1-43d0-8b35-30f15feddbb4.png" },
-            { name: "Balloons TD", url: "/pages/balloonstd/index.html", image: "pages/balloonstd/bloonstd.jpg" },
-            { name: "Balloons TD 2", url: "/pages/balloonstd2/index.html", image: "pages/balloonstd2/bloonstd2.png" },
-            { name: "Minecraft", url: "/pages/Eaglercraft/Eaglercraft.html", image: "pages/Eaglercraft/minecraft.jpg" },
-            { name: "Celeste", url: "/pages/Celeste/celeste.html", image: "pages/Celeste/celeste.jpg" },
-            { name: "Slope", url: "/pages/Slope/index.html", image: "pages/Slope/slope4.jpeg" },
-            { name: "Portal", url: "/pages/portal/game.html", image: "pages/portal/portal.avif" },
-            { name: "Pokemon Unbound", url: "/pages/PokemonUnbound/index.html", image: "pages/PokemonUnbound/unbound.jpg" },
-            { name: "Vex 4", url: "/pages/vex4/index.html", image: "pages/vex4/vex4.png" },
-            { name: "Vex 5", url: "/pages/vex5/index.html", image: "pages/vex5/vex.jpeg" },
-            { name: "Vex 6", url: "/pages/vex6/index.html", image: "pages/vex6/assets/icon.jpeg" },
-            { name: "Fnaf 6: Pizza Simulator", url: "/pages/fnafps/index.html", image: "pages/fnafps/fnafps.png" },
-            { name: "Sonic the Hedgehog 3", url: "/pages/sonic3/index.html", image: "pages/sonic3/sonic3.jpg" },
-            { name: "Mortal Kombat 3", url: "/pages/MortalKombat3/index.html", image: "pages/MortalKombat3/mk3.jpeg" },
-            { name: "Fnaf World", url: "/pages/fnafw/index.html", image: "pages/fnafw/fnafworld.webp" },
-            { name: "Super Meatboy", url: "/pages/Meatboy/game.html", image: "pages/Meatboy/meatboy.jpg" },
-            { name: "2048", url: "/pages/2048/index.html", image: "pages/2048/2048.png" },
-            { name: "The Impossible Quiz", url: "/pages/impossiblequiz/game.html", image: "pages/impossiblequiz/impossiblequiz.jpg" },
-            { name: "Hollow Knight", url: "/pages/hollow-knight-main/index.html", image: "pages/hollow-knight-main/hollowknight.png" },
-            { name: "Super Smash Bros", url: "/pages/SSB/game.html", image: "pages/SSB/ssb.webp" },
-            { name: "Balatro", url: "/pages/belatro/index.html", image: "pages/belatro/belatro.jpg" },
-            { name: "Undertale", url: "pages/undertale/undertale.html", image: "pages/undertale/undertale.jpg" },
-            { name: "Deltarune", url: "pages/deltarune/index.html", image: "pages/deltarune/deltarune.jpg" },
-            { name: "Moto X3M", url: "pages/motox3m/index.html", image: "pages/motox3m/moto-x3m.png" },
-            { name: "Sonic & Knuckles", url: "pages/Sonic&Knuckles/index.html", image: "pages/Sonic&Knuckles/s&n.webp" },
-            { name: "Tanuki Sunset", url: "pages/tsunset/index.html", image: "pages/tsunset/img/cover.png" },
-            { name: "10 Minutes Till Dawn", url: "/pages/10-minutes-till-dawn/index.html", image: "pages/10-minutes-till-dawn/tmtd.png" },
-            { name: "1v1 LOL", url: "/pages/1v1-lol/index.html", image: "pages/1v1-lol/1v1.png" },
-            { name: "Abandoned", url: "/pages/abandoned/index.html", image: "pages/abandoned/abd.png" },
-            { name: "A Dark Room", url: "/poem.html", image: "images/adr.png" },
-            { name: "Ages of Conflict", url: "/pages/ages-of-conflict/index.html", image: "pages/ages-of-conflict/aoc.jpg" },
-            { name: "Amidst the Sky", url: "/pages/amidst-the-sky/index.html", image: "pages/amidst-the-sky/ats.png" },
-            { name: "Another Gentleman's Adventure", url: "/pages/another-gentlemans-adventure/index.html", image: "pages/another-gentlemans-adventure/aga.jpg" },
-            { name: "Awesome Tanks 2", url: "/pages/awesome-tanks-2/index.html", image: "pages/awesome-tanks-2/at2.png" },
-            { name: "Awesome Tanks", url: "/pages/awesome-tanks/index.html", image: "pages/awesome-tanks/at.png" },
-            { name: "Babel Tower", url: "/pages/babel-tower/index.html", image: "pages/babel-tower/bt.avif" },
-            { name: "Basket Random", url: "/pages/basket-random/index.html", image: "pages/basket-random/br.png" },
-            { name: "BitLife", url: "/pages/bit-life/index.html", image: "pages/bit-life/bl.png" },
-            { name: "Boxing Random", url: "/pages/boxing-random/index.html", image: "pages/boxing-random/br.png" },
-            { name: "Chrome Dino", url: "/pages/chrome-dino/index.html", image: "pages/chrome-dino/cd.webp" },
-            { name: "Clicker Heroes", url: "/pages/clicker-heroes-updated/index.html", image: "pages/clicker-heroes-updated/ch.jpeg" },
-            { name: "Conway's Game of Life", url: "/pages/conways-game-of-life/index.html", image: "pages/conways-game-of-life/cgl.png" },
-            { name: "Core Ball", url: "/pages/core-ball/index.html", image: "pages/core-ball/cb.jpg" },
-            { name: "Crossy Road", url: "/pages/crossy-road/index.html", image: "pages/crossy-road/cr.jpeg" },
-            { name: "Cut the Rope", url: "/pages/cut-the-rope/index.html", image: "pages/cut-the-rope/ctr.png" },
-            { name: "Dadish", url: "/pages/dadish/index.html", image: "pages/dadish/dd.jpg" },
-            { name: "Dadish 2", url: "/pages/dadish-2/index.html", image: "pages/dadish-2/dd2.png" },
-            { name: "Dadish 3", url: "/pages/dadish-3/index.html", image: "pages/dadish-3/dd3.webp" },
-            { name: "Doodle Jump", url: "/pages/doodle-jump/index.html", image: "pages/doodle-jump/icon.png" },
-            { name: "Drift Boss", url: "/pages/drift-boss/index.html", image: "pages/drift-boss/db.png" },
-            { name: "Drive Mad", url: "/pages/drive-mad/index.html", image: "pages/drive-mad/dm.jpg" },
-            { name: "Duck Life 4", url: "/pages/duck-life-4/index.html", image: "pages/duck-life-4/dl4.jpg" },
-            { name: "Dune", url: "/pages/dune/index.html", image: "pages/dune/dune.png" },
-            { name: "Evowars", url: "/pages/evowars/index.html", image: "pages/evowars/evo.jpeg" },
-            { name: "Fireboy and Watergirl", url: "/pages/fireboy-and-watergirl/index.html", image: "pages/fireboy-and-watergirl/fb1.jpeg" },
-            { name: "Fireboy and Watergirl 2", url: "/pages/fireboy-and-watergirl-2/index.html", image: "pages/fireboy-and-watergirl-2/fb2.jpeg" },
-            { name: "Fireboy and Watergirl 3", url: "/pages/fireboy-and-watergirl-3/index.html", image: "pages/fireboy-and-watergirl-3/fb3.jpeg" },
-            { name: "Fireboy and Watergirl 4", url: "/pages/fireboy-and-watergirl-4/index.html", image: "pages/fireboy-and-watergirl-4/fb4.jpeg" },
-            { name: "Flappy Bird", url: "/pages/flappy-bird/index.html", image: "pages/flappy-bird/fb.webp" },
-            { name: "FNAF Sister Location", url: "/pages/fnafsl/index.html", image: "pages/fnafsl/fnafsl.webp" },
-            { name: "Friday Night Funkin'", url: "/pages/friday-night-funkin/index.html", image: "pages/friday-night-funkin/fnf.avif" },
-            { name: "Gons.io", url: "/pages/gons-io/index.html", image: "pages/gons-io/gons.jpg" },
-            { name: "Gun Spin", url: "/pages/gunspin/index.html", image: "pages/gunspin/gs.png" },
-            { name: "Hextris", url: "/pages/hextris/index.html", image: "pages/hextris/hex.png" },
-            { name: "Idle Breakout", url: "/pages/idle-breakout/index.html", image: "pages/idle-breakout/ib.avif" },
-            { name: "Incremancer", url: "/pages/incremancer/index.html", image: "pages/incremancer/ic.webp" },
-            { name: "Maptroid", url: "/pages/maptroid/index.html", image: "pages/maptroid/mt.png" },
-            { name: "Mario Game", url: "/pages/mario-game/index.html", image: "pages/mario-game/sm.png" },
-            { name: "Monkey Mart", url: "/pages/monkey-mart/index.html", image: "pages/monkey-mart/mm.webp" },
-            { name: "N-Gon", url: "/pages/n-gon/index.html", image: "pages/n-gon/ngon.png" },
-            { name: "N-Step Steve Part 1", url: "/pages/n-step-steve-part-1/index.html", image: "pages/n-step-steve-part-1/nss1.png" },
-            { name: "N-Step Steve Part 2", url: "/pages/n-step-steve-part-2/index.html", image: "pages/n-step-steve-part-2/nss2.png" },
-            { name: "OvO", url: "/pages/ovo/2.0.2alpha/index.html", image: "pages/ovo/ovo.jpg" },
-            { name: "Particle Clicker", url: "/pages/particle-clicker/index.html", image: "pages/particle-clicker/pc.png" },
-            { name: "P-Craft", url: "/pages/pcraft/index.html", image: "pages/pcraft/pc.png" },
-            { name: "Planet Life", url: "/pages/planet-life/index.html", image: "pages/planet-life/pl.png" },
-            { name: "Precision Client", url: "/pages/precision-client/index.html", image: "pages/precision-client/pc.webp" },
-            { name: "Progress Knight", url: "/pages/progress-knight/index.html", image: "pages/progress-knight/pk.png" },
-            { name: "Pull of War", url: "/pages/pull-of-war/index.html", image: "pages/pull-of-war/pics/line3.png" },
-            { name: "Reach the Core", url: "/pages/reach-the-core/index.html", image: "pages/reach-the-core/rtc.jpg" },
-            { name: "Restless Wing Syndrome", url: "/pages/restless-wing-syndrome/index.html", image: "pages/restless-wing-syndrome/rws.png" },
-            { name: "Rift Shift", url: "/pages/rift-shift/index.html", image: "pages/rift-shift/rs.png" },
-            { name: "Rookie Bowman", url: "/pages/rookie-bowman/index.html", image: "pages/rookie-bowman/rb.jpg" },
-            { name: "Run 3", url: "/pages/run-3/index.html", image: "pages/run-3/r3.avif" },
-            { name: "Sandspiel", url: "/pages/sandspiel/index.html", image: "pages/sandspiel/ss.jpg" },
-            { name: "Scuba Bear", url: "/pages/scuba-bear/index.html", image: "pages/scuba-bear/sb.jpg" },
-            { name: "Smart Ball", url: "/pages/smart-ball/index.html", image: "pages/smart-ball/sb.jpg" },
-            { name: "Smash Karts", url: "/pages/smash-karts/index.html", image: "pages/smash-karts/sk.png" },
-            { name: "Stickman Hook", url: "/pages/stickman-hook/index.html", image: "pages/stickman-hook/smh.png" },
-            { name: "Subway Surfers NY", url: "/pages/subway-surfers-ny/index.html", image: "pages/subway-surfers-ny/ssny.webp" },
-            { name: "Temple Run 2", url: "/pages/temple-run-2/index.html", image: "pages/temple-run-2/tr2.avif" },
-            { name: "The Final Earth", url: "/pages/the-final-earth/index.html", image: "pages/the-final-earth/tfe.png" },
-            { name: "There is No Game", url: "/pages/there-is-no-game/index.html", image: "pages/there-is-no-game/ting.webp" },
-            { name: "Time Shooter", url: "/pages/time-shooter/index.html", image: "pages/time-shooter/ts.png" },
-            { name: "Time Shooter 3", url: "/pages/time-shooter-3/index.html", image: "pages/time-shooter-3/ts3.png" },
-            { name: "Tiny Fishing", url: "/pages/tiny-fishing/index.html", image: "pages/tiny-fishing/tf.jpeg" },
-            { name: "Trace", url: "/pages/trace/index.html", image: "pages/trace/trace.png" },
-            { name: "Two Ball 3D", url: "/pages/two-ball-3d/index.html", image: "pages/two-ball-3d/tb3d.webp" },
-            { name: "Web Osu", url: "/pages/web-osu/index.html", image: "pages/web-osu/webosu.jpeg" },
-            { name: "X Trench Run", url: "/pages/x-trench-run/index.html", image: "pages/x-trench-run/xtr.jpeg" },
-            { name: "Yohoho", url: "/pages/yohoho/index.html", image: "pages/yohoho/img/banner1024x512.jpg" },
-            { name: "Henry Stickman: Breaking the Bank", url: "/pages/hscBreakBank/index.html", image: "pages/hscBreakBank/bb.webp" },
-            { name: "Henry Stickman: Escape the Prison", url: "/pages/hscEscapePrison/index.html", image: "pages/hscEscapePrison/ep.jpg" },
-            { name: "Henry Stickman: Fleeing the Complex", url: "/pages/hscFleeComplex/index.html", image: "pages/hscFleeComplex/fc.jpg" },
-            { name: "Henry Stickman: Infiltrate the Airship", url: "/pages/hscInfiltrateAirship/index.html", image: "pages/hscInfiltrateAirship/ia.jpg" },
-            { name: "Henry Stickman: Steal the Diamond", url: "/pages/hscStealDiamond/index.html", image: "pages/hscStealDiamond/sd.jpeg" },
-            { name: "Polytrack", url: "/pages/polytrack/index.html", image: "pages/polytrack/poly.png" },
-            { name: "Grey-Box Testing", url: "/pages/gbt/index.html", image: "pages/gbt/gbt.png" },
-            { name: "1", url: "/pages/1/index.html", image: "pages/1/meta/apple-touch-icon.png" },
-            { name: "1v1 Space", url: "/pages/1v1space/index.html", image: "pages/1v1space/splash.png" },
-            { name: "9007199254740992", url: "/pages/9007199254740992/index.html", image: "pages/9007199254740992/logo-4.png" },
-            { name: "Achievement Unlocked", url: "/pages/achievementunlocked/index.html", image: "pages/achievementunlocked/achievementunlocked.png" },
-            { name: "Adrenaline Challenge", url: "/pages/adrenalinechallenge/index.html", image: "pages/adrenalinechallenge/adrenalinechallenge.jpg" },
-            { name: "Among Us", url: "/pages/among-us/index.html", image: "pages/among-us/red.png" },
-            { name: "Avalanche", url: "/pages/avalanche/index.html", image: "pages/avalanche/avalanche.png" },
-            { name: "The Backrooms", url: "/pages/backrooms/index.html", image: "pages/backrooms/img/splash.jpg" },
-            { name: "Big Red Button", url: "/pages/bigredbutton/index.html", image: "pages/bigredbutton/bigredbutton.png" },
-            { name: "Black Knight", url: "/pages/blackknight/index.html", image: "pages/blackknight/blackknight.png" },
-            { name: "Bloxors", url: "/pages/bloxors/index.html", image: "pages/bloxors/block.png" },
-            { name: "Boxhead 2Play", url: "/pages/boxhead2play/index.html", image: "pages/boxhead2play/boxhead2play.jpg" },
-            { name: "Big Tower Tiny Square", url: "/pages/btts/index.html", image: "pages/btts/images.png" },
-            { name: "Cannon Basketball 4", url: "/pages/cannon-basketball-4/index.html", image: "pages/cannon-basketball-4/assets/images/cb4.webp" },
-            { name: "Canyon Defense", url: "/pages/canyondefense/index.html", image: "pages/canyondefense/canyondefense.png" },
-            { name: "Cell Machine", url: "/pages/cell-machine/index.html", image: "pages/cell-machine/img/icon.png" },
-            { name: "Champion Archer", url: "/pages/championarcher/index.html", image: "pages/championarcher/championarcher.png" },
-            { name: "Circlo", url: "/pages/circlo/index.html", image: "pages/circlo/img/download.png" },
-            { name: "Connect 3", url: "/pages/connect3/index.html", image: "pages/connect3/connect3.png" },
-            { name: "Craftmine", url: "/pages/craftmine/index.html", image: "pages/craftmine/images/craftmine.png" },
-            { name: "Creative Kill Chamber", url: "/pages/creativekillchamber/index.html", image: "pages/creativekillchamber/creativekillchamber.jpg" },
-            { name: "CSGo Clicker", url: "/pages/csgo-clicker/index.html", image: "pages/csgo-clicker/csgc.png" },
-            { name: "Cut the Rope - Holiday Gift", url: "/pages/ctr-holiday/index.html", image: "pages/ctr-holiday/Holiday_Gift.webp" },
-            { name: "Cut the Rope - Time Travel", url: "/pages/ctr-tr/index.html", image: "pages/ctr-tr/logo.png" },
-            { name: "Cubefield", url: "/pages/cubefield/index.html", image: "pages/cubefield/cubefield.jpg" },
-            { name: "Cupcake 2048", url: "/pages/cupcake2048/index.html", image: "pages/cupcake2048/meta/apple-touch-icon.png" },
-            { name: "Deal or No Deal", url: "/pages/deal-or-no-deal/index.html", image: "pages/deal-or-no-deal/index.jpg" },
-            { name: "Death Run 3d", url: "/pages/death-run-3d/index.html", image: "pages/death-run-3d/img/death.png" },
-            { name: "Defend the Tank", url: "/pages/defend-the-tank/index.html", image: "pages/defend-the-tank/images/logo.jpg" },
-            { name: "Doge 2048", url: "/pages/doge2048/index.html", image: "pages/doge2048/doge1.jpeg" },
-            { name: "Double Wires", url: "/pages/doublewires/index.html", image: "pages/doublewires/doublewires.png" },
-            { name: "Draw the Hill", url: "/pages/draw-the-hill/index.html", image: "pages/draw-the-hill/icons/icon-512.png" },
-            { name: "Duck Life", url: "/pages/ducklife1/index.html", image: "pages/ducklife1/ducklife.png" },
-            { name: "Duck Life 2", url: "/pages/ducklife2/index.html", image: "pages/ducklife2/ducklife2.png" },
-            { name: "Duck Life 3", url: "/pages/ducklife3/index.html", image: "pages/ducklife3/duck.png" },
-            { name: "Edge Not Found", url: "/pages/edgenotfound/index.html", image: "pages/edgenotfound/edge.png" },
-            { name: "Elastic Man", url: "/pages/elasticman/index.html", image: "pages/elasticman/elasticman.jpg" },
-            { name: "Endless War 3", url: "/pages/endlesswar3/index.html", image: "pages/endlesswar3/endlesswar3.png" },
-            { name: "Exo", url: "/pages/exo/index.html", image: "pages/exo/img/small.jpg" },
-            { name: "Fake Virus", url: "/pages/fake-virus/index.html", image: "pages/fake-virus/fake-virus.png" },
-            { name: "Flappy 2048", url: "/pages/flappy-2048/index.html", image: "pages/flappy-2048/meta/apple-touch-icon.png" },
-            { name: "Flash Tetris", url: "/pages/flashtetris/index.html", image: "pages/flashtetris/flashtetris.png" },
-            { name: "Game Inside a Game", url: "/pages/game-inside/index.html", image: "pages/game-inside/giag.png" },
-            { name: "Glass City", url: "/pages/glass-city/index.html", image: "pages/glass-city/image.png" },
-            { name: "Google Snake", url: "/pages/google-snake/index.html", image: "pages/google-snake/img/snake.png" },
-            { name: "Grindcraft", url: "/pages/grindcraft/index.html", image: "pages/grindcraft/img/splash.png" },
-            { name: "Hacker Type", url: "/pages/hackertype/index.html", image: "pages/hackertype/logo192.png" },
-            { name: "Hover Bot Arena", url: "/pages/hba/index.html", image: "pages/hba/hoverbotarena.jpg" },
-            { name: "Helicopter", url: "/pages/helicopter/index.html", image: "pages/helicopter/helicopter.png" },
-            { name: "Hex Empire", url: "/pages/hexempire/index.html", image: "pages/hexempire/hexempire.jpg" },
-            { name: "HexGL", url: "/pages/HexGL/index.html", image: "pages/HexGL/icon_256.png" },
-            { name: "Idle Shart", url: "/pages/idle-shark/index.html", image: "pages/idle-shark/img/sharklogo.png" },
-            { name: "Interactive Buddy", url: "/pages/interactivebuddy/index.html", image: "pages/interactivebuddy/interactivebuddy.jpg" },
-            { name: "Just One Boss", url: "/pages/just-one-boss/index.html", image: "pages/just-one-boss/pv1Gr5.png" },
-            { name: "Kitten Cannon", url: "/pages/kittencannon/index.html", image: "pages/kittencannon/kittencannon.png" },
-            { name: "Krunker.io", url: "/pages/krunker/index.html", image: "pages/krunker/img/krunker-io.jpg" },
-            { name: "Learn to Fly", url: "/pages/learntofly/index.html", image: "pages/learntofly/learntofly.png" },
-            { name: "Matrix Rampage", url: "/pages/matrixrampage/index.html", image: "pages/matrixrampage/matrixrampage.jpg" },
-            { name: "Meme 2048", url: "/pages/meme2048/index.html", image: "pages/meme2048/meta/apple-touch-startup-image-640x1096.png" },
-            { name: "Minecraft Classic", url: "/pages/minecraft-classic/index.html", image: "pages/minecraft-classic/pack.png" },
-            { name: "Minesweeper", url: "/pages/minesweeper/index.html", image: "pages/minesweeper/img/minesweeper.png" },
-            { name: "Mini Putt", url: "/pages/miniputt/index.html", image: "pages/miniputt/miniputt.png" },
-            { name: "Missiles", url: "/pages/missiles/index.html", image: "pages/missiles/miss.png" },
-            { name: "MotoX3M Pool", url: "/pages/motox3m-pool/index.html", image: "pages/motox3m-pool/splash.jpg" },
-            { name: "MotoX3M Spooky", url: "/pages/motox3m-spooky/index.html", image: "pages/motox3m-spooky/splash.jpeg" },
-            { name: "MotoX3M Winter", url: "/pages/motox3m-winter/index.html", image: "pages/motox3m-winter/download.jpeg" },
-            { name: "NS Shaft", url: "/pages/ns-shaft/index.html", image: "pages/ns-shaft/nss.webp" },
-            { name: "Om Bounce", url: "/pages/om-bounce/index.html", image: "pages/om-bounce/assets/icon.png" },
-            { name: "Pandemic 2", url: "/pages/pandemic2/index.html", image: "pages/pandemic2/pandemic2.png" },
-            { name: "Papa's Pizzaria", url: "/pages/papaspizzaria/index.html", image: "pages/papaspizzaria/papaspizzaria.jpg" },
-            { name: "Paper.io 2", url: "/pages/paperio2/index.html", image: "pages/paperio2/images/icon512.png" },
-            { name: "Papery Planes", url: "/pages/papery-planes/index.html", image: "pages/papery-planes/splash.jpg" },
-            { name: "PolyBranch", url: "/pages/polybranch/index.html", image: "pages/polybranch/img/pic1.png" },
-            { name: "Push the Square", url: "/pages/push-the-square/index.html", image: "pages/push-the-square/img/splash.png" },
-            { name: "Push Your Luck", url: "/pages/push-your-luck/index.html", image: "pages/push-your-luck/pyl.jpeg" },
-            { name: "Rolly Vortex", url: "/pages/rolly-vortex/index.html", image: "pages/rolly-vortex/icon-256.png" },
-            { name: "Sand Game", url: "/pages/sand-game/index.html", image: "pages/sand-game/sand-game.PNG" },
-            { name: "Super Mario 64", url: "/pages/sm64/index.html", image: "pages/sm64/logo.png" },
-            { name: "Smoking Barrels", url: "/pages/smokingbarrels/index.html", image: "pages/smokingbarrels/smokingbarrels.jpg" },
-            { name: "Snow Battle", url: "/pages/snowbattle/index.html", image: "pages/snowbattle/img/logo.png" },
-            { name: "Soldier Legend", url: "/pages/soldier-legend/index.html", image: "pages/soldier-legend/images/splash.jpeg" },
-            { name: "Sort the Court", url: "/pages/sort-the-court/index.html", image: "pages/sort-the-court/img/splash.png" },
-            { name: "Soundboard", url: "/pages/soundboard/index.html", image: "pages/soundboard/img/mlg.png" },
-            { name: "Stack", url: "/pages/stack/index.html", image: "pages/stack/stack.png" },
-            { name: "Stack Bump 3d", url: "/pages/stack-bump-3d/index.html", image: "pages/stack-bump-3d/thumbnail.jpg" },
-            { name: "Stick War", url: "/pages/stickwar/index.html", image: "pages/stickwar/stickwar.jpg" },
-            { name: "Storm the House 2", url: "/pages/stormthehouse2/index.html", image: "pages/stormthehouse2/stormthehouse2.jpg" },
-            { name: "Superhot", url: "/pages/superhot/index.html", image: "pages/superhot/hot.jpg" },
-            { name: "Swerve", url: "/pages/swerve/index.html", image: "pages/swerve/img/favicon.jpg" },
-            { name: "Tactial Assasin", url: "/pages/tacticalassasin2/index.html", image: "pages/tacticalassasin2/tacticalassassin2.png" },
-            { name: "Tank Trouble 2", url: "/pages/tank-trouble-2/index.html", image: "pages/tank-trouble-2/icon-256.png" },
-            { name: "The Battle", url: "/pages/thebattle/index.html", image: "pages/thebattle/thebattle.png" },
-            { name: "The Heist", url: "/pages/theheist/index.html", image: "pages/theheist/theheist.jpg" },
-            { name: "This is the Only Level", url: "/pages/thisistheonlylevel/index.html", image: "pages/thisistheonlylevel/thisistheonlylevel.png" },
-            { name: "Toss the Turtle", url: "/pages/tosstheturtle/index.html", image: "pages/tosstheturtle/tosstheturtle.png" },
-            { name: "Tube Jumpers", url: "/pages/tube-jumpers/index.html", image: "pages/tube-jumpers/img/icon.jpg" },
-            { name: "Tv Static", url: "/pages/tv-static/index.html", image: "pages/tv-static/static.png" },
-            { name: "Webretro", url: "/pages/webretro-local/index.html", image: "pages/webretro-local/assets/icon204.png" },
-            { name: "Wolfenstein 3d", url: "/pages/wolf3d/index.html", image: "pages/wolf3d/art/wolf3d.png" },
-            { name: "Wordle", url: "/pages/wordle/index.html", image: "pages/wordle/img/logo_192x192.png" },
-            { name: "Worlds Hardest Game 2", url: "/pages/worlds-hardest-game-2/index.html", image: "pages/worlds-hardest-game-2/the-worlds-hardest-game-2.jpg" }
-        ];
+        // Assign a simple ID (index) to each game for sorting purposes
+        const allGames = baseGames.map((game, index) => ({
+            ...game,
+            id: index,
+            // For simplicity, we'll use the index to represent "Recently Added" (higher index = newer)
+        }));
+
+        // Local Storage Key
+        const FAVORITES_KEY = 'studybuddy-favorites';
+
+        // Function to toggle a game's favorite status
+        function toggleFavorite(gameName) {
+            let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+            const index = favorites.indexOf(gameName);
+            
+            if (index > -1) {
+                favorites.splice(index, 1); // Remove
+            } else {
+                favorites.push(gameName); // Add
+            }
+            
+            localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+            sortAndFilterGames(); // Re-render the grid to update icons/filters
+        }
+
+        // Function to check if a game is a favorite
+        function isFavorite(gameName) {
+            const favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+            return favorites.includes(gameName);
+        }
+
+        // State variable for the favorites filter
+        let isShowingFavorites = false;
 
         // --- Core Rendering Logic ---
         function renderGames(gamesToRender) {
             const grid = document.getElementById('games-grid');
             if (!grid) return;
+
+            // FIX: Reset the main container's class to 'grid' to re-enable the column layout
+            grid.className = 'grid'; 
 
             // Clear existing games
             grid.innerHTML = '';
@@ -677,71 +677,267 @@
                     gameDiv.classList.add('priority');
                 }
 
-                // Determines if the click handler uses 'window.open' for external link
-                // or the local 'beep' function
                 const clickHandler = game.isExternal
                     ? `window.open('${game.url}', '_blank')`
                     : `beep('${game.url}')`;
 
                 gameDiv.setAttribute('onclick', clickHandler);
+
+                const isFav = isFavorite(game.name);
+                const favoriteClass = isFav ? ' active' : '';
+                
+                const favoriteButtonHTML = game.isPriority ? '' : `
+                    <button class="favorite-btn${favoriteClass}" 
+                            onclick="event.stopPropagation(); toggleFavorite('${game.name}')" 
+                            aria-label="Toggle Favorite">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                        </svg>
+                    </button>
+                `;
+
                 gameDiv.innerHTML = `
+                    ${favoriteButtonHTML}
                     <img loading="lazy" src="${game.image}">
                     <p>${game.name}</p>
+                    
+                    ${game.description ? `
+                        <div class="game-popover">
+                            <h4>${game.name}</h4>
+                            <p>${game.description}</p>
+                            ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
+                        </div>
+                    ` : ''}
                 `;
                 grid.appendChild(gameDiv);
             });
         }
 
+        // --- New Grouped Rendering Logic---
+        function renderGamesGroupedByCategory(gamesToRender) {
+            const container = document.getElementById('games-grid');
+            if (!container) return;
+
+            //Set the main container class to the non-grid styling
+            container.className = 'category-container';
+
+            // Clear existing games/grid (we'll replace the grid with a container)
+            container.innerHTML = '';
+            
+            // Temporarily change the ID or remove the class to clear default grid CSS
+            container.className = 'category-container';
+            
+            // Group games by category
+            const groupedGames = gamesToRender.reduce((acc, game) => {
+                const category = game.category || 'Other';
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                acc[category].push(game);
+                return acc;
+            }, {});
+            
+            // Get sorted category names
+            const sortedCategories = Object.keys(groupedGames).sort((a, b) => {
+                // Ensure 'Other' is at the bottom
+                if (a === 'Other') return 1;
+                if (b === 'Other') return -1;
+                return a.localeCompare(b);
+            });
+
+            sortedCategories.forEach(category => {
+                const games = groupedGames[category];
+
+                // 1. Create Category Header
+                const header = document.createElement('h2');
+                header.style.cssText = 'margin: 40px 5% 15px; font-size: 1.8rem; border-bottom: 2px solid var(--accent); padding-bottom: 5px; color: var(--text);';
+                header.textContent = category;
+                container.appendChild(header);
+
+                // 2. Create Category Grid (Use the original 'grid' class for styling)
+                const categoryGrid = document.createElement('div');
+                categoryGrid.className = 'grid'; // <-- This correctly applies the grid layout to the sub-sections
+                
+                // 3. Populate the Grid with Games
+                games.forEach(game => {
+                    // *** Re-use the same game rendering logic from the original renderGames function ***
+                    const gameDiv = document.createElement('div');
+                    gameDiv.className = 'game';
+
+                    if (game.isPriority) {
+                        gameDiv.classList.add('priority');
+                    }
+
+                    const clickHandler = game.isExternal
+                        ? `window.open('${game.url}', '_blank')`
+                        : `beep('${game.url}')`;
+
+                    gameDiv.setAttribute('onclick', clickHandler);
+            
+                    const isFav = isFavorite(game.name);
+                    const favoriteClass = isFav ? ' active' : '';
+                    
+                    const favoriteButtonHTML = game.isPriority ? '' : `
+                        <button class="favorite-btn${favoriteClass}" 
+                                onclick="event.stopPropagation(); toggleFavorite('${game.name}')" 
+                                aria-label="Toggle Favorite">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </button>
+                    `;
+
+                    gameDiv.innerHTML = `
+                        ${favoriteButtonHTML}
+                        <img loading="lazy" src="${game.image}">
+                        <p>${game.name}</p>
+                        
+                        ${game.description ? `
+                            <div class="game-popover">
+                                <h4>${game.name}</h4>
+                                <p>${game.description}</p>
+                                ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
+                            </div>
+                        ` : ''}
+                    `;
+                    categoryGrid.appendChild(gameDiv);
+                });
+
+                container.appendChild(categoryGrid);
+            });
+        }
+
+        // --- Function to Setup Category Filter Dropdown (NEW) ---
+        function extractAndSetupCategoryFilter() {
+            // 1. Get all unique categories
+            const categories = new Set();
+            allGames.forEach(game => {
+                if (game.category) {
+                    categories.add(game.category);
+                }
+            });
+
+            // 2. Prepare the dropdown and base options
+            const filterSelect = document.getElementById('category-filter-select');
+            if (!filterSelect) return;
+
+            // Start with 'All Categories' option
+            filterSelect.innerHTML = '<option value="all">All Categories</option>';
+            
+            // Convert Set to Array, sort alphabetically, and add 'Other' last
+            const sortedCategories = Array.from(categories).sort((a, b) => {
+                // Optional: Exclude 'Other' if you handle it elsewhere, but this is safer
+                if (a === 'Other') return 1; 
+                if (b === 'Other') return -1;
+                return a.localeCompare(b);
+            });
+
+            // 3. Populate the dropdown
+            sortedCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                filterSelect.appendChild(option);
+            });
+            
+            // Add event listener to re-render games when the filter changes
+            filterSelect.addEventListener('change', sortAndFilterGames);
+        }
+
         // --- Core Filtering and Sorting Logic ---
         function sortAndFilterGames() {
             const searchBar = document.getElementById('search-bar');
-            const searchTerm = searchBar ? searchBar.value.toLowerCase() : '';
+            const sortSelect = document.getElementById('sort-select'); 
+            
+            // Get the selected category filter
+            const categoryFilterSelect = document.getElementById('category-filter-select');
+            const selectedCategory = categoryFilterSelect ? categoryFilterSelect.value : 'all';
 
-            // 1. Filter games based on search term (only filter if a search term exists)
+            const searchTerm = searchBar ? searchBar.value.toLowerCase() : '';
+            const sortOption = sortSelect ? sortSelect.value : 'name-asc'; 
+
+            // 1. Filter games
             let filteredGames = allGames.filter(game => {
                 const nameMatch = game.name.toLowerCase().includes(searchTerm);
-                // Always show the priority/external form regardless of search
-                return nameMatch || game.isPriority;
-            });
-
-            // 2. Sort the filtered games
-            filteredGames.sort((a, b) => {
-                // Keep priority game at the very top
-                if (a.isPriority) return -1; 
-                if (b.isPriority) return 1;
+                const isFav = isFavorite(game.name);
+                const favMatch = !isShowingFavorites || isFav;
                 
-                // Sort the rest alphabetically by name
-                return a.name.localeCompare(b.name);
+                // Check if the game matches the selected category
+                const gameCategory = game.category || 'Other';
+                const categoryMatch = selectedCategory === 'all' || gameCategory === selectedCategory;
+
+                // Combine all filters
+                return (nameMatch && favMatch && categoryMatch) || game.isPriority;
             });
 
-            renderGames(filteredGames);
+            // 2. Apply sorting (RE-INSERTED COMPARISON LOGIC)
+            filteredGames.sort((a, b) => {
+                // Keep priority game at the very top, always overriding other sorts
+                if (a.isPriority && !b.isPriority) return -1; 
+                if (b.isPriority && !a.isPriority) return 1;
+
+                switch (sortOption) {
+                    case 'name-asc':
+                        return a.name.localeCompare(b.name);
+                    case 'name-desc':
+                        return b.name.localeCompare(a.name);
+                    case 'added-desc':
+                        // Higher ID (index) means more recently added
+                        return b.id - a.id; 
+                    case 'category-asc': 
+                        const categoryA = a.category || 'Other';
+                        const categoryB = b.category || 'Other';
+                        const categoryComparison = categoryA.localeCompare(categoryB);
+                        if (categoryComparison !== 0) {
+                            return categoryComparison;
+                        }
+                        // Secondary sort by name
+                        return a.name.localeCompare(b.name);
+                    default:
+                        // Fallback to name-asc
+                        return a.name.localeCompare(b.name);
+                }
+            });
+
+            // 3. Conditional Rendering (This remains correct)
+            if (sortOption === 'category-asc' && searchTerm === '') {
+                renderGamesGroupedByCategory(filteredGames);
+            } else {
+                renderGames(filteredGames);
+            }
         }
 
-        function setupSearch() {
+        function setupControls() {
             const searchBar = document.getElementById('search-bar');
+            const sortSelect = document.getElementById('sort-select');
+            const favoritesToggle = document.getElementById('favorites-toggle');
+
             if (searchBar) {
                 searchBar.addEventListener('input', sortAndFilterGames);
             }
-        }
-        
-        // --- Password Verification Logic ---
-        function verifyPassword() {
-            const input = document.getElementById('password-input');
-            const result = document.getElementById('password-result');
-            const encoded = atob('VjFrMW5nMg=='); // Base64 encoded
+            if (sortSelect) {
+                sortSelect.addEventListener('change', sortAndFilterGames);
+            }
+
+            // Favorites Toggle Listener
+            if (favoritesToggle) {
+                favoritesToggle.addEventListener('click', () => {
+                    isShowingFavorites = !isShowingFavorites; // Flip the state
+                    favoritesToggle.textContent = isShowingFavorites ? 'Show All Games' : 'Show Favorites';
+                    
+                    // Apply a visual style when the filter is active (optional)
+                    favoritesToggle.style.borderColor = isShowingFavorites ? '#7c3aed' : '#2563eb';
+                    favoritesToggle.style.color = isShowingFavorites ? '#7c3aed' : '#2563eb';
+
+                    sortAndFilterGames(); // Rerun the full filter/sort/render cycle
+                });
+            }
             
-            if (input.value === '') {
-                result.textContent = '';
-                result.style.color = '';
-            } else if (input.value === encoded) {
-                result.textContent = '✓ Correct';
-                result.style.color = '#10b981';
-            } else {
-                result.textContent = '✗ Incorrect';
-                result.style.color = '#ef4444';
+            // Initial check to set button state if coming back to the page
+            if (favoritesToggle) {
+                favoritesToggle.textContent = isShowingFavorites ? 'Show All Games' : 'Show Favorites';
             }
         }
-
         // --- Theme Management (unchanged) ---
         // Apply theme immediately from localStorage
         const theme = localStorage.getItem('studybuddy-theme') || 'light';
@@ -884,30 +1080,37 @@
             });
         }
         
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '`') {
+                console.log('Backtick pressed!');
+                const backButton = document.getElementById('back-button');
+                
+                if (window.appState && window.appState.isInGame && backButton) {
+                    console.log('In game - exiting');
+                    e.preventDefault();
+                    backButton.click();
+                } else if (!window.appState || !window.appState.isInGame) {
+                    console.log('Not in game - sending parent message');
+                    e.preventDefault();
+                    if (window.parent !== window.self) {
+                        console.log('Sending tilde-pressed to parent');
+                        window.parent.postMessage({ type: 'tilde-pressed' }, '*'); 
+                    } else {
+                        console.log('No parent window found');
+                    }
+                }
+            }
+        });
+
+        // App State for Quick Exit Logic
+        window.appState = { isInGame: false };
+
+
         // --- Document Ready and Event Listeners ---
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Theme Manager
             new ThemeManager();
-            
-            // App State for Quick Exit Logic
-            window.appState = { isInGame: false };
-            
-            // Quick Exit (~) Logic
-            document.addEventListener('keydown', (e) => {
-                if (e.key === '~' && window.appState.isInGame) {
-                    const backButton = document.getElementById('back-button');
-                    if (backButton) {
-                        backButton.click();
-                    }
-                }
-            });
-
-            // Password Input Listener
-            const passwordInput = document.getElementById('password-input');
-            if (passwordInput) {
-                passwordInput.addEventListener('input', verifyPassword);
-            }
-            
+                        
             // Header Scroll and Back-to-Top Logic
             const topHeader = document.getElementById("top-header");
             const backToTop = document.getElementById("back-to-top");
@@ -932,10 +1135,15 @@
                 });
             }
 
+            extractAndSetupCategoryFilter();
+
             // Initial setup - **This now calls the new JS functions to render games**
             sortAndFilterGames();
-            setupSearch();
+            setupControls();
         });
     </script>
+    <div id="quick-exit-hint">
+        Press `~` (tilde) to Quick Exit
+    </div>
    </body>
 </html>

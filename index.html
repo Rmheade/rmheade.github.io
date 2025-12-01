@@ -28,7 +28,6 @@
 
   *{box-sizing:border-box}
   body{margin:0;background:linear-gradient(180deg,var(--bg), var(--bg));color:var(--text);min-height:100vh;transition:background 0.3s, color 0.3s}
-  /* FIX: Removed min-height from .wrap to ensure content naturally pushes the footer down */
   .wrap{max-width:1000px;margin:28px auto;padding:18px;} 
   header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
   .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px}
@@ -51,36 +50,7 @@
   [data-theme="dark"] .nav button.active{background:rgba(37,99,235,0.2);border-color:rgba(37,99,235,0.4)}
   .grid{display:grid;grid-template-columns:1fr 360px;gap:14px}
   @media(max-width:900px){ .grid{grid-template-columns:1fr} .rightcol{order:2} }
-  .flashcard{height:180px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0;text-align:center;font-size:18px;position:relative;perspective:1000px;background:transparent}
-  .flashcard-inner{width:100%;height:100%;transition:transform 0.6s;transform-style:preserve-3d;position:relative}
-  .flashcard-inner.flipped{transform:rotateY(180deg)}
-  .flashcard-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--card);border-radius:10px;border:1px solid #e6e9ef;box-shadow:0 2px 8px rgba(0,0,0,0.08);transition:background 0.3s, border 0.3s}
-  [data-theme="dark"] .flashcard-face{border-color:#334155}
-  .flashcard-back{transform:rotateY(180deg)}
-  .flashcard.swapping{animation:swapCard 0.3s ease-out}
-  @keyframes swapCard{
-    0%{transform:scale(1);opacity:1}
-    50%{transform:scale(0.9);opacity:0.7}
-    100%{transform:scale(1);opacity:1}
-  }
-  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .pill{background:#f1f5f9;padding:8px 10px;border-radius:999px;font-size:13px;color:var(--muted);transition:background 0.3s}
-  [data-theme="dark"] .pill{background:#334155}
-  .stats{display:flex;gap:12px;flex-wrap:wrap}
-  .stat{background:#0ea5a3;color:white;padding:8px 12px;border-radius:10px;font-weight:600;font-size:13px}
-  .question{font-weight:600;margin-bottom:8px}
-  .choices{display:flex;flex-direction:column;gap:8px}
-  .choice{padding:10px;border-radius:8px;border:1px solid #eef2ff;background:var(--card);cursor:pointer;transition:background 0.2s, border 0.2s;color:var(--text)}
-  [data-theme="dark"] .choice{border-color:#334155}
-  .choice.correct{border-color:var(--success);background:#ecfdf5}
-  [data-theme="dark"] .choice.correct{background:rgba(16,185,129,0.1)}
-  .choice.wrong{border-color:var(--danger);background:#fff1f2}
-  [data-theme="dark"] .choice.wrong{background:rgba(239,68,68,0.1)}
-  .timer-large{font-size:28px;font-weight:700}
-  .session-list{max-height:240px;overflow:auto;padding:6px;border-radius:8px;border:1px solid #f1f5f9;margin-top:8px;background:var(--card);transition:background 0.3s, border 0.3s}
-  [data-theme="dark"] .session-list{border-color:#334155}
-  .session-item{padding:8px;border-bottom:1px dashed #f1f5f9;font-size:13px;color:var(--muted);transition:border 0.3s}
-  [data-theme="dark"] .session-item{border-bottom-color:#334155}
+
   .form-group{margin-bottom:14px}
   .form-group label{display:block;font-weight:600;margin-bottom:6px;font-size:14px;color:var(--text)}
   .form-group input, .form-group textarea, .form-group select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #e6e9ef;font-family:inherit;background:var(--card);color:var(--text);transition:background 0.3s, color 0.3s, border 0.3s}
@@ -104,35 +74,7 @@
   .deck-card-title{font-weight:700;font-size:16px;margin-bottom:4px;color:var(--text)}
   .deck-card-meta{font-size:12px;color:var(--muted);transition:color 0.3s}
   .deck-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-  .quiz-settings {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 12px;
-    padding: 10px;
-    background: #f9fafb;
-    border-radius: 8px;
-    transition: background 0.3s;
-  }
-  [data-theme="dark"] .quiz-settings{background:#334155}
-  .quiz-settings label {
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 4px;
-    color: var(--text);
-  }
-  .quiz-settings select {
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid #e6e9ef;
-    font-size: 13px;
-    background: var(--card);
-    color: var(--text);
-    transition: background 0.3s, border 0.3s;
-  }
-  [data-theme="dark"] .quiz-settings select{border-color:#475569}
 
-  /* Theme Toggle Button */
   .theme-toggle-btn {
     display: inline-flex;
     align-items: center;
@@ -161,7 +103,7 @@
     align-items: center;
     justify-content: center;
   }
-  /* Notebook Tab System */
+
   .notebook-tabs-container {
     display: flex;
     gap: 2px;
@@ -225,6 +167,25 @@
 </style>
 
 <script>
+  // ADD THIS AT THE VERY TOP OF YOUR index.html SCRIPT, BEFORE EVERYTHING ELSE
+console.log('Index.html script loaded - setting up message listener');
+
+window.addEventListener('message', (event) => {
+    console.log('Message received in parent:', event.data);
+    if (event.data && event.data.type === 'tilde-pressed') {
+        console.log('Tilde pressed detected in parent! Redirecting...');
+        window.location.href = "/";
+    }
+});
+
+// CRITICAL: Set up tilde-pressed listener FIRST, before any other code
+window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'tilde-pressed') {
+        console.log('Tilde pressed detected in parent!');
+        window.location.href = "/";
+    }
+});
+
 // Theme Management System
 class ThemeManager {
   constructor() {
@@ -289,39 +250,24 @@ class ThemeManager {
       if (event.data && event.data.type === 'THEME_CHANGED') {
         this.applyTheme(event.data.theme);
       }
-      // Respond to iframes asking for current theme
       if (event.data && event.data.type === 'GET_THEME') {
         event.source.postMessage({
           type: 'THEME_CHANGED',
           theme: this.theme
         }, '*');
       }
-      // Listen for messages from iframes
-      window.addEventListener("message", (event) => {
-        if (event.data && event.data.type === "tilde-pressed") {
-            window.location.href = "/";
-        }
-      if (!event.data) return;
-      if (event.data === 'closeLogin') {
-        document.getElementById("loginModal").style.display = "none";
-      }
-      // if notebook broadcasted deck changes
-      if (event.data.type === 'DECKS_UPDATED') {
-        // reload decks and UI
+      if (event.data && event.data.type === 'DECKS_UPDATED') {
         decks = loadDecks();
         renderDeckList();
-        // if currently studying the deck, refresh it too
         if (currentDeckId) {
           currentDeck = decks.find(d => d.id === currentDeckId);
           renderAll();
         }
       }
     });
-    });
   }
 }
 
-// Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   new ThemeManager();
 });
@@ -348,17 +294,17 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 
   <div class="notebook-tabs-container">
-    <div class="notebook-tab active" data-notebook-tab="flashcards" onclick="window.location.href='index.html'">
+    <div class="notebook-tab active" data-notebook-tab="flashcards">
       <div style="display:flex;align-items:center;gap:6px">
         <span>📚 Flashcards</span>
       </div>
     </div>
-    <div class="notebook-tab" data-notebook-tab="notebook" onclick="window.location.href='notebook.html'">
+    <div class="notebook-tab" data-notebook-tab="notebook">
       <div style="display:flex;align-items:center;gap:6px">
         <span>📝 Notebook</span>
       </div>
     </div>
-    <div class="notebook-tab" data-notebook-tab="calculator" onclick="window.location.href='graph.html'">
+    <div class="notebook-tab" data-notebook-tab="calculator">
       <div style="display:flex;align-items:center;gap:6px">
         <span>🧮 Calculator</span>
       </div>
@@ -366,232 +312,13 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 
   <div class="notebook-content-wrapper">
-    <div id="deckListCard" class="card" style="border:none;border-radius:0 8px 8px 8px;box-shadow:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div>
-          <strong style="font-size:18px">My Study Decks</strong>
-          <p style="margin:4px 0 0;color:var(--muted);font-size:13px">Create and manage your flashcard decks and quiz sets.</p>
-        </div>
-        <div style="display:flex;gap:8px">
-          <button id="importDeck" class="ghost">Import Deck</button>
-          <button id="createNewDeck" class="secondary">Create New Deck</button>
-        </div>
-      </div>
-      <div id="deckList"></div>
-    </div>
-  </div>
-  <div id="importModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
-    <div class="card" style="width:90%;max-width:500px;max-height:80vh;overflow:auto">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <strong style="font-size:18px">Import Deck</strong>
-        <button id="closeImport" class="ghost">✕</button>
-      </div>
-      <div class="form-group">
-        <label>Paste Deck Code</label>
-        <textarea id="importCode" placeholder="Paste the deck code here..." style="width:100%;height:200px;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-family:monospace;font-size:12px"></textarea>
-        <small class="note">Paste the code you received from someone sharing their deck.</small>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button id="importConfirm" style="flex:1">Import</button>
-        <button id="cancelImport" class="ghost">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="exportModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
-    <div class="card" style="width:90%;max-width:500px;max-height:80vh;overflow:auto">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <strong style="font-size:18px">Share Deck</strong>
-        <button id="closeExport" class="ghost">✕</button>
-      </div>
-      <p style="margin:0 0 12px;color:var(--muted);font-size:13px">Copy this code and share it with others. They can import it to get your deck!</p>
-      <div class="form-group">
-        <textarea id="exportCode" readonly style="width:100%;height:200px;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-family:monospace;font-size:12px;background:#f9fafb"></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button id="copyExportCode" style="flex:1">Copy to Clipboard</button>
-        <button id="closeExportBtn" class="ghost">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="editDeckCard" class="card" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <strong style="font-size:18px" id="editDeckTitle">Create New Deck</strong>
-      <button id="backToDeckList" class="ghost">Back to My Decks</button>
-    </div>
-
-    <div class="form-group">
-      <label>Deck Name</label>
-      <input type="text" id="deckNameInput" placeholder="e.g., Biology Chapter 3">
-      <small class="note">Give your deck a descriptive name.</small>
-    </div>
-
-    <div class="tabs-secondary">
-      <button data-edit-tab="flashcards" class="active">Flashcards</button>
-      <button data-edit-tab="quiz">Quiz Questions</button>
-    </div>
-
-    <div id="edit-tab-flashcards" class="edit-tab">
-      <div class="form-group">
-        <label>Add Flashcard</label>
-        <input type="text" id="cardFront" placeholder="Front (question)" style="margin-bottom:8px">
-        <input type="text" id="cardBack" placeholder="Back (answer)">
-        <button id="addCard" class="ghost" style="margin-top:8px">Add Card</button>
-      </div>
-      <div class="form-group">
-        <label>Flashcards (<span id="cardCount">0</span>)</label>
-        <div id="cardList" class="card-list"></div>
-      </div>
-    </div>
-
-    <div id="edit-tab-quiz" class="edit-tab" style="display:none">
-      <div class="form-group">
-        <label>Add Quiz Question</label>
-        <input type="text" id="quizQuestion" placeholder="Question" style="margin-bottom:8px">
-        <input type="text" id="quizChoice1" placeholder="Choice 1" style="margin-bottom:8px">
-        <input type="text" id="quizChoice2" placeholder="Choice 2" style="margin-bottom:8px">
-        <input type="text" id="quizChoice3" placeholder="Choice 3" style="margin-bottom:8px">
-        <input type="text" id="quizChoice4" placeholder="Choice 4" style="margin-bottom:8px">
-        <select id="quizCorrect" style="padding:10px 12px;border-radius:8px;border:1px solid #e6e9ef;width:100%;margin-bottom:8px">
-          <option value="0">Choice 1 is correct</option>
-          <option value="1">Choice 2 is correct</option>
-          <option value="2">Choice 3 is correct</option>
-          <option value="3">Choice 4 is correct</option>
-        </select>
-        <button id="addQuiz" class="ghost">Add Question</button>
-      </div>
-      <div class="form-group">
-        <label>Quiz Questions (<span id="quizCount">0</span>)</label>
-        <div id="quizList" class="card-list"></div>
-      </div>
-    </div>
-
-    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f1f5f9;display:flex;gap:10px">
-      <button id="saveDeck" style="flex:1">Save Deck</button>
-      <button id="cancelEdit" class="ghost">Cancel</button>
-    </div>
-  </div>
-
-  <div id="app" style="display:none">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-        <div>
-          <strong id="deckLabel">Study Session</strong>
-          <div class="nav" style="margin-top:8px">
-            <button data-tab="flashcards" class="active">Flashcards</button>
-            <button data-tab="review">Quiz Practice</button>
-            <button data-tab="timer">Study Timer</button>
-            <button data-tab="progress">Progress</button>
-            <button id="backToDeckListFromStudy" style="margin-left:8px" class="ghost">Back to Decks</button>
-          </div>
-        </div>
-        <div class="stats">
-          <div class="stat" id="totalMins">0 min</div>
-          <div class="pill" id="streakPill">Streak: 0</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid">
-      <div>
-        <div id="tab-flashcards" class="card tab">
-          <strong>Flashcards</strong>
-          <p style="margin:6px 0 10px;color:var(--muted)">Flip, mark known, and track mastery.</p>
-          <div class="flashcard center" id="flashcardArea">Loading deck…</div>
-          <div class="controls">
-            <button id="flipBtn" class="ghost">Flip</button>
-            <button id="knownBtn">Mark Known</button>
-            <button id="skipBtn" class="ghost">Skip</button>
-            <button id="editDeckFromStudy" class="ghost" style="margin-left:auto">Edit Deck</button>
-          </div>
-        </div>
-
-        <div id="tab-review" class="card tab" style="display:none">
-  <strong>Quiz Practice</strong>
-  <p style="margin:6px 0 10px;color:var(--muted)">Test your knowledge with practice questions.</p>
-  <div class="quiz-settings">
-    <label for="quizLength">Questions:</label>
-    <select id="quizLength">
-      <option value="3">3 Questions</option>
-      <option value="5">5 Questions</option>
-      <option value="10">10 Questions</option>
-      <option value="15">15 Questions</option>
-      <option value="20">20 Questions</option>
-      <option value="max">All Available</option>
-    </select>
-  </div>
-  <div id="quizArea"></div>
-  <div style="margin-top:12px">
-    <button id="newQuiz" class="ghost">New Set</button>
-    <span style="margin-left:8px;color:var(--muted)">Score: <strong id="quizScore">0/0</strong></span>
-  </div>
-</div>
-
-        <div id="tab-timer" class="card tab" style="display:none">
-          <strong>Study Timer</strong>
-          <p style="margin:6px 0 10px;color:var(--muted)">Track your focused study sessions.</p>
-          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-            <div class="timer-large" id="timerDisplay">00:00:00</div>
-            <div>
-              <button id="startTimer">Start</button>
-              <button id="stopTimer" class="ghost" disabled>Stop</button>
-            </div>
-          </div>
-          <div class="session-list" id="sessionList"></div>
-        </div>
-
-        <div id="tab-progress" class="card tab" style="display:none">
-          <strong>Progress</strong>
-          <p style="margin:6px 0 10px;color:var(--muted)">Summary of your study time and flashcard mastery.</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <div style="flex:1;min-width:200px">
-              <div class="card" style="padding:12px">
-                <div style="font-size:12px;color:var(--muted)">Total Study Time</div>
-                <div style="font-weight:700;font-size:18px;margin-top:8px" id="progressTotalTime">0 min</div>
-                <small style="color:var(--muted)">Sessions: <span id="sessionCount">0</span></small>
-              </div>
-            </div>
-            <div style="flex:1;min-width:200px">
-              <div class="card" style="padding:12px">
-                <div style="font-size:12px;color:var(--muted)">Flashcards Mastered</div>
-                <div style="font-weight:700;font-size:18px;margin-top:8px" id="progressMastered">0 / 0</div>
-                <small style="color:var(--muted)">Mastery percent: <span id="masteryPct">0%</span></small>
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-top:12px">
-            <button id="resetData" class="ghost">Reset progress for this deck</button>
-          </div>
-        </div>
-      </div>
-
-      <aside class="rightcol">
-        <div class="card">
-          <strong>Study Notes</strong>
-          <div style="margin-top:8px">
-            <textarea id="notes" placeholder="Quick study notes..." style="width:100%;border-radius:8px;height:120px;padding:8px;border:1px solid #eef2ff"></textarea>
-            <div style="margin-top:8px;display:flex;gap:8px">
-              <button id="saveNotes" class="ghost">Save</button>
-              <button id="clearNotes" class="ghost">Clear</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <strong>About</strong>
-          <p style="margin:6px 0;color:var(--muted);font-size:13px">StudyBuddy helps you create custom flashcards and quizzes, track your study time, and measure your progress. All data is stored locally in your browser.</p>
-        </div>
-      </aside>
-    </div>
+    <iframe id="contentIframe" src="flash.html" style="width:100%;height:800px;border:none;border-radius:0 8px 8px 8px;display:block"></iframe>
   </div>
 </div>
 
 <script>
 const DECKS_KEY = "studybuddy_decks_v2";
 
-/* Utilities */
 function formatDuration(ms){
   const s = Math.floor(ms/1000);
   const hh = String(Math.floor(s/3600)).padStart(2,"0");
@@ -614,810 +341,40 @@ function generateId(){
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
-/* App state */
 let decks = loadDecks();
 let currentDeckId = null;
 let currentDeck = null;
-let editingDeckId = null;
-let editingCards = [];
-let editingQuiz = [];
-let currentFlashIndex = 0;
-let flashFlipped = false;
-let timerInterval = null;
-let timerStart = null;
-let keyboardHandler = null;
 
-/* Keyboard handler for flashcards */
-function handleFlashcardKeys(e){
-  // Only handle keys when on flashcards tab and not typing in inputs
-  if(document.activeElement.tagName === 'INPUT' || 
-     document.activeElement.tagName === 'TEXTAREA' ||
-     document.activeElement.tagName === 'SELECT') {
-    return;
-  }
-  
-  const flashcardsTab = document.getElementById("tab-flashcards");
-  if(!flashcardsTab || flashcardsTab.style.display === "none") return;
-  if(!currentDeck || currentDeck.cards.length === 0) return;
-  
-  if(e.key === ' ' || e.key === 'Spacebar'){
-    e.preventDefault();
-    flipCard();
-  } else if(e.key === 'ArrowRight'){
-    e.preventDefault();
-    nextCard();
-  } else if(e.key === 'ArrowLeft'){
-    e.preventDefault();
-    previousCard();
-  }
-}
-
-function flipCard(){
-  flashFlipped = !flashFlipped;
-  renderFlashcard();
-}
-
-function nextCard(){
-  const flashcardEl = document.getElementById("flashcardArea");
-  flashcardEl.classList.add("swapping");
-  
-  setTimeout(()=>{
-    flashFlipped = false;
-    currentFlashIndex = (currentFlashIndex + 1) % currentDeck.cards.length;
-    renderFlashcard();
-  }, 150);
-  
-  setTimeout(()=>{
-    flashcardEl.classList.remove("swapping");
-  }, 300);
-}
-
-function previousCard(){
-  const flashcardEl = document.getElementById("flashcardArea");
-  flashcardEl.classList.add("swapping");
-  
-  setTimeout(()=>{
-    flashFlipped = false;
-    currentFlashIndex = (currentFlashIndex - 1 + currentDeck.cards.length) % currentDeck.cards.length;
-    renderFlashcard();
-  }, 150);
-  
-  setTimeout(()=>{
-    flashcardEl.classList.remove("swapping");
-  }, 300);
-}
-
-function setupKeyboardHandlers(){
-  removeKeyboardHandlers();
-  keyboardHandler = handleFlashcardKeys;
-  document.addEventListener('keydown', keyboardHandler);
-}
-
-function removeKeyboardHandlers(){
-  if(keyboardHandler){
-    document.removeEventListener('keydown', keyboardHandler);
-    keyboardHandler = null;
-  }
-}
-
-/* Initialize */
 (function(){
-  const deckListCard = document.getElementById("deckListCard");
-  const editDeckCard = document.getElementById("editDeckCard");
-  const appWrap = document.getElementById("app");
   const loginModal = document.getElementById("loginModal");
-  const importModal = document.getElementById("importModal");
-  const exportModal = document.getElementById("exportModal");
   
-  renderDeckList();
-  
-  /* Login modal */
   document.getElementById("loginBtn").addEventListener("click", ()=>{
     loginModal.style.display = "block";
   });
   
-  // Listen for messages from the iframe to close the modal
   window.addEventListener('message', function(event){
     if(event.data === 'closeLogin'){
       loginModal.style.display = "none";
     }
   });
   
-  /* Import deck */
-  document.getElementById("importDeck").addEventListener("click", ()=>{
-    importModal.style.display = "flex";
-    document.getElementById("importCode").value = "";
-  });
-  
-  document.getElementById("closeImport").addEventListener("click", ()=>{
-    importModal.style.display = "none";
-  });
-  
-  document.getElementById("cancelImport").addEventListener("click", ()=>{
-    importModal.style.display = "none";
-  });
-  
-  document.getElementById("importConfirm").addEventListener("click", ()=>{
-    const code = document.getElementById("importCode").value.trim();
-    if(!code){
-      alert("Please paste a deck code.");
-      return;
-    }
-    
-    try {
-      // Decode from base64
-      const decoded = atob(code);
-      const deckData = JSON.parse(decoded);
-      
-      // Validate structure
-      if(!deckData.name || !Array.isArray(deckData.cards) || !Array.isArray(deckData.quizBank)){
-        throw new Error("Invalid deck format");
-      }
-      
-      // Create new deck with imported data
-      const newDeck = {
-        id: generateId(),
-        name: deckData.name + " (Imported)",
-        cards: deckData.cards.map(c => ({...c, mastered: false})),
-        quizBank: deckData.quizBank,
-        sessions: [],
-        notes: "",
-        streak: 0,
-        lastStudy: null,
-        created: Date.now(),
-        updated: Date.now()
-      };
-      
-      decks.push(newDeck);
-      saveDecks(decks);
-      renderDeckList();
-      importModal.style.display = "none";
-      alert(`Deck "${newDeck.name}" imported successfully!`);
-    } catch(e){
-      alert("Invalid deck code. Please check and try again.");
-    }
-  });
-  
-  /* Export modal */
-  document.getElementById("closeExport").addEventListener("click", ()=>{
-    exportModal.style.display = "none";
-  });
-  
-  document.getElementById("closeExportBtn").addEventListener("click", ()=>{
-    exportModal.style.display = "none";
-  });
-  
-  document.getElementById("copyExportCode").addEventListener("click", ()=>{
-    const code = document.getElementById("exportCode").value;
-    navigator.clipboard.writeText(code).then(()=>{
-      alert("Code copied to clipboard!");
-    }).catch(()=>{
-      // Fallback for older browsers
-      document.getElementById("exportCode").select();
-      document.execCommand('copy');
-      alert("Code copied to clipboard!");
-    });
-  });
-  
-  /* Create new deck */
-  document.getElementById("createNewDeck").addEventListener("click", ()=>{
-    editingDeckId = null;
-    editingCards = [];
-    editingQuiz = [];
-    document.getElementById("editDeckTitle").textContent = "Create New Deck";
-    document.getElementById("deckNameInput").value = "";
-    renderCardList();
-    renderQuizList();
-    deckListCard.style.display = "none";
-    editDeckCard.style.display = "block";
-  });
-  
-  /* Back to deck list */
-  document.getElementById("backToDeckList").addEventListener("click", ()=>{
-    editDeckCard.style.display = "none";
-    deckListCard.style.display = "block";
-  });
-  
-  /* Cancel edit */
-  document.getElementById("cancelEdit").addEventListener("click", ()=>{
-    if(confirm("Discard changes?")){
-      editDeckCard.style.display = "none";
-      deckListCard.style.display = "block";
-    }
-  });
-  
-  /* Edit tabs */
-  document.querySelectorAll("[data-edit-tab]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      document.querySelectorAll("[data-edit-tab]").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-      const tab = btn.getAttribute("data-edit-tab");
-      document.querySelectorAll(".edit-tab").forEach(t=>{
-        t.style.display = t.id === "edit-tab-" + tab ? "" : "none";
-      });
-    });
-  });
-  
-  /* Add card */
-  document.getElementById("addCard").addEventListener("click", ()=>{
-    const front = document.getElementById("cardFront").value.trim();
-    const back = document.getElementById("cardBack").value.trim();
-    if(!front || !back){
-      alert("Please fill in both front and back of the card.");
-      return;
-    }
-    editingCards.push({front, back, mastered:false});
-    document.getElementById("cardFront").value = "";
-    document.getElementById("cardBack").value = "";
-    renderCardList();
-  });
-  
-  /* Add quiz */
-  document.getElementById("addQuiz").addEventListener("click", ()=>{
-    const q = document.getElementById("quizQuestion").value.trim();
-    const c1 = document.getElementById("quizChoice1").value.trim();
-    const c2 = document.getElementById("quizChoice2").value.trim();
-    const c3 = document.getElementById("quizChoice3").value.trim();
-    const c4 = document.getElementById("quizChoice4").value.trim();
-    const correct = parseInt(document.getElementById("quizCorrect").value);
-    
-    if(!q || !c1 || !c2 || !c3 || !c4){
-      alert("Please fill in the question and all 4 choices.");
-      return;
-    }
-    
-    editingQuiz.push({q, choices:[c1,c2,c3,c4], a:correct});
-    document.getElementById("quizQuestion").value = "";
-    document.getElementById("quizChoice1").value = "";
-    document.getElementById("quizChoice2").value = "";
-    document.getElementById("quizChoice3").value = "";
-    document.getElementById("quizChoice4").value = "";
-    renderQuizList();
-  });
-  
-  /* Save deck */
-  document.getElementById("saveDeck").addEventListener("click", ()=>{
-    const name = document.getElementById("deckNameInput").value.trim();
-    
-    if(!name){
-      alert("Please provide a deck name.");
-      return;
-    }
-    
-    if(editingCards.length === 0 && editingQuiz.length === 0){
-      alert("Please add at least one flashcard or quiz question.");
-      return;
-    }
-    
-    if(editingDeckId){
-      // Update existing
-      const deck = decks.find(d => d.id === editingDeckId);
-      if(deck){
-        deck.name = name;
-        deck.cards = editingCards;
-        deck.quizBank = editingQuiz;
-        deck.updated = Date.now();
-      }
-    } else {
-      // Create new
-      decks.push({
-        id: generateId(),
-        name: name,
-        cards: editingCards,
-        quizBank: editingQuiz,
-        sessions: [],
-        notes: "",
-        streak: 0,
-        lastStudy: null,
-        created: Date.now(),
-        updated: Date.now()
-      });
-    }
-    
-    saveDecks(decks);
-    editDeckCard.style.display = "none";
-    deckListCard.style.display = "block";
-    renderDeckList();
-  });
-  
-  newQuizSet();
-})();
-
-/* Render deck list */
-function renderDeckList(){
-  const deckListEl = document.getElementById("deckList");
-  
-  if(decks.length === 0){
-    deckListEl.innerHTML = '<div style="color:var(--muted);text-align:center;padding:40px;font-size:14px">No decks yet. Create your first study deck to get started!</div>';
-    return;
-  }
-  
-  deckListEl.innerHTML = "";
-  decks.forEach(deck=>{
-    const card = document.createElement("div");
-    card.className = "deck-card";
-    
-    const updated = new Date(deck.updated).toLocaleDateString();
-    const cardCount = deck.cards.length;
-    const quizCount = deck.quizBank.length;
-    const mastered = deck.cards.filter(c=>c.mastered).length;
-    
-    card.innerHTML = `
-      <div class="deck-card-title">${deck.name}</div>
-      <div class="deck-card-meta">
-        ${cardCount} flashcards • ${quizCount} quiz questions • ${mastered}/${cardCount} mastered
-        <br>Last updated: ${updated}
-      </div>
-      <div class="deck-card-actions" onclick="event.stopPropagation()">
-        <button class="ghost" data-action="study" data-id="${deck.id}">Study</button>
-        <button class="ghost" data-action="share" data-id="${deck.id}">Share</button>
-        <button class="ghost" data-action="edit" data-id="${deck.id}">Edit</button>
-        <button class="danger" data-action="delete" data-id="${deck.id}">Delete</button>
-      </div>
-    `;
-    
-    // Add event listeners to buttons
-    card.querySelector('[data-action="study"]').addEventListener('click', (e) => {
-      e.stopPropagation();
-      studyDeck(deck.id);
-    });
-    card.querySelector('[data-action="share"]').addEventListener('click', (e) => {
-      e.stopPropagation();
-      shareDeck(deck.id);
-    });
-    card.querySelector('[data-action="edit"]').addEventListener('click', (e) => {
-      e.stopPropagation();
-      editDeck(deck.id);
-    });
-    card.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
-      e.stopPropagation();
-      deleteDeck(deck.id);
-    });
-    
-    card.addEventListener("click", ()=> studyDeck(deck.id));
-    deckListEl.appendChild(card);
-  });
-}
-
-window.shareDeck = function(id){
-  const deck = decks.find(d => d.id === id);
-  if(!deck) return;
-  
-  // Create shareable data (exclude progress data)
-  const shareData = {
-    name: deck.name,
-    cards: deck.cards.map(c => ({front: c.front, back: c.back})),
-    quizBank: deck.quizBank
-  };
-  
-  // Encode to base64
-  const code = btoa(JSON.stringify(shareData));
-  
-  document.getElementById("exportCode").value = code;
-  document.getElementById("exportModal").style.display = "flex";
-}
-
-window.studyDeck = function(id){
-  currentDeckId = id;
-  currentDeck = decks.find(d => d.id === id);
-  if(!currentDeck) return;
-  
-  currentFlashIndex = 0;
-  flashFlipped = false;
-  
-  document.getElementById("deckLabel").textContent = currentDeck.name;
-  document.getElementById("notes").value = currentDeck.notes || "";
-  document.getElementById("deckListCard").style.display = "none";
-  document.getElementById("app").style.display = "block";
-  
-  setupAppHandlers();
-  setupKeyboardHandlers();
-  renderAll();
-}
-
-window.editDeck = function(id){
-  const deck = decks.find(d => d.id === id);
-  if(!deck) return;
-  
-  removeKeyboardHandlers();
-  
-  editingDeckId = id;
-  editingCards = JSON.parse(JSON.stringify(deck.cards));
-  editingQuiz = JSON.parse(JSON.stringify(deck.quizBank));
-  
-  document.getElementById("editDeckTitle").textContent = "Edit Deck";
-  document.getElementById("deckNameInput").value = deck.name;
-  renderCardList();
-  renderQuizList();
-  
-  document.getElementById("deckListCard").style.display = "none";
-  document.getElementById("editDeckCard").style.display = "block";
-}
-
-window.deleteDeck = function(id){
-  const deck = decks.find(d => d.id === id);
-  if(!deck) return;
-  
-  if(confirm(`Delete deck "${deck.name}"?\n\nThis will permanently remove the deck and all progress. This cannot be undone.`)){
-    decks = decks.filter(d => d.id !== id);
-    saveDecks(decks);
-    renderDeckList();
-  }
-}
-
-/* Render helpers for editing */
-function renderCardList(){
-  const cardListEl = document.getElementById("cardList");
-  const cardCountEl = document.getElementById("cardCount");
-  cardCountEl.textContent = editingCards.length;
-  cardListEl.innerHTML = "";
-  if(editingCards.length === 0){
-    cardListEl.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px">No cards added yet.</div>';
-    return;
-  }
-  editingCards.forEach((card, idx)=>{
-    const item = document.createElement("div");
-    item.className = "card-item";
-    item.innerHTML = `
-      <div class="card-item-text">
-        <div style="font-weight:600;font-size:13px">${card.front}</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">${card.back}</div>
-      </div>
-      <button class="ghost" onclick="removeCard(${idx})">Remove</button>
-    `;
-    cardListEl.appendChild(item);
-  });
-}
-
-window.removeCard = function(idx){
-  editingCards.splice(idx, 1);
-  renderCardList();
-}
-
-function renderQuizList(){
-  const quizListEl = document.getElementById("quizList");
-  const quizCountEl = document.getElementById("quizCount");
-  quizCountEl.textContent = editingQuiz.length;
-  quizListEl.innerHTML = "";
-  if(editingQuiz.length === 0){
-    quizListEl.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px">No questions added yet.</div>';
-    return;
-  }
-  editingQuiz.forEach((quiz, idx)=>{
-    const item = document.createElement("div");
-    item.className = "card-item";
-    item.innerHTML = `
-      <div class="card-item-text">
-        <div style="font-weight:600;font-size:13px">${quiz.q}</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">Correct: ${quiz.choices[quiz.a]}</div>
-      </div>
-      <button class="ghost" onclick="removeQuiz(${idx})">Remove</button>
-    `;
-    quizListEl.appendChild(item);
-  });
-}
-
-window.removeQuiz = function(idx){
-  editingQuiz.splice(idx, 1);
-  renderQuizList();
-}
-
-/* Setup app handlers */
-function setupAppHandlers(){
-  /* Back to deck list */
-  document.getElementById("backToDeckListFromStudy").addEventListener("click", ()=>{
-    if(currentDeck){
-      saveDecks(decks);
-    }
-    removeKeyboardHandlers();
-    document.getElementById("app").style.display = "none";
-    document.getElementById("deckListCard").style.display = "block";
-    renderDeckList();
-  });
-  
-  /* Edit deck from study */
-  document.getElementById("editDeckFromStudy").addEventListener("click", ()=>{
-    if(currentDeck){
-      saveDecks(decks);
-    }
-    removeKeyboardHandlers();
-    document.getElementById("app").style.display = "none";
-    editDeck(currentDeckId);
-  });
-  
-  /* UI tabs */
-  document.querySelectorAll(".nav button[data-tab]").forEach(b=>{
-    b.addEventListener("click", ()=>{
-      document.querySelectorAll(".nav button[data-tab]").forEach(x=>x.classList.remove("active"));
-      b.classList.add("active");
-      const tab = b.getAttribute("data-tab");
-      document.querySelectorAll(".tab").forEach(t=>{
-        t.style.display = t.id === "tab-" + tab ? "" : "none";
-      });
-    });
-  });
-  
-  /* Notes */
-  document.getElementById("saveNotes").addEventListener("click", ()=>{
-    if(currentDeck){
-      currentDeck.notes = document.getElementById("notes").value;
-      saveDecks(decks);
-      alert("Notes saved!");
-    }
-  });
-  
-  document.getElementById("clearNotes").addEventListener("click", ()=>{
-    if(confirm("Clear notes?")){
-      document.getElementById("notes").value = "";
-      if(currentDeck){
-        currentDeck.notes = "";
-        saveDecks(decks);
-      }
-    }
-  });
-  
-  /* Quiz */
-  document.getElementById("newQuiz").addEventListener("click", newQuizSet);
-  
-  /* Flashcards */
-  document.getElementById("flipBtn").addEventListener("click", ()=>{
-    flipCard();
-  });
-  
-  document.getElementById("skipBtn").addEventListener("click", ()=>{
-    nextCard();
-  });
-  
-  document.getElementById("knownBtn").addEventListener("click", ()=>{
-    const card = currentDeck.cards[currentFlashIndex];
-    card.mastered = true;
-    saveDecks(decks);
-    nextCard();
-    renderProgress();
-  });
-  
-  /* Timer */
-  document.getElementById("startTimer").addEventListener("click", ()=>{
-    if(timerInterval) return;
-    timerStart = Date.now();
-    document.getElementById("timerDisplay").textContent = "00:00:00";
-    document.getElementById("startTimer").disabled = true;
-    document.getElementById("stopTimer").disabled = false;
-    timerInterval = setInterval(()=>{
-      const elapsed = Date.now() - timerStart;
-      document.getElementById("timerDisplay").textContent = formatDuration(elapsed);
-    }, 250);
-  });
-  
-  document.getElementById("stopTimer").addEventListener("click", ()=>{
-    if(!timerInterval) return;
-    clearInterval(timerInterval); 
-    timerInterval = null;
-    const elapsed = Date.now() - timerStart;
-    timerStart = null;
-    document.getElementById("startTimer").disabled = false;
-    document.getElementById("stopTimer").disabled = true;
-    document.getElementById("timerDisplay").textContent = "00:00:00";
-    
-    if(currentDeck){
-      currentDeck.sessions.push({start: Date.now()-elapsed, duration: elapsed});
-      
-      const last = currentDeck.lastStudy || 0;
-      if(last && (Date.now() - last) < 36*3600*1000){
-        currentDeck.streak = (currentDeck.streak || 0) + 1;
-      } else {
-        currentDeck.streak = 1;
-      }
-      currentDeck.lastStudy = Date.now();
-      saveDecks(decks);
-    }
-    
-    renderSessions(); 
-    renderAll();
-  });
-  
-  /* Progress */
-  document.getElementById("resetData").addEventListener("click", ()=>{
-    if(confirm("Reset all progress for this deck? This will reset mastery, sessions, and streak data.")){
-      if(currentDeck){
-        currentDeck.sessions = [];
-        currentDeck.streak = 0;
-        currentDeck.lastStudy = null;
-        currentDeck.cards.forEach(c=>c.mastered = false);
-        saveDecks(decks);
-        renderAll();
-      }
-    }
-  });
-}
-
-/* Quiz logic */
-let currentQuiz = {questions:[], answers:[]};
-
-function newQuizSet(){
-  if(!currentDeck) return;
-  const bank = currentDeck.quizBank || [];
-  if(bank.length === 0){
-    document.getElementById("quizArea").innerHTML = '<div style="color:var(--muted);padding:20px;text-align:center">No quiz questions available. Add some in the deck editor!</div>';
-    return;
-  }
-  
-  // Get selected quiz length
-  const quizLengthSelect = document.getElementById("quizLength");
-  let numQuestions = 3; // default
-  
-  if(quizLengthSelect) {
-    const selectedValue = quizLengthSelect.value;
-    if(selectedValue === "max") {
-      numQuestions = bank.length;
-    } else {
-      numQuestions = parseInt(selectedValue);
-    }
-  }
-  
-  // Don't ask for more questions than available
-  numQuestions = Math.min(numQuestions, bank.length);
-  
-  const shuffled = bank.slice().sort(()=>Math.random()-0.5);
-  const pick = shuffled.slice(0, numQuestions).map(q=>JSON.parse(JSON.stringify(q)));
-  currentQuiz.questions = pick;
-  currentQuiz.answers = Array(pick.length).fill(null);
-  renderQuiz();
-}
-
-function renderQuiz(){
-  const quizArea = document.getElementById("quizArea");
-  quizArea.innerHTML = "";
-  currentQuiz.questions.forEach((qObj, idx)=>{
-    const block = document.createElement("div");
-    block.style.marginBottom = "12px";
-    const question = document.createElement("div");
-    question.className = "question";
-    question.textContent = `${idx+1}. ${qObj.q}`;
-    block.appendChild(question);
-    const choices = document.createElement("div");
-    choices.className = "choices";
-    qObj.choices.forEach((c, ci)=>{
-      const ch = document.createElement("div");
-      ch.className = "choice";
-      ch.textContent = c;
-      ch.addEventListener("click", ()=>{
-        if(currentQuiz.answers[idx] !== null) return;
-        currentQuiz.answers[idx] = ci;
-        if(ci === qObj.a) ch.classList.add("correct"); else ch.classList.add("wrong");
-        Array.from(choices.children).forEach((el,ei)=>{ if(ei === qObj.a) el.classList.add("correct"); });
-        updateQuizScore();
-      });
-      choices.appendChild(ch);
-    });
-    block.appendChild(choices);
-    quizArea.appendChild(block);
-  });
-  updateQuizScore();
-}
-
-function updateQuizScore(){
-  const total = currentQuiz.questions.length;
-  let correct = 0;
-  currentQuiz.answers.forEach((a,i)=>{ if(a !== null && a === currentQuiz.questions[i].a) correct++; });
-  document.getElementById("quizScore").textContent = `${correct}/${total}`;
-}
-
-/* Flashcards */
-function renderFlashcard(){
-  if(!currentDeck) return;
-  const flashcardArea = document.getElementById("flashcardArea");
-  if(currentDeck.cards.length === 0){
-    flashcardArea.innerHTML = '<div style="color:var(--muted)">No flashcards yet. Add some in the deck editor!</div>';
-    return;
-  }
-  if(currentFlashIndex >= currentDeck.cards.length) currentFlashIndex = 0;
-  const card = currentDeck.cards[currentFlashIndex];
-  
-  // Check if we need to create the structure or just update the flip state
-  const existingInner = flashcardArea.querySelector('.flashcard-inner');
-  
-  if(!existingInner || flashcardArea.dataset.cardIndex !== String(currentFlashIndex)){
-    // Create new card structure
-    flashcardArea.dataset.cardIndex = currentFlashIndex;
-    flashcardArea.innerHTML = `
-      <div class="flashcard-inner ${flashFlipped ? 'flipped' : ''}">
-        <div class="flashcard-face flashcard-front">
-          <div style="width:100%">
-            <div style="font-size:13px;color:var(--muted);text-align:left">Card ${currentFlashIndex+1} / ${currentDeck.cards.length}</div>
-            <div style="margin-top:16px;font-size:18px;font-weight:600">${card.front}</div>
-            <div style="margin-top:8px;color:var(--muted);font-size:13px">${card.mastered ? "✓ Mastered" : "Not mastered"}</div>
-            <div style="margin-top:12px;font-size:12px;color:var(--muted)">
-              <strong>Keyboard shortcuts:</strong> Space to flip • ← → to navigate
-            </div>
-          </div>
-        </div>
-        <div class="flashcard-face flashcard-back">
-          <div style="width:100%">
-            <div style="font-size:13px;color:var(--muted);text-align:left">Card ${currentFlashIndex+1} / ${currentDeck.cards.length}</div>
-            <div style="margin-top:16px;font-size:18px;font-weight:600;color:#2563eb">${card.back}</div>
-            <div style="margin-top:8px;color:var(--muted);font-size:13px">${card.mastered ? "✓ Mastered" : "Not mastered"}</div>
-            <div style="margin-top:12px;font-size:12px;color:var(--muted)">
-              <strong>Keyboard shortcuts:</strong> Space to flip • ← → to navigate
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  } else {
-    // Just toggle the flip class on existing structure
-    if(flashFlipped){
-      existingInner.classList.add('flipped');
-    } else {
-      existingInner.classList.remove('flipped');
-    }
-  }
-}
-
-/* Timer */
-function renderSessions(){
-  if(!currentDeck) return;
-  const sessionListEl = document.getElementById("sessionList");
-  sessionListEl.innerHTML = "";
-  if(currentDeck.sessions.length === 0) {
-    sessionListEl.textContent = "No study sessions yet.";
-    return;
-  }
-  currentDeck.sessions.slice().reverse().forEach(s=>{
-    const item = document.createElement("div");
-    item.className = "session-item";
-    item.textContent = `${new Date(s.start).toLocaleString()} – ${formatDuration(s.duration)} (${Math.round(s.duration/60000)} min)`;
-    sessionListEl.appendChild(item);
-  });
-}
-
-/* Progress */
-function totalStudyMinutes(){
-  if(!currentDeck) return 0;
-  const totalMs = currentDeck.sessions.reduce((s,si)=>s+si.duration,0);
-  return Math.round(totalMs/60000);
-}
-
-function renderProgress(){
-  if(!currentDeck) return;
-  const totalMins = totalStudyMinutes();
-  document.getElementById("totalMins").textContent = `${totalMins} min`;
-  document.getElementById("progressTotalTime").textContent = `${totalMins} min`;
-  document.getElementById("sessionCount").textContent = currentDeck.sessions.length;
-  document.getElementById("streakPill").textContent = "Streak: " + (currentDeck.streak || 0);
-  const totalCards = currentDeck.cards.length;
-  const mastered = currentDeck.cards.filter(c=>c.mastered).length;
-  document.getElementById("progressMastered").textContent = `${mastered} / ${totalCards}`;
-  document.getElementById("masteryPct").textContent = totalCards ? Math.round(mastered / totalCards * 100) + "%" : "0%";
-}
-
-function renderAll(){
-  renderFlashcard();
-  renderQuiz(); 
-  renderSessions(); 
-  renderProgress();
-}
-/* Notebook Tab System */
-(function(){
   const tabs = document.querySelectorAll('.notebook-tab');
+  const contentIframe = document.getElementById('contentIframe');
   
   tabs.forEach(tab => {
     tab.addEventListener('click', function() {
       const tabName = this.getAttribute('data-notebook-tab');
       
-      // Update active tab styling
       tabs.forEach(t => t.classList.remove('active'));
       this.classList.add('active');
       
-      // Since navigation is now handled via onclick in HTML, only need to manage internal state for 'flashcards'
       if(tabName === 'flashcards') {
-        if(document.getElementById('app').style.display === 'block') {
-          document.getElementById('app').style.display = 'none';
-          document.getElementById('deckListCard').parentElement.style.display = 'block';
-          removeKeyboardHandlers();
-        }
+        contentIframe.src = 'flash.html';
+      } else if(tabName === 'notebook') {
+        contentIframe.src = 'notebook.html';
+      } else if(tabName === 'calculator') {
+        contentIframe.src = 'graph.html';
       }
-      // Other tabs navigate away via HTML onclick
     });
   });
 })();

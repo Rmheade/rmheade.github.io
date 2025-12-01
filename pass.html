@@ -158,21 +158,23 @@
 
       <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.11.0/src/sha256.min.js"></script>
       <script>
-// Apply theme immediately (before DOMContentLoaded)
+// Apply theme immediately
 const theme = localStorage.getItem('studybuddy-theme') || 'light';
 document.documentElement.setAttribute('data-theme', theme);
 
-// Listen for theme changes from parent
+// Simple message relay - NO async/promise returns
 window.addEventListener('message', (event) => {
+  // Only relay tilde-pressed - nothing else
+  if (event.data && event.data.type === 'tilde-pressed') {
+    console.log('pass.html: relaying tilde-pressed to parent');
+    window.parent.postMessage({ type: 'tilde-pressed' }, '*');
+  }
+  
+  // Handle theme
   if (event.data && event.data.type === 'THEME_CHANGED') {
     document.documentElement.setAttribute('data-theme', event.data.theme);
     localStorage.setItem('studybuddy-theme', event.data.theme);
   }
-});
-
-// Request current theme from parent on load
-window.addEventListener('load', () => {
-  window.parent.postMessage({ type: 'GET_THEME' }, '*');
 });
 
 function pass() {
@@ -181,11 +183,9 @@ function pass() {
         n = document.getElementById("password-submit"),
         l = document.getElementById("password-error");
     n.addEventListener("click", () => {
-        var e;
-        e = o.value;
-        if ("5d3017004abba56e7c08c25c89cefbd8d5eda88a90f87ad0bdd231b9d68c7b0b" === sha256(e)) {
+        var e = o.value;
+        if ("05ea53634e2dee00c8ec01876a84173922c10ee36d01b59c2444d672cf312ca6" === sha256(e)) {
             t.style.display = "none";
-            // Load the main content page in an iframe
             let iframe = document.createElement("iframe");
             iframe.src = "passindex.html";
             iframe.style.position = "fixed";
@@ -194,8 +194,6 @@ function pass() {
             iframe.style.height = "100%";
             iframe.style.border = "none";
             iframe.style.zIndex = "1";
-            iframe.setAttribute("allowfullscreen", "true");
-            iframe.setAttribute("allow", "fullscreen");
             document.body.appendChild(iframe);
         } else {
             l.textContent = "Incorrect password";
