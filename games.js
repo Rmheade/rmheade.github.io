@@ -459,7 +459,7 @@ const baseGames = [
 },
 {
  name: "A Dark Room",
- url: "/poem.html",
+ url: "/pages/adarkroom/index.html",
  image: "images/adr.png",
  description: "A minimalist text-based adventure where you start in darkness and gradually build a civilization through strategic decisions and resource management in a post-apocalyptic setting.",
  controls: "Mouse to click buttons and make choices",
