@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Smash Flash 2</title>
+<style type="text/css">
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #020000;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.mg_embed_wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.mg_border {
+    border: 1px solid #ccc;
+}
+</style>
+</head>
+<body>
+
+<div class="mg_embed_wrapper">
+    <div class="mg_border">
+        <div id="mg_flashWarning" style="display:none;" class="mg_flashWarning">
+            <a href="/how-to-enable-flash">
+                <img src="/wp-content/uploads/2020/02/bdee.png" alt="Flash not found" />
+                <p>Hey Bud,<br />Flash does not appear to be working<br />Click here for help fixing it!</p>
+            </a>
+        </div>
+
+        <div class="mg_embed">
+            <object type="application/x-shockwave-flash" data="SSF2Beta_v1_4_0_1" width="640" height="360">
+                <param name="movie" value="SSF2Beta_v1_4_0_1" />
+                <param name="quality" value="high"/>
+            </object>
+        </div>
+    </div>
+</div>
+
+<script src="flash_detect_min.js"></script>
+<script src="ruffle.js?2025-11-06"></script>
+<script>
+console.log(FlashDetect.installed);
+if(FlashDetect.installed === false){
+    // Flash detection code - can be used to show warning if needed
+}
+</script>
+
+</body>
+</html>
