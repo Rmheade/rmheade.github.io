@@ -27,30 +27,25 @@
   }
 
   *{box-sizing:border-box}
-  /* MODIFIED: Full screen background and minimum height */
   body{
     margin:0;
     background:linear-gradient(180deg,var(--bg), var(--bg));
     color:var(--text);
     min-height:100vh;
     transition:background 0.3s, color 0.3s;
-    /* MODIFIED: Remove body padding/margin to use full screen */
     padding: 0;
   }
-  /* MODIFIED: Use full screen and minimal margin for content wrapper */
   .wrap{
     max-width: none;
-    margin: 0; /* Remove top/bottom margin */
-    padding: 0; /* Remove padding */
+    margin: 0;
+    padding: 0;
     min-height: 100vh;
   }
 
-  /* HIDDEN: The original header and tabs are removed in the HTML below */
   header, .notebook-tabs-container {
     display: none !important;
   }
 
-  /* Original styles preserved, except for removed/modified elements */
   .card{background:var(--card);border-radius:var(--radius);box-shadow:0 6px 22px rgba(16,24,40,0.06);padding:18px;margin-bottom:14px;transition:background 0.3s}
   button{background:var(--accent);color:white;border:none;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px;transition:opacity 0.2s}
   button:disabled{opacity:0.5;cursor:not-allowed}
@@ -60,27 +55,24 @@
   button.danger{background:#ef4444;color:white}
   small.note{color:var(--muted);display:block;margin-top:8px;font-size:12px}
 
-  /* MODIFIED: Adjust wrapper border/shadow to fill screen */
   .notebook-content-wrapper {
-    border: none; /* Remove border */
-    border-radius: 0; /* Remove border-radius */
+    border: none;
+    border-radius: 0;
     background: var(--card);
     transition: background 0.3s, border 0.3s;
-    min-height: 100vh; /* Ensure it takes full viewport height */
+    min-height: 100vh;
   }
 
   [data-theme="dark"] .notebook-content-wrapper {
     border-color: #334155;
   }
 
-  /* Notebook Specific Styles */
   .notebook-grid {
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: 14px;
-    /* MODIFIED: Ensure padding allows main content to start higher/fill space */
     padding: 18px;
-    min-height: 100vh; /* Adjust grid height to fill wrapper */
+    min-height: 100vh;
   }
 
   @media(max-width:900px){
@@ -93,15 +85,13 @@
   }
 
   .note-editor {
-    /* MODIFIED: Use calc to ensure editor fills remaining vertical space, accounting for headers/controls */
     min-height: calc(100vh - 250px);
-    display: flex; /* Added for textarea height adjustment */
-    flex-direction: column; /* Added for textarea height adjustment */
+    display: flex;
+    flex-direction: column;
   }
 
   #noteContent {
     width: 100%;
-    /* MODIFIED: Ensure textarea takes remaining space in the editor */
     min-height: 100%;
     flex-grow: 1;
     padding: 12px;
@@ -195,6 +185,8 @@
     gap: 8px;
     flex-wrap: wrap;
     margin-top: 10px;
+    position: relative;
+    z-index: 1;
   }
 
   .editor-header {
@@ -261,22 +253,19 @@
     border-color: #334155 !important;
   }
 
-  /* Theming button styles kept but the button is removed from the HTML */
-
-  /* small modal input adjustments for flash modal */
-    #flashcardModal .form-group input,
-    #flashcardModal .form-group select {
+  #flashcardModal .form-group input,
+  #flashcardModal .form-group select {
     width: 100%;
     padding: 10px 12px;
     border-radius: 8px;
     border: 1px solid #e6e9ef;
     background: var(--card);
     color: var(--text);
-    }
-    [data-theme="dark"] #flashcardModal .form-group input,
-    [data-theme="dark"] #flashcardModal .form-group select {
+  }
+  [data-theme="dark"] #flashcardModal .form-group input,
+  [data-theme="dark"] #flashcardModal .form-group select {
     border-color: #334155;
-    }
+  }
 
 </style>
 
@@ -290,7 +279,6 @@ class ThemeManager {
 
   init() {
     this.applyTheme(this.theme);
-    this.setupButton();
     this.listenForExternalChanges();
   }
 
@@ -298,21 +286,11 @@ class ThemeManager {
     this.theme = theme || 'light';
     document.documentElement.setAttribute('data-theme', this.theme);
     localStorage.setItem('studybuddy-theme', this.theme);
-    this.updateButton();
   }
 
   toggle() {
     const newTheme = this.theme === 'light' ? 'dark' : 'light';
     this.applyTheme(newTheme);
-  }
-
-  /* Modified: setupButton and updateButton now just manage the theme state since the UI button is removed */
-  setupButton() {
-    // The theme button is removed from the UI, but we keep theme init
-  }
-
-  updateButton() {
-    // No button to update
   }
 
   listenForExternalChanges() {
@@ -326,7 +304,6 @@ class ThemeManager {
           theme: this.theme
         }, '*');
       }
-
     });
   }
 }
@@ -335,22 +312,14 @@ class ThemeManager {
 document.addEventListener('DOMContentLoaded', () => {
   new ThemeManager();
 
-  // Login modal logic removed since the button is gone, but keeping the other DOMContentLoaded logic
-  // The login modal is also removed from the HTML
-
-  // --- Note Search ---
-    document.getElementById('noteSearch').addEventListener('input', function() {
-        const query = this.value.toLowerCase().trim();
-
-        const
- filtered = notes.filter(note =>
-            note.title.toLowerCase().includes(query) ||
-            note.content.toLowerCase().includes(query)
-        );
-
-        renderNotesList(filtered);
-    });
-
+  document.getElementById('noteSearch').addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    const filtered = notes.filter(note =>
+      note.title.toLowerCase().includes(query) ||
+      note.content.toLowerCase().includes(query)
+    );
+    renderNotesList(filtered);
+  });
 });
 </script>
 </head>
@@ -358,12 +327,10 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="wrap">
   <div class="notebook-content-wrapper">
     <div class="card" style="border:none;border-radius:0;box-shadow:none;padding:0;min-height: 100vh;">
-
       <div class="notebook-grid" style="padding:18px; min-height: 100vh;">
         <div>
           <div class="editor-header">
-
-             <div>
+            <div>
               <input type="text" id="noteTitle" placeholder="Note title..." style="width:100%;margin-bottom:6px">
               <div class="note-meta" id="noteMeta">New note</div>
             </div>
@@ -371,7 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div class="note-editor" style="display: flex; flex-direction: column;">
             <textarea id="noteContent" placeholder="Start typing your notes here..." style="flex-grow: 1;"></textarea>
-
           </div>
 
           <div class="controls">
@@ -379,7 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <button id="saveNote">Save Note</button>
             <button id="newNote" class="ghost">New Note</button>
             <button id="deleteNote" class="danger">Delete</button>
-
           </div>
         </div>
 
@@ -390,8 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
             type="text"
             id="noteSearch"
             placeholder="Search notes..."
-            style="margin-top:8px;width:100%;padding:8px;border-radius:8px;border:1px
- solid #e6e9ef;background:var(--card);color:var(--text);"
+            style="margin-top:8px;width:100%;padding:8px;border-radius:8px;border:1px solid #e6e9ef;background:var(--card);color:var(--text);"
             />
             <div class="notes-list" id="notesList" style="margin-top:10px"></div>
           </div>
@@ -400,8 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <strong style="font-size:14px">Options</strong>
             <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
               <label style="font-size:12px;color:var(--muted)">
-                <input type="checkbox" id="autoSave" checked
- style="margin-right:6px">
+                <input type="checkbox" id="autoSave" checked style="margin-right:6px">
                 Auto-save
               </label>
               <button id="exportNotes" class="ghost" style="font-size:12px;padding:8px">Export All</button>
@@ -409,65 +372,58 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
 
-          <div
- class="card" style="padding:12px;margin-top:12px">
+          <div class="card" style="padding:12px;margin-top:12px">
             <strong style="font-size:14px">About</strong>
-            <p style="margin:6px 0;color:var(--muted);font-size:12px">Take organized notes for your studies.
- Notes are saved locally in your browser.</p>
+            <p style="margin:6px 0;color:var(--muted);font-size:12px">Take organized notes for your studies. Notes are saved locally in your browser.</p>
           </div>
         </aside>
       </div>
-
     </div>
+
     <div id="flashcardModal" style="display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:2000; background:rgba(0,0,0,0.35);">
-        <div class="card" style="width:92%;max-width:520px; padding:18px; position:relative;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-                <strong style="font-size:18px">Create Flashcard</strong>
-
-                 <button id="closeFlashModal" class="ghost" style="padding:6px 8px">✕</button>
-            </div>
-
-            <div class="form-group">
-                <label>Front (question)</label>
-                <input id="flashFront" type="text" />
-            </div>
-
-
-             <div class="form-group">
-                <label>Back (answer)</label>
-                <input id="flashBack" type="text" />
-            </div>
-
-            <div class="form-group">
-                <label>Deck</label>
-                <select id="flashDeckSelect"></select>
-
-             <small class="note">Choose a deck, or create a new one below.</small>
-            </div>
-
-            <div class="form-group" style="display:flex;gap:8px;margin-top:12px">
-                <input id="newDeckName" type="text" placeholder="Create new deck (optional)" style="flex:1" />
-            </div>
-
-            <div style="display:flex;gap:10px;margin-top:14px">
-
-             <button id="addFlashConfirm" style="flex:1">Add Flashcard</button>
-                <button id="addFlashCancel" class="ghost">Cancel</button>
-            </div>
+      <div class="card" style="width:92%;max-width:520px; padding:18px; position:relative;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <strong style="font-size:18px">Create Flashcard</strong>
+          <button id="closeFlashModal" class="ghost" style="padding:6px 8px">✕</button>
         </div>
-    </div>
 
+        <div class="form-group">
+          <label>Front (question)</label>
+          <input id="flashFront" type="text" />
+        </div>
+
+        <div class="form-group">
+          <label>Back (answer)</label>
+          <input id="flashBack" type="text" />
+        </div>
+
+        <div class="form-group">
+          <label>Deck</label>
+          <select id="flashDeckSelect"></select>
+          <small class="note">Choose a deck, or create a new one below.</small>
+        </div>
+
+        <div class="form-group" style="display:flex;gap:8px;margin-top:12px">
+          <input id="newDeckName" type="text" placeholder="Create new deck (optional)" style="flex:1" />
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button id="addFlashConfirm" style="flex:1">Add Flashcard</button>
+          <button id="addFlashCancel" class="ghost">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
 const NOTES_KEY = "studybuddy_notes_v1";
-/* State */
+
 let notes = [];
 let currentNoteId = null;
 let autoSaveEnabled = true;
 let autoSaveTimeout = null;
-/* Utilities */
+
 function generateId(){
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
@@ -475,56 +431,56 @@ function generateId(){
 function loadNotes(){
   const raw = localStorage.getItem(NOTES_KEY);
   if(!raw) return [];
- try { return JSON.parse(raw); } catch(e){ return []; }
+  try { return JSON.parse(raw); } catch(e){ return []; }
 }
 
 function saveNotes(){
   localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
- }
+}
 
 function formatDate(timestamp){
   const date = new Date(timestamp);
   const now = new Date();
   const diff = now - date;
- if(diff < 60000) return "Just now";
+  
+  if(diff < 60000) return "Just now";
   if(diff < 3600000) return Math.floor(diff/60000) + "m ago";
- if(diff < 86400000) return Math.floor(diff/3600000) + "h ago";
+  if(diff < 86400000) return Math.floor(diff/3600000) + "h ago";
   if(diff < 604800000) return Math.floor(diff/86400000) + "d ago";
-
+  
   return date.toLocaleDateString();
- }
+}
 
 function getNotePreview(content){
   return content.split('\n')[0].slice(0, 50) + (content.length > 50 ? "..." : "");
- }
+}
 
-/* Initialize */
 (function(){
   notes = loadNotes();
   autoSaveEnabled = localStorage.getItem('studybuddy-autosave') !== 'false';
   document.getElementById('autoSave').checked = autoSaveEnabled;
-
-  renderNotesList();
-
-  // If we have notes, load the first one
+  
+  setupEventListeners();
+  
   if(notes.length > 0){
     loadNote(notes[0].id);
+  } else {
+    createNewNote();
   }
-
-  setupEventListeners();
-  // Removed setupTabNavigation() call
+  
+  renderNotesList();
 })();
- function setupEventListeners(){
-  // Save note
+
+function setupEventListeners(){
   document.getElementById('saveNote').addEventListener('click', () => {
     saveCurrentNote();
     alert('Note saved!');
   });
- // New note
+  
   document.getElementById('newNote').addEventListener('click', () => {
     createNewNote();
   });
- // Delete note
+  
   document.getElementById('deleteNote').addEventListener('click', () => {
     if(currentNoteId && confirm('Delete this note? This cannot be undone.')){
       notes = notes.filter(n => n.id !== currentNoteId);
@@ -538,12 +494,12 @@ function getNotePreview(content){
       }
     }
   });
- // Auto-save checkbox
+  
   document.getElementById('autoSave').addEventListener('change', (e) => {
     autoSaveEnabled = e.target.checked;
     localStorage.setItem('studybuddy-autosave', autoSaveEnabled);
   });
- // Content auto-save
+  
   const noteContent = document.getElementById('noteContent');
   noteContent.addEventListener('input', () => {
     if(autoSaveEnabled){
@@ -553,26 +509,25 @@ function getNotePreview(content){
       }, 1000);
     }
   });
- // Export notes
+  
   document.getElementById('exportNotes').addEventListener('click', () => {
     if(notes.length === 0){
       alert('No notes to export.');
       return;
     }
-
+    
     let content = 'StudyBuddy Notes Export\n';
     content += '=' + '='.repeat(50) + '\n\n';
-
+    
     notes.forEach(note => {
       content += note.title + '\n';
       content += '-'.repeat(note.title.length) + '\n';
       content += 'Created: ' + new Date(note.created).toLocaleString() + '\n';
-
       content += 'Modified: ' + new Date(note.updated).toLocaleString() + '\n\n';
       content += note.content + '\n\n';
       content += '='.repeat(50) + '\n\n';
     });
-
+    
     const blob = new Blob([content], {type: 'text/plain'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -582,9 +537,8 @@ function getNotePreview(content){
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
- });
-
-  // Clear all notes
+  });
+  
   document.getElementById('clearAllNotes').addEventListener('click', () => {
     if(confirm('Delete ALL notes? This cannot be undone.')){
       notes = [];
@@ -594,9 +548,7 @@ function getNotePreview(content){
       createNewNote();
     }
   });
- }
-
-/* Removed setupTabNavigation function */
+}
 
 function createNewNote(){
   const newNote = {
@@ -606,7 +558,8 @@ function createNewNote(){
     created: Date.now(),
     updated: Date.now()
   };
- notes.unshift(newNote);
+  
+  notes.unshift(newNote);
   saveNotes();
   loadNote(newNote.id);
   renderNotesList();
@@ -616,40 +569,44 @@ function createNewNote(){
 function loadNote(id){
   const note = notes.find(n => n.id === id);
   if(!note) return;
- currentNoteId = id;
+  
+  currentNoteId = id;
   document.getElementById('noteTitle').value = note.title;
   document.getElementById('noteContent').value = note.content;
   document.getElementById('noteMeta').textContent = 'Modified ' + formatDate(note.updated);
-
+  
   renderNotesList();
- }
+}
 
 function saveCurrentNote(silent = false){
   if(!currentNoteId) return;
-
+  
   const note = notes.find(n => n.id === currentNoteId);
   if(!note) return;
- note.title = document.getElementById('noteTitle').value || 'Untitled Note';
+  
+  note.title = document.getElementById('noteTitle').value || 'Untitled Note';
   note.content = document.getElementById('noteContent').value;
   note.updated = Date.now();
-
+  
   saveNotes();
- if(!silent){
+  
+  if(!silent){
     document.getElementById('noteMeta').textContent = 'Modified ' + formatDate(note.updated);
   }
-
+  
   renderNotesList();
- }
+}
 
 function renderNotesList(listOverride = null){
   const list = document.getElementById('notesList');
   list.innerHTML = '';
 
   const source = listOverride || notes;
- if (source.length === 0) {
+
+  if (source.length === 0) {
     list.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px">No matching notes.</div>';
     return;
- }
+  }
 
   source.forEach(note => {
     const item = document.createElement('div');
@@ -666,8 +623,7 @@ function renderNotesList(listOverride = null){
         saveCurrentNote(true);
         loadNote(note.id);
       }
-
- });
+    });
 
     list.appendChild(item);
   });
@@ -675,52 +631,51 @@ function renderNotesList(listOverride = null){
 
 /* --- Flashcard-from-notes integration --- */
 const DECKS_KEY = "studybuddy_decks_v2";
-// same key used by index.html
 
 function getDecks() {
   try {
     const raw = localStorage.getItem(DECKS_KEY);
- return raw ? JSON.parse(raw) : [];
+    return raw ? JSON.parse(raw) : [];
   } catch (e) {
     return [];
- }
+  }
 }
+
 function saveDecksLocal(d) {
   localStorage.setItem(DECKS_KEY, JSON.stringify(d));
 }
 
-/* Modal element refs */
 const flashModal = document.getElementById('flashcardModal');
 const flashFront = document.getElementById('flashFront');
- const flashBack = document.getElementById('flashBack');
+const flashBack = document.getElementById('flashBack');
 const flashDeckSelect = document.getElementById('flashDeckSelect');
 const newDeckNameInput = document.getElementById('newDeckName');
 
 function populateDeckSelect() {
   const decks = getDecks();
- flashDeckSelect.innerHTML = '';
+  flashDeckSelect.innerHTML = '';
   const placeholderOpt = document.createElement('option');
   placeholderOpt.value = '';
   placeholderOpt.textContent = '-- Select deck --';
   flashDeckSelect.appendChild(placeholderOpt);
- decks.forEach(d => {
+
+  decks.forEach(d => {
     const opt = document.createElement('option');
     opt.value = d.id;
     opt.textContent = d.name;
     flashDeckSelect.appendChild(opt);
   });
- // If no decks exist, prefill new deck name
+
   if (decks.length === 0) {
     newDeckNameInput.value = 'Notes Cards';
- } else {
+  } else {
     newDeckNameInput.value = '';
   }
 }
 
 function openFlashModal(prefillText = '') {
   populateDeckSelect();
-  flashFront.value = prefillText ||
- '';
+  flashFront.value = prefillText || '';
   flashBack.value = '';
   newDeckNameInput.value = '';
   flashModal.style.display = 'flex';
@@ -729,15 +684,13 @@ function openFlashModal(prefillText = '') {
 
 function closeFlashModal() {
   flashModal.style.display = 'none';
- }
+}
 
 document.getElementById('createFlashFromNote').addEventListener('click', () => {
-  // try to get selection from textarea:
   const textarea = document.getElementById('noteContent');
   const sel = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd).trim();
   let prefill = sel;
   if (!prefill) {
-    // fallback: current line where caret is
     const pos = textarea.selectionStart;
     const before = textarea.value.lastIndexOf('\n', pos - 1) + 1;
     const after = textarea.value.indexOf('\n', pos);
@@ -745,13 +698,13 @@ document.getElementById('createFlashFromNote').addEventListener('click', () => {
     prefill = textarea.value.substring(before, end).trim().slice(0, 200);
   }
   if (!prefill) {
-    alert('Select
- some text in the note first (or place cursor on the line to use it).');
+    alert('Select some text in the note first (or place cursor on the line to use it).');
     return;
   }
   openFlashModal(prefill);
 });
- document.getElementById('closeFlashModal').addEventListener('click', closeFlashModal);
+
+document.getElementById('closeFlashModal').addEventListener('click', closeFlashModal);
 document.getElementById('addFlashCancel').addEventListener('click', closeFlashModal);
 
 document.getElementById('addFlashConfirm').addEventListener('click', () => {
@@ -769,13 +722,11 @@ document.getElementById('addFlashConfirm').addEventListener('click', () => {
 
   let targetDeck;
   if (newDeckName) {
-    // create new deck
     targetDeck = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2),
       name: newDeckName,
       cards: [],
       quizBank: [],
-
       sessions: [],
       notes: "",
       streak: 0,
@@ -787,10 +738,8 @@ document.getElementById('addFlashConfirm').addEventListener('click', () => {
   } else {
     targetDeck = decks.find(d => d.id === selectedDeckId);
     if (!targetDeck) {
-      // fallback create default deck
       targetDeck = decks.find(d => d.name === 'Notes Cards');
-      if (!targetDeck)
- {
+      if (!targetDeck) {
         targetDeck = {
           id: Date.now().toString(36) + Math.random().toString(36).slice(2),
           name: 'Notes Cards',
@@ -799,28 +748,25 @@ document.getElementById('addFlashConfirm').addEventListener('click', () => {
           sessions: [],
           notes: "",
           streak: 0,
-
- lastStudy: null,
+          lastStudy: null,
           created: Date.now(),
           updated: Date.now()
         };
- decks.unshift(targetDeck);
+        decks.unshift(targetDeck);
       }
     }
   }
 
-  // Add the card
   targetDeck.cards = targetDeck.cards || [];
- targetDeck.cards.push({ front, back, mastered: false });
+  targetDeck.cards.push({ front, back, mastered: false });
   targetDeck.updated = Date.now();
 
   saveDecksLocal(decks);
- // broadcast to other windows/pages (index.html will listen)
+
   try {
     window.postMessage({ type: 'DECKS_UPDATED' }, '*');
- } catch (e) {}
+  } catch (e) {}
 
-  // Hide and confirm
   closeFlashModal();
   alert('Flashcard added to "' + targetDeck.name + '"');
 });
