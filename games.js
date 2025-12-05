@@ -1531,7 +1531,7 @@ const baseGames = [
 },
 {
  name: "Krunker.io",
- url: "/pages/krunker/index.html",
+ url: "https://krunker.io/",
  image: "pages/krunker/img/krunker-io.jpg",
  description: "A fast-paced multiplayer first-person shooter with simple graphics and responsive controls, featuring various game modes and weapon classes for competitive play.",
  controls: "WASD to move, Mouse to aim and shoot, Spacebar to jump",
@@ -1912,5 +1912,37 @@ const baseGames = [
  description: "An adventurous duck training game where you explore islands, find treasures, and train your duck with mini-games to enhance its abilities for competitive",
  controls: "The arrow keys for movement and jumping, and the mouse for specific actions like flying or interacting with puzzles",
  category: "Sports"
-}
+},
+{
+ name: "Hexanaut",
+ url: "https://hexanaut.io/",
+ image: "images/hexanaut.jpeg",
+ description: "A multiplayer strategy game where you control hexagonal tiles to capture territory and outmaneuver opponents in real-time battles.",
+ controls: "Mouse to select and move tiles, keyboard shortcuts for special actions",
+ category: "IO"
+},
+{
+ name: "Defly.io",
+ url: "https://defly.io/",
+ image: "images/deflyio.png",
+ description: "A multiplayer aerial combat game where you pilot a plane, capture zones, and engage in dogfights with other players in a dynamic arena.",
+ controls: "WASD to fly, Mouse to aim and shoot, Spacebar for special maneuvers",
+ category: "IO"
+},
+{
+ name: "ZombsRoyale.io",
+ url: "https://zombs.io",
+ image: "images/zr.jpeg",
+ description: "A 2D battle royale game where you scavenge for weapons, build structures, and fight to be the last player standing in a shrinking arena.",
+ controls: "WASD to move, Mouse to aim and shoot, E to interact with objects",
+ category: "IO"
+},
+{
+ name: "Goober Dash",
+ url: "https://gooberdash.winterpixel.io/",
+ image: "images/gd.jpg",
+ description: "A fast-paced endless runner where you control a character dodging obstacles and collecting items to achieve the highest score possible.",
+ controls: "Spacebar or Mouse Click to jump, Arrow Keys to move left and right",
+ category: "IO"
+},
 ];
