@@ -1890,11 +1890,27 @@ const baseGames = [
  category: "Puzzle"
 },
 {
- name: "Worlds Hardest Game 2",
+ name: "World's Hardest Game 2",
  url: "/pages/worlds-hardest-game-2/index.html",
  image: "pages/worlds-hardest-game-2/the-worlds-hardest-game-2.jpg",
  description: "The sequel to the punishing platformer, featuring even more brutal obstacle patterns, faster enemies, and tighter puzzle designs demanding extreme precision and patience." ,
  controls: "Arrow Keys to move with frame-perfect timing required",
- category: "Strategy"
+ category: "Strategyy"
+},
+{
+ name: "Chat GPT",
+ url: "pages/gpt/index.html",
+ image: "pages/gpt/chatgpt.svg",
+ description: "A web-based interface to interact with the Chat GPT language model, allowing users to input prompts and receive AI-generated text responses in real-time." ,
+ controls: "Type your prompt into the text box and press Enter to submit",
+ category: "Other"
+},
+{
+ name: "Duck Life: Treasure Hunt",
+ url: "pages/dlth/index.html",
+ image: "pages/dlth/dltr.jpeg",
+ description: "An adventurous duck training game where you explore islands, find treasures, and train your duck with mini-games to enhance its abilities for competitive",
+ controls: "The arrow keys for movement and jumping, and the mouse for specific actions like flying or interacting with puzzles",
+ category: "Sports"
 }
 ];
