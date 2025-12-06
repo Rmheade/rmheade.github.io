@@ -166,7 +166,7 @@
          }
          .category-container {
             /* Clear the grid layout properties */
-            display: block; 
+            display: block;
             margin: 0; 
             padding: 0 5% 5%; /* Apply padding to the container instead of margin to the grid */
         }
@@ -228,12 +228,12 @@
              box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06),
                          0 0 20px rgba(37, 99, 235, 0.4),
                          0 0 40px rgba(37, 99, 235, 0.2);
-           }
+         }
            50% {
              box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06),
                          0 0 30px rgba(37, 99, 235, 0.6),
                          0 0 60px rgba(37, 99, 235, 0.3);
-           }
+         }
          }
 
          .game.priority {
@@ -245,8 +245,20 @@
          .game.priority:hover {
            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.25),
                        0 0 40px rgba(37, 99, 235, 0.4);
+         border-color: #1d4ed8;
+         }
+
+         /* Added CSS for isPriority2 Feature [cite: 1602] */
+         .game.priority2 {
+           border-color: #2563eb;
+           position: relative;
+         }
+
+         .game.priority2:hover {
+           box-shadow: 0 12px 32px rgba(37, 99, 235, 0.15);
            border-color: #1d4ed8;
          }
+         /* End of Added CSS */
 
          iframe {
          border: none;
@@ -371,19 +383,21 @@
             cursor: pointer;
             z-index: 10;
             transition: all 0.2s ease;
-        }
+         }
         [data-theme="dark"] .game .favorite-btn {
             background: rgba(30, 41, 59, 0.8);
-        }
+         }
         .game .favorite-btn:hover {
             transform: scale(1.1);
-        }
+         }
         .game .favorite-btn.active svg {
-            fill: #ef4444; /* Tailwind red-500 */
+            fill: #ef4444;
+            /* Tailwind red-500 */
             stroke: #ef4444;
-        }
+         }
         .game {
-            position: relative; /* Needed for absolute positioning of the heart button */
+            position: relative;
+            /* Needed for absolute positioning of the heart button */
         }
         #quick-exit-hint {
             position: fixed;
@@ -399,10 +413,10 @@
             opacity: 0.8;
             z-index: 1000;
             transition: opacity 0.3s;
-        }
+         }
         #quick-exit-hint:hover {
             opacity: 1;
-        }
+         }
         .game-popover {
             position: absolute;
             top: 50%;
@@ -416,19 +430,20 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             /* *** CRITICAL FIX: Increase z-index and remove clip prevention ***
             */
-            z-index: 100; /* Increased to ensure it layers over all adjacent cards */
+            z-index: 100;
+            /* Increased to ensure it layers over all adjacent cards */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
             text-align: left;
-        }
+         }
         .game-popover h4 {
             margin: 0 0 8px 0;
             font-size: 1.1rem;
             color: var(--accent);
             border-bottom: 1px solid var(--bg);
             padding-bottom: 5px;
-        }
+         }
         .game-popover p {
             font-size: 0.9rem;
             margin: 0;
@@ -447,16 +462,19 @@
         }
         /* 4-column layout (Default/ >1200px) - Target 4th, 8th, 12th, etc. */
         .grid .game:nth-child(4n):not(.priority) .game-popover {
-            left: auto; /* Clear the default left: 100% */
-            right: 100%; /* Stick to the left of the parent */
+            left: auto;
+            /* Clear the default left: 100% */
+            right: 100%;
+            /* Stick to the left of the parent */
             /* Adjusted transform: The popover is now positioned left of the card,
-               and the hover shift is to the left. */
-            transform: translate(-10px, -50%); 
-        }
+               and the hover shift is to the left.
+            */
+            transform: translate(-10px, -50%);
+         }
 
         .grid .game:nth-child(4n):not(.priority):hover .game-popover {
             transform: translate(-20px, -50%);
-        }
+         }
 
         /* 3-column layout (max-width: 1200px) - Target 3rd, 6th, 9th, etc. */
         @media (max-width: 1200px) {
@@ -467,7 +485,7 @@
             }
             .grid .game:nth-child(4n):not(.priority):hover .game-popover {
                 transform: translate(20px, -50%);
-            }
+         }
 
             .grid .game:nth-child(3n):not(.priority) .game-popover {
                 left: auto;
@@ -476,7 +494,7 @@
             }
             .grid .game:nth-child(3n):not(.priority):hover .game-popover {
                 transform: translate(-20px, -50%);
-            }
+         }
         }
 
         /* 2-column layout (max-width: 768px) - Target 2nd, 4th, 6th, etc. */
@@ -489,7 +507,7 @@
             }
             .grid .game:nth-child(3n):not(.priority):hover .game-popover {
                 transform: translate(20px, -50%);
-            }
+         }
 
             /* Apply 2n rule for the right column */
             .grid .game:nth-child(2n):not(.priority) .game-popover {
@@ -499,7 +517,7 @@
             }
             .grid .game:nth-child(2n):not(.priority):hover .game-popover {
                 transform: translate(-20px, -50%);
-            }
+         }
         }
 
         /* 1-column layout (max-width: 480px) - All are 1st column, so no change needed */
@@ -511,23 +529,26 @@
             }
             .grid .game:nth-child(2n):not(.priority):hover .game-popover {
                 transform: translate(20px, -50%);
-            }
+         }
         }
         .control-group {
-            max-width: 250px; /* Adjust this value (e.g., 200px, 300px) for desired width */
-            width: 100%; 
+            max-width: 250px;
+            /* Adjust this value (e.g., 200px, 300px) for desired width */
+            width: 100%;
             display: flex; /* Enable internal layout for sorting/filter groups */
-            gap: 8px; /* Standard gap between internal items (selects/buttons) */
+            gap: 8px;
+            /* Standard gap between internal items (selects/buttons) */
             align-items: center;
-        }
+         }
         #sort-container select {
-        flex-grow: 1; /* Makes them share space evenly */
-        width: 0; /* Needed for correct flex behavior */
+        flex-grow: 1;
+        /* Makes them share space evenly */
+        width: 0;
+        /* Needed for correct flex behavior */
         min-width: 0;
         box-sizing: border-box;
-
         /* Transferred visual styles from the old inline HTML */
-        background: var(--card); 
+        background: var(--card);
         border: 1px solid #e6e9ef; 
         border-radius: 8px; 
         color: var(--text); 
@@ -545,12 +566,14 @@
 
     /* 4. Make the Favorites button take the remaining space and transfer its visual styles */
     #filter-and-theme-group #favorites-toggle {
-        flex-grow: 1; /* Allows it to expand */
+        flex-grow: 1;
+        /* Allows it to expand */
         text-align: center;
-        padding: 10px 12px; /* Match padding of select/search input */
+        padding: 10px 12px;
+        /* Match padding of select/search input */
         
         /* Transferred visual styles from the old inline HTML */
-        background: var(--card); 
+        background: var(--card);
         border: 1px solid var(--accent); 
         border-radius: 8px; 
         color: var(--accent); 
@@ -559,6 +582,27 @@
         font-family: Inter, system-ui; 
         font-weight: 600; 
         cursor: pointer;
+    }
+    .unblocker-button {
+        padding: 12px 30px;
+        font-size: 1.1em;
+        font-weight: bold;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .unblocker-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .unblocker-button:active {
+        transform: translateY(0);
     }
       </style>
    </head>
@@ -607,8 +651,12 @@
         </div>
       </div>
       <div style="height:80px"></div>
+      <div style="text-align: center; margin: 20px 0; ">
+        <button id="unblocker-btn" class="unblocker-button">UNBLOCKER</button>
+      </div>
       <div>
-        <p id="intro">Welcome! This website will fufill your Unbl0cked g@me needs. It is password locked, so no admin can get in, and all games open on the same URL, meaning that there is no way in without the password. <strong>To exit a game, you can move your mouse to the top right corner and a button will appear to exit the game and return to the home website without logging in. Have Fun!</strong><br><br>Yours Truly,<br>HimeSpider</p>
+        <p id="intro">Welcome! This website will fufill your Unbl0cked g@me needs. It is password locked, so no admin can get in, and all games open on the same URL, meaning that there is no way in without the password.
+        <strong>To exit a game, you can move your mouse to the top right corner and a button will appear to exit the game and return to the home website without logging in. Have Fun!</strong><br><br>Yours Truly,<br>HimeSpider</p>
       </div>
 
       <div class="grid" id="games-grid">
@@ -630,19 +678,19 @@
             id: index,
             // For simplicity, we'll use the index to represent "Recently Added" (higher index = newer)
         }));
-
         // Local Storage Key
         const FAVORITES_KEY = 'studybuddy-favorites';
-
         // Function to toggle a game's favorite status
         function toggleFavorite(gameName) {
             let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
             const index = favorites.indexOf(gameName);
             
             if (index > -1) {
-                favorites.splice(index, 1); // Remove
+                favorites.splice(index, 1);
+                // Remove
             } else {
-                favorites.push(gameName); // Add
+                favorites.push(gameName);
+                // Add
             }
             
             localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
@@ -657,76 +705,71 @@
 
         // State variable for the favorites filter
         let isShowingFavorites = false;
-
         // --- Core Rendering Logic ---
         function renderGames(gamesToRender) {
             const grid = document.getElementById('games-grid');
             if (!grid) return;
 
             // FIX: Reset the main container's class to 'grid' to re-enable the column layout
-            grid.className = 'grid'; 
-
+            grid.className = 'grid';
             // Clear existing games
             grid.innerHTML = '';
-
             gamesToRender.forEach(game => {
                 const gameDiv = document.createElement('div');
                 gameDiv.className = 'game';
 
                 if (game.isPriority) {
                     gameDiv.classList.add('priority');
+                } else if (game.isPriority2) { // Added for Feature 1 [cite: 1598, 1599]
+                    gameDiv.classList.add('priority2');
                 }
 
                 const clickHandler = game.isExternal
                     ? `window.open('${game.url}', '_blank')`
                     : `beep('${game.url}')`;
-
                 gameDiv.setAttribute('onclick', clickHandler);
 
                 const isFav = isFavorite(game.name);
                 const favoriteClass = isFav ? ' active' : '';
-                
-                const favoriteButtonHTML = game.isPriority ? '' : `
-                    <button class="favorite-btn${favoriteClass}" 
-                            onclick="event.stopPropagation(); toggleFavorite('${game.name.replace(/'/g, "\\'")}')" 
-                            aria-label="Toggle Favorite">
+                // Updated condition for favorites button (Feature 1) [cite: 1618]
+                const favoriteButtonHTML = (game.isPriority || game.isPriority2) ? 
+                    '' : 
+                    ` <button class="favorite-btn${favoriteClass}" onclick="event.stopPropagation(); toggleFavorite('${game.name.replace(/'/g, "\\'")}')" aria-label="Toggle Favorite">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart">
                             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
                         </svg>
-                    </button>
-                `;
+                    </button> `;
 
-                gameDiv.innerHTML = `
-                    ${favoriteButtonHTML}
-                    <img loading="lazy" src="${game.image}">
-                    <p>${game.name}</p>
-                    
-                    ${game.description ? `
-                        <div class="game-popover">
-                            <h4>${game.name}</h4>
-                            <p>${game.description}</p>
-                            ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
-                        </div>
-                    ` : ''}
-                `;
+                // Store image sources and select image based on theme (Feature 2) [cite: 1563, 1564]
+                gameDiv.dataset.imageSrc = game.image;
+                if (game.imageDark) {
+                    gameDiv.dataset.imageDarkSrc = game.imageDark;
+                }
+
+                const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+                const hasDarkImage = game.imageDark && game.imageDark.trim() !== '';
+                const imageSrc = (isDarkTheme && hasDarkImage) ? game.imageDark : game.image;
+
+                gameDiv.innerHTML = ` ${favoriteButtonHTML} <img loading="lazy" src="${imageSrc}"> <p>${game.name}</p> ${game.description ? ` <div class="game-popover">
+                        <h4>${game.name}</h4>
+                        <p>${game.description}</p>
+                        ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
+                    </div> ` : ''} `;
                 grid.appendChild(gameDiv);
             });
         }
 
-        // --- New Grouped Rendering Logic---
+        // Alternative rendering for category-asc sort option
         function renderGamesGroupedByCategory(gamesToRender) {
-            const container = document.getElementById('games-grid');
-            if (!container) return;
+            const grid = document.getElementById('games-grid');
+            if (!grid) return;
 
-            //Set the main container class to the non-grid styling
-            container.className = 'category-container';
+            // Use the alternate container class to prevent top-level grid layout
+            const container = document.createElement('div');
+            container.id = 'games-grid-container'; // Assign a unique ID if needed, but not strictly required
+            grid.innerHTML = ''; // Clear main grid CSS
+            grid.className = 'category-container'; // Group games by category
 
-            // Clear existing games/grid (we'll replace the grid with a container)
-            container.innerHTML = '';
-            
-            // Temporarily change the ID or remove the class to clear default grid CSS
-            container.className = 'category-container';
-            
             // Group games by category
             const groupedGames = gamesToRender.reduce((acc, game) => {
                 const category = game.category || 'Other';
@@ -736,7 +779,7 @@
                 acc[category].push(game);
                 return acc;
             }, {});
-            
+
             // Get sorted category names
             const sortedCategories = Object.keys(groupedGames).sort((a, b) => {
                 // Ensure 'Other' is at the bottom
@@ -747,7 +790,6 @@
 
             sortedCategories.forEach(category => {
                 const games = groupedGames[category];
-
                 // 1. Create Category Header
                 const header = document.createElement('h2');
                 header.style.cssText = 'margin: 40px 5% 15px; font-size: 1.8rem; border-bottom: 2px solid var(--accent); padding-bottom: 5px; color: var(--text);';
@@ -757,7 +799,7 @@
                 // 2. Create Category Grid (Use the original 'grid' class for styling)
                 const categoryGrid = document.createElement('div');
                 categoryGrid.className = 'grid'; // <-- This correctly applies the grid layout to the sub-sections
-                
+
                 // 3. Populate the Grid with Games
                 games.forEach(game => {
                     // *** Re-use the same game rendering logic from the original renderGames function ***
@@ -766,50 +808,51 @@
 
                     if (game.isPriority) {
                         gameDiv.classList.add('priority');
+                    } else if (game.isPriority2) { // Added for Feature 1 [cite: 1598, 1599]
+                        gameDiv.classList.add('priority2');
                     }
 
-                    const clickHandler = game.isExternal
-                        ? `window.open('${game.url}', '_blank')`
-                        : `beep('${game.url}')`;
-
+                    const clickHandler = game.isExternal ? 
+                        `window.open('${game.url}', '_blank')` : 
+                        `beep('${game.url}')`;
                     gameDiv.setAttribute('onclick', clickHandler);
-            
+
                     const isFav = isFavorite(game.name);
                     const favoriteClass = isFav ? ' active' : '';
-                    
-                    const favoriteButtonHTML = game.isPriority ? '' : `
-                        <button class="favorite-btn${favoriteClass}" 
-                                onclick="event.stopPropagation(); toggleFavorite('${game.name}')" 
-                                aria-label="Toggle Favorite">
+                    // Updated condition for favorites button (Feature 1) [cite: 1618]
+                    const favoriteButtonHTML = (game.isPriority || game.isPriority2) ?
+                        '' : 
+                        ` <button class="favorite-btn${favoriteClass}" onclick="event.stopPropagation(); toggleFavorite('${game.name.replace(/'/g, "\\'")}')" aria-label="Toggle Favorite">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart">
                                 <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
                             </svg>
-                        </button>
-                    `;
+                        </button> `;
 
-                    gameDiv.innerHTML = `
-                        ${favoriteButtonHTML}
-                        <img loading="lazy" src="${game.image}">
-                        <p>${game.name}</p>
-                        
-                        ${game.description ? `
-                            <div class="game-popover">
-                                <h4>${game.name}</h4>
-                                <p>${game.description}</p>
-                                ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
-                            </div>
-                        ` : ''}
-                    `;
+                    // Store image sources and select image based on theme (Feature 2) [cite: 1565, 1566]
+                    gameDiv.dataset.imageSrc = game.image;
+                    if (game.imageDark) {
+                        gameDiv.dataset.imageDarkSrc = game.imageDark;
+                    }
+
+                    const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+                    const hasDarkImage = game.imageDark && game.imageDark.trim() !== '';
+                const imageSrc = (isDarkTheme && hasDarkImage) ? game.imageDark : game.image;
+                    
+                    gameDiv.innerHTML = ` ${favoriteButtonHTML} <img loading="lazy" src="${imageSrc}"> <p>${game.name}</p> ${game.description ? ` <div class="game-popover">
+                            <h4>${game.name}</h4>
+                            <p>${game.description}</p>
+                            ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
+                        </div> ` : ''} `;
                     categoryGrid.appendChild(gameDiv);
                 });
-
                 container.appendChild(categoryGrid);
             });
+
+            grid.appendChild(container); // Append the whole container to the main games-grid div
         }
 
-        // --- Function to Setup Category Filter Dropdown (NEW) ---
+        // Function to extract and setup the category filter dropdown
         function extractAndSetupCategoryFilter() {
-            // 1. Get all unique categories
             const categories = new Set();
             allGames.forEach(game => {
                 if (game.category) {
@@ -817,17 +860,13 @@
                 }
             });
 
-            // 2. Prepare the dropdown and base options
             const filterSelect = document.getElementById('category-filter-select');
             if (!filterSelect) return;
 
-            // Start with 'All Categories' option
-            filterSelect.innerHTML = '<option value="all">All Categories</option>';
-            
-            // Convert Set to Array, sort alphabetically, and add 'Other' last
+            // 2. Convert Set to Array and sort
             const sortedCategories = Array.from(categories).sort((a, b) => {
                 // Optional: Exclude 'Other' if you handle it elsewhere, but this is safer
-                if (a === 'Other') return 1; 
+                if (a === 'Other') return 1;
                 if (b === 'Other') return -1;
                 return a.localeCompare(b);
             });
@@ -839,7 +878,7 @@
                 option.textContent = category;
                 filterSelect.appendChild(option);
             });
-            
+
             // Add event listener to re-render games when the filter changes
             filterSelect.addEventListener('change', sortAndFilterGames);
         }
@@ -847,35 +886,37 @@
         // --- Core Filtering and Sorting Logic ---
         function sortAndFilterGames() {
             const searchBar = document.getElementById('search-bar');
-            const sortSelect = document.getElementById('sort-select'); 
-            
+            const sortSelect = document.getElementById('sort-select');
             // Get the selected category filter
             const categoryFilterSelect = document.getElementById('category-filter-select');
             const selectedCategory = categoryFilterSelect ? categoryFilterSelect.value : 'all';
 
             const searchTerm = searchBar ? searchBar.value.toLowerCase() : '';
-            const sortOption = sortSelect ? sortSelect.value : 'name-asc'; 
+            const sortOption = sortSelect ? sortSelect.value : 'name-asc';
 
             // 1. Filter games
             let filteredGames = allGames.filter(game => {
                 const nameMatch = game.name.toLowerCase().includes(searchTerm);
                 const isFav = isFavorite(game.name);
                 const favMatch = !isShowingFavorites || isFav;
-                
                 // Check if the game matches the selected category
                 const gameCategory = game.category || 'Other';
                 const categoryMatch = selectedCategory === 'all' || gameCategory === selectedCategory;
-
                 // Combine all filters
                 return (nameMatch && favMatch && categoryMatch) || game.isPriority;
             });
 
-            // 2. Apply sorting (RE-INSERTED COMPARISON LOGIC)
+            // 2. Apply sorting (UPDATED PRIORITY LOGIC for Feature 1)
             filteredGames.sort((a, b) => {
-                // Keep priority game at the very top, always overriding other sorts
-                if (a.isPriority && !b.isPriority) return -1; 
-                if (b.isPriority && !a.isPriority) return 1;
+                // Assign a numeric priority level: 2 for isPriority, 1 for isPriority2, 0 for normal
+                const aPrioLevel = a.isPriority ? 2 : (a.isPriority2 ? 1 : 0);
+                const bPrioLevel = b.isPriority ? 2 : (b.isPriority2 ? 1 : 0);
 
+                if (aPrioLevel !== bPrioLevel) {
+                    return bPrioLevel - aPrioLevel; // Higher level (Prio) comes first
+                }
+            
+                // If same priority level, apply secondary sort
                 switch (sortOption) {
                     case 'name-asc':
                         return a.name.localeCompare(b.name);
@@ -883,8 +924,8 @@
                         return b.name.localeCompare(a.name);
                     case 'added-desc':
                         // Higher ID (index) means more recently added
-                        return b.id - a.id; 
-                    case 'category-asc': 
+                        return b.id - a.id;
+                    case 'category-asc':
                         const categoryA = a.category || 'Other';
                         const categoryB = b.category || 'Other';
                         const categoryComparison = categoryA.localeCompare(categoryB);
@@ -924,101 +965,119 @@
                 favoritesToggle.addEventListener('click', () => {
                     isShowingFavorites = !isShowingFavorites; // Flip the state
                     favoritesToggle.textContent = isShowingFavorites ? 'Show All Games' : 'Show Favorites';
-                    
                     // Apply a visual style when the filter is active (optional)
                     favoritesToggle.style.borderColor = isShowingFavorites ? '#7c3aed' : '#2563eb';
                     favoritesToggle.style.color = isShowingFavorites ? '#7c3aed' : '#2563eb';
-
                     sortAndFilterGames(); // Rerun the full filter/sort/render cycle
                 });
             }
-            
             // Initial check to set button state if coming back to the page
             if (favoritesToggle) {
-                favoritesToggle.textContent = isShowingFavorites ? 'Show All Games' : 'Show Favorites';
+                favoritesToggle.textContent = isShowingFavorites ?
+                    'Show All Games' : 'Show Favorites';
             }
         }
-        // --- Theme Management (unchanged) ---
+
+        // --- Theme Management (Feature 2 added) ---
         // Apply theme immediately from localStorage
-        const theme = localStorage.getItem('studybuddy-theme') || 'light';
+        const theme = localStorage.getItem('studybuddy-theme') ||
+            'light';
         document.documentElement.setAttribute('data-theme', theme);
-        
+
         // Theme Management Class
         class ThemeManager {
             constructor() {
                 this.theme = localStorage.getItem('studybuddy-theme') || 'light';
                 this.init();
             }
+
             init() {
                 this.applyTheme(this.theme);
                 this.setupButton();
                 this.listenForExternalChanges();
             }
+
             applyTheme(theme) {
                 this.theme = theme || 'light';
                 document.documentElement.setAttribute('data-theme', this.theme);
                 localStorage.setItem('studybuddy-theme', this.theme);
                 this.updateButton();
+                this.updateGameImages(); // Added for imageDark support [cite: 1633]
                 this.broadcastToParent();
             }
+
             toggle() {
                 const newTheme = this.theme === 'light' ? 'dark' : 'light';
                 this.applyTheme(newTheme);
             }
+
             setupButton() {
                 const btn = document.getElementById('themeToggle');
                 if (btn) {
                     btn.addEventListener('click', () => this.toggle());
                 }
             }
+
             updateButton() {
                 const btn = document.getElementById('themeToggle');
                 if (btn) {
                     const icon = btn.querySelector('.theme-icon');
                     if (icon) {
-                        icon.innerHTML = this.theme === 'light' 
-                            ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>'
-                            : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="4.22" x2="19.78" y2="5.64"></line></svg>';
+                        icon.innerHTML = this.theme === 'light' ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
                     }
                 }
             }
-            broadcastToParent() {
-                 if (window.parent !== window.self) {
-                     window.parent.postMessage({ theme: this.theme }, '*');
-                 }
+            
+            // New method for imageDark switching (Feature 2) [cite: 1637]
+            updateGameImages() {
+                const gameImages = document.querySelectorAll('.game img');
+                const isDarkTheme = this.theme === 'dark';
+
+                gameImages.forEach(img => {
+                    const gameDiv = img.closest('.game');
+                    const darkSrc = gameDiv.dataset.imageDarkSrc;
+                    const lightSrc = gameDiv.dataset.imageSrc;
+
+                    if (isDarkTheme && darkSrc) {
+                        img.src = darkSrc;
+                    } else {
+                        img.src = lightSrc;
+                    }
+                });
             }
+
+            // Listen for changes from parent (e.g., iframe)
             listenForExternalChanges() {
                 window.addEventListener('message', (event) => {
-                    if (event.data.theme && event.data.theme !== this.theme) {
+                    if (event.data && event.data.type === 'themeChange') {
                         this.applyTheme(event.data.theme);
                     }
                 });
             }
-        }
 
-        // --- Game Iframe/Exit Button Logic (unchanged) ---
-        function beep(t) {
-            window.appState.isInGame = true;
-            const n = document.createElement("iframe");
-            n.setAttribute("src", t);
-            n.style.position = "fixed";
-            n.style.top = "0";
-            n.style.left = "0";
-            n.style.width = "100%";
-            n.style.height = "100%";
-            n.style.zIndex = "1000";
-            document.getElementById("all").hidden = true;
-            const o = document.body.style.overflow;
-            document.body.style.overflow = "hidden";
-            const l = document.createElement("a");
-            l.id = "back-button";
-            l.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+            // Broadcast change to parent (e.g., iframe)
+            broadcastToParent() {
+                if (window.parent !== window.self) {
+                    window.parent.postMessage({ type: 'themeChange', theme: this.theme }, '*');
+                }
+            }
+        }
+        
+        // --- Quick Exit (Easter Egg) Logic ---
+        function beep(url) {
+            const l = document.createElement("div");
+            l.style.background = "var(--card)";
+            l.style.height = "100vh";
+            l.style.left = "0";
             l.style.opacity = "0";
             l.style.pointerEvents = "none";
             l.style.position = "fixed";
-            l.style.top = "20px";
-            l.style.right = "20px";
-            l.style.zIndex = "1002";
+            l.style.top = "0";
+            l.style.transition = "opacity 0.3s ease";
+            l.style.width = "100%";
+            l.style.zIndex = "1001";
+            l.innerHTML = ` <iframe id="game-iframe" src="${url}" title="Game" style="z-index:1002"></iframe> `;
+            document.body.appendChild(l);
             let d = null, i = !1;
             const s = document.createElement("div");
             s.style.position = "fixed";
@@ -1029,87 +1088,75 @@
             s.style.zIndex = "1001";
             s.style.background = "transparent";
             s.style.pointerEvents = "auto";
-            
-            function r() {
+            document.body.appendChild(s);
+            const r = document.createElement("button");
+            r.id = "back-button";
+            r.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>`;
+            r.style.opacity = "0";
+            r.style.pointerEvents = "none";
+            r.style.position = "fixed";
+            r.style.top = "20px";
+            r.style.right = "20px";
+            r.style.zIndex = "1002";
+            document.body.appendChild(r);
+
+            function showBackButton() {
                 d && (clearTimeout(d), d = null);
-                l.style.opacity = "1";
-                l.style.pointerEvents = "auto";
+                r.style.opacity = "1";
+                r.style.pointerEvents = "auto";
             }
-            function a() {
+
+            function hideBackButton() {
                 i || (d && clearTimeout(d), d = setTimeout(() => {
-                    i || (l.style.opacity = "0", l.style.pointerEvents = "none");
+                    i || (r.style.opacity = "0", r.style.pointerEvents = "none");
                 }, 400));
             }
 
-            s.addEventListener("mouseenter", r);
+            s.addEventListener("mouseenter", showBackButton);
             s.addEventListener("mouseleave", () => {
                 d && clearTimeout(d);
                 d = setTimeout(() => {
-                    i || (l.style.opacity = "0", l.style.pointerEvents = "none");
+                    i || (r.style.opacity = "0", r.style.pointerEvents = "none");
                 }, 100);
             });
-            l.addEventListener("mouseenter", () => {
+            r.addEventListener("mouseenter", () => {
                 i = !0;
-                r();
+                showBackButton();
             });
-            l.addEventListener("mouseleave", () => {
+            r.addEventListener("mouseleave", () => {
                 i = !1;
-                a();
+                hideBackButton();
             });
-            
-            l.onclick = function() {
-                window.appState.isInGame = false;
-                document.body.removeChild(n);
-                document.body.removeChild(l);
-                document.body.removeChild(s);
-                document.getElementById("all").hidden = false;
-                document.body.style.overflow = o;
+            r.onclick = function() {
+                l.style.opacity = "0";
+                setTimeout(() => {
+                    l.remove();
+                    s.remove();
+                    r.remove();
+                }, 300);
             };
-
-            document.body.appendChild(n);
-            document.body.appendChild(s);
-            document.body.appendChild(l);
-            // FIX: Focus the iframe so keyboard events are captured properly
-            n.addEventListener('load', function() {
-                try {
-                    n.focus();
-                    n.contentWindow.focus();
-                } catch (e) {
-                    console.error("Could not focus iframe contentWindow:", e);
-                }
-            });
+            l.style.opacity = "1";
         }
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === '`') {
-                console.log('Backtick pressed!');
-                const backButton = document.getElementById('back-button');
-                
-                if (window.appState && window.appState.isInGame && backButton) {
-                    console.log('In game - exiting');
-                    e.preventDefault();
-                    backButton.click();
-                } else if (!window.appState || !window.appState.isInGame) {
-                    console.log('Not in game - sending parent message');
-                    e.preventDefault();
-                    if (window.parent !== window.self) {
-                        console.log('Sending tilde-pressed to parent');
-                        window.parent.postMessage({ type: 'tilde-pressed' }, '*'); 
-                    } else {
-                        console.log('No parent window found');
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === '`' || event.key === '~') {
+                const gameIframe = document.getElementById('game-iframe');
+                if (gameIframe) {
+                    const overlay = gameIframe.closest('div');
+                    if (overlay) {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => {
+                            overlay.remove();
+                        }, 300);
                     }
                 }
             }
         });
 
-        // App State for Quick Exit Logic
-        window.appState = { isInGame: false };
-
-
         // --- Document Ready and Event Listeners ---
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Theme Manager
-            new ThemeManager();
+            const themeManager = new ThemeManager();
                         
             // Header Scroll and Back-to-Top Logic
             const topHeader = document.getElementById("top-header");
@@ -1140,6 +1187,33 @@
             // Initial setup - **This now calls the new JS functions to render games**
             sortAndFilterGames();
             setupControls();
+        });
+        document.getElementById('unblocker-btn').addEventListener('click', function() {
+        // Create a fullscreen container
+        const fullscreenContainer = document.createElement('div');
+        fullscreenContainer.style.position = 'fixed';
+        fullscreenContainer.style.top = '0';
+        fullscreenContainer.style.left = '0';
+        fullscreenContainer.style.width = '100%';
+        fullscreenContainer.style.height = '100%';
+        fullscreenContainer.style.zIndex = '9999';
+        fullscreenContainer.style.margin = '0';
+        fullscreenContainer.style.padding = '0';
+        fullscreenContainer.style.border = 'none';
+        fullscreenContainer.style.backgroundColor = '#f6f8fb'; 
+
+        // Create the iframe
+        const iframe = document.createElement('iframe');
+        iframe.src = 'rmheade.html';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.style.margin = '0';
+        iframe.style.padding = '0';
+
+        // Append iframe to container and container to body
+        fullscreenContainer.appendChild(iframe);
+        document.body.appendChild(fullscreenContainer);
         });
     </script>
     <div id="quick-exit-hint">
