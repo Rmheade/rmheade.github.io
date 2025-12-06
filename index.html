@@ -167,11 +167,7 @@
 </style>
 
 <script>
-  // ADD THIS AT THE VERY TOP OF YOUR index.html SCRIPT, BEFORE EVERYTHING ELSE
-console.log('Index.html script loaded - setting up message listener');
-
 window.addEventListener('message', (event) => {
-    console.log('Message received in parent:', event.data);
     if (event.data && event.data.type === 'tilde-pressed') {
         console.log('Tilde pressed detected in parent! Redirecting...');
         window.location.href = "/";

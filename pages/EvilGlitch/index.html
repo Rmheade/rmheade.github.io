@@ -19,6 +19,17 @@
           window.location.href = '/';
         }
       });
+      // Listen for the Escape key press
+      document.addEventListener('keydown', (event) => {
+          // Check if the key pressed is the Escape key
+          if (event.key === 'Escape') {
+              // Send a message to the parent window (the main dashboard)
+              // The main page will listen for this signal and close the game iframe
+              if (window.parent) {
+                  window.parent.postMessage('closeGame', '*');
+              }
+          }
+        });
     </script>
 <link rel="icon" sizes="192x192" href="icon.jpeg">
  <link rel="shortcut icon" href="icon.jpeg" type="image/x-icon"/>
