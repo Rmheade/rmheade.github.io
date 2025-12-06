@@ -623,7 +623,7 @@ const baseGames = [
  image: "pages/drift-boss/db.png",
  description: "A minimalist driving game focused on drifting mechanics, where you must carfuly drift around bend after bend, trying to get a high score" ,
  controls: "Space to change drift direction",
- category: "Platformer"
+ category: "Racing"
 },
 {
  name: "Drive Mad",
@@ -1895,7 +1895,7 @@ const baseGames = [
  image: "pages/worlds-hardest-game-2/the-worlds-hardest-game-2.jpg",
  description: "The sequel to the punishing platformer, featuring even more brutal obstacle patterns, faster enemies, and tighter puzzle designs demanding extreme precision and patience." ,
  controls: "Arrow Keys to move with frame-perfect timing required",
- category: "Strategyy"
+ category: "Strategy"
 },
 {
  name: "Chat GPT",
@@ -1954,5 +1954,45 @@ const baseGames = [
  description: "Control a bean",
  controls: "WASD to move, right click to look around, idk what else, ask thomas",
  category: "Thomasi"
+},
+{
+ name: "RaycasterV4",
+ url: "pages/raycastv4/index.html",
+ image: "pages/raycastv4/icon.png",
+ description: "Only really impressive if you reazlie this was made in scratch. Then it's amazing.",
+ controls: "WASD to move, Mouse to look around",
+ category: "Thomasi"
+},
+{
+ name: "Super Metroid",
+ url: "pages/supermetroid/index.html",
+ image: "pages/supermetroid/supermetroid.webp",
+ description: "ASuper Metroid is a landmark 1994 Super Nintendo action-adventure game known for pioneering the \"Metroidvania\" genre, featuring non-linear exploration of Planet Zebes as bounty hunter Samus Aran, acquiring power-ups to unlock new areas, and building a rich, atmospheric world through minimalist storytelling, challenging level design, and iconic music.",
+ controls: "Arrow Keys to move, Z to shoot, X to jump, A for special actions",
+ category: "Platformer"
+},
+{
+ name: "Metroid II",
+ url: "pages/metroidII/index.html",
+ image: "pages/metroidII/metroidII.jpeg",
+ description: "Metroid II: Return of Samus follows bounty hunter Samus Aran on the hostile planet SR388, tasked with exterminating the entire Metroid species",
+ controls: "Arrow Keys to move, Z to shoot, X to jump, A for special actions",
+ category: "Platformer"
+},
+{
+ name: "Metroid",
+ url: "pages/metroid/index.html",
+ image: "pages/metroid/metroid.jpeg",
+ description: "Metroid is a classic 1986 action-adventure game where players control Samus Aran on planet Zebes, exploring interconnected areas, battling alien creatures, and acquiring power-ups to enhance abilities and access new regions, pioneering the 'Metroidvania' genre with its non-linear gameplay and atmospheric design.",
+ controls: "Arrow Keys to move, Z to shoot, X to jump, A for special actions",
+ category: "Platformer"
+},
+{
+ name: "CloudMoon",
+ url: "pages/cma/index.html",
+ image: "pages/cma/cma.png",
+ description: "Play Clash Royale and other mobile games on this website",
+ controls: "Varies",
+ category: "Other"
 }
 ];
