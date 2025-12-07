@@ -1901,7 +1901,6 @@ const baseGames = [
  name: "Chat GPT",
  url: "pages/gpt/index.html",
  image: "pages/gpt/gpt.svg",
- imaged: "pages/gpt/chatgpt.svg",
  description: "A web-based interface to interact with the Chat GPT language model, allowing users to input prompts and receive AI-generated text responses in real-time." ,
  controls: "Type your prompt into the text box and press Enter to submit",
  category: "Other",

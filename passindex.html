@@ -613,10 +613,9 @@
             <div class="updates-box" id="updates-box">
                 <h2>Site Updates</h2>
                 <ul>
-                    <li>PRESS '~' to quick exit!</li>
-                    <li>New Dark Theme Option</li>
-                    <li>Favorite Your Games!</li>
-                    <li>Games Have Multiple Sort Options!</li>
+                    <li>PRESS '~' to exit page!</li>
+                    <li>Press 'esc' to go back to homepage</li>
+                    <li>Added Proxy!</li>
                 </ul>
             </div>
          </div>
@@ -710,9 +709,7 @@
             const grid = document.getElementById('games-grid');
             if (!grid) return;
 
-            // FIX: Reset the main container's class to 'grid' to re-enable the column layout
             grid.className = 'grid';
-            // Clear existing games
             grid.innerHTML = '';
             gamesToRender.forEach(game => {
                 const gameDiv = document.createElement('div');
@@ -720,7 +717,7 @@
 
                 if (game.isPriority) {
                     gameDiv.classList.add('priority');
-                } else if (game.isPriority2) { // Added for Feature 1 [cite: 1598, 1599]
+                } else if (game.isPriority2) {
                     gameDiv.classList.add('priority2');
                 }
 
@@ -731,7 +728,6 @@
 
                 const isFav = isFavorite(game.name);
                 const favoriteClass = isFav ? ' active' : '';
-                // Updated condition for favorites button (Feature 1) [cite: 1618]
                 const favoriteButtonHTML = (game.isPriority || game.isPriority2) ? 
                     '' : 
                     ` <button class="favorite-btn${favoriteClass}" onclick="event.stopPropagation(); toggleFavorite('${game.name.replace(/'/g, "\\'")}')" aria-label="Toggle Favorite">
@@ -740,17 +736,7 @@
                         </svg>
                     </button> `;
 
-                // Store image sources and select image based on theme (Feature 2) [cite: 1563, 1564]
-                gameDiv.dataset.imageSrc = game.image;
-                if (game.imageDark) {
-                    gameDiv.dataset.imageDarkSrc = game.imageDark;
-                }
-
-                const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
-                const hasDarkImage = game.imageDark && game.imageDark.trim() !== '';
-                const imageSrc = (isDarkTheme && hasDarkImage) ? game.imageDark : game.image;
-
-                gameDiv.innerHTML = ` ${favoriteButtonHTML} <img loading="lazy" src="${imageSrc}"> <p>${game.name}</p> ${game.description ? ` <div class="game-popover">
+                gameDiv.innerHTML = ` ${favoriteButtonHTML} <img loading="lazy" src="${game.image}"> <p>${game.name}</p> ${game.description ? ` <div class="game-popover">
                         <h4>${game.name}</h4>
                         <p>${game.description}</p>
                         ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
@@ -764,13 +750,11 @@
             const grid = document.getElementById('games-grid');
             if (!grid) return;
 
-            // Use the alternate container class to prevent top-level grid layout
             const container = document.createElement('div');
-            container.id = 'games-grid-container'; // Assign a unique ID if needed, but not strictly required
-            grid.innerHTML = ''; // Clear main grid CSS
-            grid.className = 'category-container'; // Group games by category
+            container.id = 'games-grid-container';
+            grid.innerHTML = '';
+            grid.className = 'category-container';
 
-            // Group games by category
             const groupedGames = gamesToRender.reduce((acc, game) => {
                 const category = game.category || 'Other';
                 if (!acc[category]) {
@@ -780,9 +764,7 @@
                 return acc;
             }, {});
 
-            // Get sorted category names
             const sortedCategories = Object.keys(groupedGames).sort((a, b) => {
-                // Ensure 'Other' is at the bottom
                 if (a === 'Other') return 1;
                 if (b === 'Other') return -1;
                 return a.localeCompare(b);
@@ -790,25 +772,21 @@
 
             sortedCategories.forEach(category => {
                 const games = groupedGames[category];
-                // 1. Create Category Header
                 const header = document.createElement('h2');
                 header.style.cssText = 'margin: 40px 5% 15px; font-size: 1.8rem; border-bottom: 2px solid var(--accent); padding-bottom: 5px; color: var(--text);';
                 header.textContent = category;
                 container.appendChild(header);
 
-                // 2. Create Category Grid (Use the original 'grid' class for styling)
                 const categoryGrid = document.createElement('div');
-                categoryGrid.className = 'grid'; // <-- This correctly applies the grid layout to the sub-sections
+                categoryGrid.className = 'grid';
 
-                // 3. Populate the Grid with Games
                 games.forEach(game => {
-                    // *** Re-use the same game rendering logic from the original renderGames function ***
                     const gameDiv = document.createElement('div');
                     gameDiv.className = 'game';
 
                     if (game.isPriority) {
                         gameDiv.classList.add('priority');
-                    } else if (game.isPriority2) { // Added for Feature 1 [cite: 1598, 1599]
+                    } else if (game.isPriority2) {
                         gameDiv.classList.add('priority2');
                     }
 
@@ -819,7 +797,6 @@
 
                     const isFav = isFavorite(game.name);
                     const favoriteClass = isFav ? ' active' : '';
-                    // Updated condition for favorites button (Feature 1) [cite: 1618]
                     const favoriteButtonHTML = (game.isPriority || game.isPriority2) ?
                         '' : 
                         ` <button class="favorite-btn${favoriteClass}" onclick="event.stopPropagation(); toggleFavorite('${game.name.replace(/'/g, "\\'")}')" aria-label="Toggle Favorite">
@@ -828,17 +805,7 @@
                             </svg>
                         </button> `;
 
-                    // Store image sources and select image based on theme (Feature 2) [cite: 1565, 1566]
-                    gameDiv.dataset.imageSrc = game.image;
-                    if (game.imageDark) {
-                        gameDiv.dataset.imageDarkSrc = game.imageDark;
-                    }
-
-                    const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
-                    const hasDarkImage = game.imageDark && game.imageDark.trim() !== '';
-                const imageSrc = (isDarkTheme && hasDarkImage) ? game.imageDark : game.image;
-                    
-                    gameDiv.innerHTML = ` ${favoriteButtonHTML} <img loading="lazy" src="${imageSrc}"> <p>${game.name}</p> ${game.description ? ` <div class="game-popover">
+                    gameDiv.innerHTML = ` ${favoriteButtonHTML} <img loading="lazy" src="${game.image}"> <p>${game.name}</p> ${game.description ? ` <div class="game-popover">
                             <h4>${game.name}</h4>
                             <p>${game.description}</p>
                             ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
@@ -848,7 +815,7 @@
                 container.appendChild(categoryGrid);
             });
 
-            grid.appendChild(container); // Append the whole container to the main games-grid div
+            grid.appendChild(container);
         }
 
         // Function to extract and setup the category filter dropdown
@@ -1002,7 +969,6 @@
                 document.documentElement.setAttribute('data-theme', this.theme);
                 localStorage.setItem('studybuddy-theme', this.theme);
                 this.updateButton();
-                this.updateGameImages(); // Added for imageDark support [cite: 1633]
                 this.broadcastToParent();
             }
 
@@ -1027,39 +993,18 @@
                     }
                 }
             }
-            
-            // New method for imageDark switching (Feature 2) [cite: 1637]
-            updateGameImages() {
-                const gameImages = document.querySelectorAll('.game img');
-                const isDarkTheme = this.theme === 'dark';
 
-                gameImages.forEach(img => {
-                    const gameDiv = img.closest('.game');
-                    const darkSrc = gameDiv.dataset.imageDarkSrc;
-                    const lightSrc = gameDiv.dataset.imageSrc;
-
-                    if (isDarkTheme && darkSrc) {
-                        img.src = darkSrc;
-                    } else {
-                        img.src = lightSrc;
-                    }
-                });
-            }
-
-            // Listen for changes from parent (e.g., iframe)
             listenForExternalChanges() {
                 window.addEventListener('message', (event) => {
                     if (event.data && event.data.type === 'themeChange') {
                         this.applyTheme(event.data.theme);
                     }
                     if (event.data === 'closeGame') {
-                        // This function must exist on the main page to close the game
                         closeGameInstance();
                     }
                 });
             }
 
-            // Broadcast change to parent (e.g., iframe)
             broadcastToParent() {
                 if (window.parent !== window.self) {
                     window.parent.postMessage({ type: 'themeChange', theme: this.theme }, '*');
@@ -1092,66 +1037,6 @@
                 l.style.opacity = "1";
                 l.style.pointerEvents = "auto";
             });
-
-            // 2. Create the Hover Sensor (Top Right)
-            let d = null, i = !1;
-            const s = document.createElement("div");
-            s.id = "hover-sensor"; // Added ID for easy removal
-            s.style.position = "fixed";
-            s.style.top = "0";
-            s.style.right = "0";
-            s.style.width = "100px";
-            s.style.height = "100px";
-            s.style.zIndex = "1001";
-            s.style.background = "transparent";
-            s.style.pointerEvents = "auto";
-            document.body.appendChild(s);
-
-            // 3. Create the Back Button
-            const r = document.createElement("button");
-            r.id = "back-button"; // Keeps existing ID
-            r.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>`;
-            r.style.opacity = "0";
-            r.style.pointerEvents = "none";
-            r.style.position = "fixed";
-            r.style.top = "20px";
-            r.style.right = "20px";
-            r.style.zIndex = "1002";
-            document.body.appendChild(r);
-
-            // --- Hover Logic ---
-            function showBackButton() {
-                d && (clearTimeout(d), d = null);
-                r.style.opacity = "1";
-                r.style.pointerEvents = "auto";
-            }
-
-            function hideBackButton() {
-                i || (d && clearTimeout(d), d = setTimeout(() => {
-                    i || (r.style.opacity = "0", r.style.pointerEvents = "none");
-                }, 400));
-            }
-
-            s.addEventListener("mouseenter", showBackButton);
-            s.addEventListener("mouseleave", () => {
-                d && clearTimeout(d);
-                d = setTimeout(() => {
-                    i || (r.style.opacity = "0", r.style.pointerEvents = "none");
-                }, 100);
-            });
-            r.addEventListener("mouseenter", () => {
-                i = !0;
-                showBackButton();
-            });
-            r.addEventListener("mouseleave", () => {
-                i = !1;
-                hideBackButton();
-            });
-
-            // Button Click: Close Game Only
-            r.onclick = function() {
-                closeGameInstance();
-            };
             
             // Attempt to focus the iframe so keyboard works immediately
             const iframeEl = document.getElementById("game-iframe");
