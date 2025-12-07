@@ -1948,7 +1948,7 @@ const baseGames = [
 },
 {
  name: "Thomas 32x",
- url: "pages/tmhs/index.html",
+ url: "https://html-classic.itch.zone/html/15749771/thms/index.html",
  image: "pages/tmhs/logo.png",
  description: "Control a bean",
  controls: "WASD to move, right click to look around, idk what else, ask thomas",

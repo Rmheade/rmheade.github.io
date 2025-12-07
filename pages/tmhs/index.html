@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
     <script>
       // Prevent direct access - only allow iframe loading
@@ -7,137 +7,58 @@
         window.location.href = '/';
       }
       
-      // Listen for tilde key from parent window
+      // Listen for keyboard events from the iframe via postMessage
       window.addEventListener("message", (event) => {
-        if (event.data && event.data.type === "tilde-pressed") {
-          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        // If iframe sends a tilde or escape key, relay it to the parent window
+        if (event.data && (event.data.type === "tilde-pressed" || event.data.type === "escape-pressed")) {
+          window.parent.postMessage(event.data, "*");
         }
       });
       
-      // Send tilde key press to parent window
+      // Capture keyboard on this wrapper and send to parent
       document.addEventListener("keydown", (e) => {
-        if (e.key === "`") {
+        if (e.key === "`" || e.key === "~") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
-          window.location.href = '/';
+        }
+        if (e.key === "Escape") {
+          window.parent.postMessage({ type: "escape-pressed" }, "*");
         }
       });
-      // Listen for the Escape key press
-      document.addEventListener('keydown', (event) => {
-          // Check if the key pressed is the Escape key
-          if (event.key === 'Escape') {
-              // Send a message to the parent window (the main dashboard)
-              // The main page will listen for this signal and close the game iframe
-              if (window.parent) {
-                  window.parent.postMessage('closeGame', '*');
-              }
-          }
-        });
     </script>
-<meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | Thomas 32x</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="manifest" href="manifest.webmanifest">
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
   </head>
   <body>
-    <div id="unity-container">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-    </div>
+    <iframe id="inner-iframe" src="https://html-classic.itch.zone/html/15749771/thms/index.html" frameborder="0" style="height: 100%; width: 100%; border: none;"></iframe>
+    
     <script>
-      window.addEventListener("load", function () {
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("ServiceWorker.js");
+      // Try to inject keyboard listener into iframe (if same-origin)
+      const innerIframe = document.getElementById('inner-iframe');
+      
+      innerIframe.onload = function() {
+        try {
+          // This only works if the iframe is same-origin
+          innerIframe.contentDocument.addEventListener('keydown', (e) => {
+            if (e.key === "`" || e.key === "~") {
+              window.parent.postMessage({ type: "tilde-pressed" }, "*");
+            }
+            if (e.key === "Escape") {
+              window.parent.postMessage({ type: "escape-pressed" }, "*");
+            }
+          });
+        } catch (err) {
+          // Cross-origin iframe - keyboard events won't work from inside
+          // But the wrapper's keyboard listener above will still catch them
+          console.log("Cross-origin iframe detected - using wrapper keyboard listener");
         }
-      });
-
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var warningBanner = document.querySelector("#unity-warning");
-
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
-      }
-
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/thms.loader.js";
-      var config = {
-        arguments: [],
-        dataUrl: buildUrl + "/thms.data.br",
-        frameworkUrl: buildUrl + "/thms.framework.js.br",
-        codeUrl: buildUrl + "/thms.wasm.br",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "Thomas Syndicate",
-        productName: "Thomas 32x",
-        productVersion: "0.1.2a",
-        showBanner: unityShowBanner,
-        // errorHandler: function(err, url, line) {
-        //    alert("error " + err + " occurred at line " + line);
-        //    // Return 'true' if you handled this error and don't want Unity
-        //    // to process it further, 'false' otherwise.
-        //    return true;
-        // },
       };
-
-      // By default Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
-
-
-      loadingBar.style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-        }).catch((message) => {
-          alert(message);
-        });
-      };
-      document.body.appendChild(script);
     </script>
   </body>
 </html>
