@@ -436,6 +436,7 @@
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
             text-align: left;
+            pointer-events: none;
          }
         .game-popover h4 {
             margin: 0 0 8px 0;
@@ -455,11 +456,6 @@
             color: var(--muted);
             font-weight: 600;
         }
-        .game:hover .game-popover {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(20px, -50%); /* Slight movement effect */
-        }
         /* 4-column layout (Default/ >1200px) - Target 4th, 8th, 12th, etc. */
         .grid .game:nth-child(4n):not(.priority) .game-popover {
             left: auto;
@@ -470,10 +466,6 @@
                and the hover shift is to the left.
             */
             transform: translate(-10px, -50%);
-         }
-
-        .grid .game:nth-child(4n):not(.priority):hover .game-popover {
-            transform: translate(-20px, -50%);
          }
 
         /* 3-column layout (max-width: 1200px) - Target 3rd, 6th, 9th, etc. */
@@ -742,6 +734,23 @@
                         ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
                     </div> ` : ''} `;
                 grid.appendChild(gameDiv);
+                
+                gameDiv.addEventListener('mouseenter', function() {
+                        const popover = this.querySelector('.game-popover');
+                        if (popover) {
+                            popover.style.opacity = '1';
+                            popover.style.visibility = 'visible';
+                        }
+                });
+
+                gameDiv.addEventListener('mouseleave', function() {
+                    const popover = this.querySelector('.game-popover');
+                    if (popover) {
+                        popover.style.opacity = '0';
+                        popover.style.visibility = 'hidden';
+                    }
+                });
+
             });
         }
 
@@ -811,6 +820,22 @@
                             ${game.controls ? `<div class="controls">Controls: ${game.controls}</div>` : ''}
                         </div> ` : ''} `;
                     categoryGrid.appendChild(gameDiv);
+
+                    gameDiv.addEventListener('mouseenter', function() {
+                        const popover = this.querySelector('.game-popover');
+                        if (popover) {
+                            popover.style.opacity = '1';
+                            popover.style.visibility = 'visible';
+                        }
+                    });
+
+                    gameDiv.addEventListener('mouseleave', function() {
+                        const popover = this.querySelector('.game-popover');
+                        if (popover) {
+                            popover.style.opacity = '0';
+                            popover.style.visibility = 'hidden';
+                        }
+                    });
                 });
                 container.appendChild(categoryGrid);
             });
