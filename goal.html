@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.M.A.R.T. Goal Tracker</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success:#28a745;
+            --radius:8px; 
+            --text:#212529;
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --progress-low: #ffc107; /* Warning Yellow */
+            --progress-high: #28a745; /* Success Green */
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b; 
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 30px;
+        }
+
+        .goal-wrap {
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* --- General Button Styles --- */
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #0097a7;
+        }
+
+        /* --- Goal List and Header --- */
+        #goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        #goal-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .goal-item {
+            background: var(--card);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s;
+        }
+        
+        [data-theme="dark"] .goal-item {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .goal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .goal-deadline {
+            font-size: 14px;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        /* --- Progress Bar --- */
+        .progress-container {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] .progress-container {
+            background: #4a5568;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease-in-out, background-color 0.4s;
+            border-radius: 5px;
+            background-color: var(--progress-low);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        /* --- Progress Update Area --- */
+        .progress-update-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .progress-update-area input {
+            flex-grow: 1;
+            padding: 8px 10px;
+            border-radius: var(--radius);
+            border: 1px solid #ced4da;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+        }
+        
+        [data-theme="dark"] .progress-update-area input {
+            border-color: #4a5568;
+        }
+        
+        .progress-update-area .btn {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
+        .progress-update-area .delete-btn {
+             background: var(--danger);
+        }
+        .progress-update-area .delete-btn:hover {
+             background: #c82333;
+        }
+        
+        /* --- Modal (Create Goal Form) --- */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
+        }
+
+        .modal-content {
+            background-color: var(--card);
+            margin: 10% auto;
+            padding: 25px;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            color: var(--muted);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--danger);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Form Specific Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+        }
+        
+        [data-theme="dark"] .form-group input, [data-theme="dark"] .form-group textarea, [data-theme="dark"] .form-group select {
+            border-color: #4a5568;
+            background: #3a475a;
+        }
+
+        .smart-info {
+            font-size: 0.9em;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="goal-wrap">
+        <h2>S.M.A.R.T. Goal Tracker</h2>
+
+        <div id="goal-header">
+            <h3>Your Active Goals</h3>
+            <button id="add-goal-btn" class="btn">➕ Create New Goal</button>
+        </div>
+
+        <ul id="goal-list">
+            </ul>
+        
+        <p id="empty-message" style="text-align: center; color: var(--muted); padding: 40px; display: none;">
+            No goals set! Use the S.M.A.R.T. format to create your first one.
+        </p>
+    </div>
+
+    <div id="goal-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Define a S.M.A.R.T. Goal 
+
+[Image of SMART goal framework]
+</h3>
+        <p class="smart-info">S.M.A.R.T. stands for Specific, Measurable, Achievable, Relevant, and Time-bound.</p>
+        
+        <form id="smart-goal-form">
+            <div class="form-group">
+                <label for="goal-name">Goal Summary (Specific)</label>
+                <input type="text" id="goal-name" required placeholder="e.g., Complete the Introduction to Web Dev course">
+            </div>
+            <div class="form-group">
+                <label for="goal-target">Target Metric (Measurable)</label>
+                <input type="number" id="goal-target" required min="1" placeholder="e.g., 100 (for completion percentage) or 15 (for number of chapters)">
+            </div>
+            <div class="form-group">
+                <label for="goal-unit">Metric Unit</label>
+                <input type="text" id="goal-unit" required placeholder="e.g., % Complete, Chapters, Pages">
+            </div>
+            <div class="form-group">
+                <label for="goal-deadline">Deadline (Time-bound)</label>
+                <input type="date" id="goal-deadline" required>
+            </div>
+            <div class="form-group">
+                <label for="goal-relevance">Relevance/Achievability Notes</label>
+                <textarea id="goal-relevance" rows="2" placeholder="Why is this important? How will you achieve it? (Relevant, Achievable)"></textarea>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%;">Save Goal</button>
+        </form>
+      </div>
+    </div>
+
+<script>
+    // Local Storage Key
+    const STORAGE_KEY = 'knowledge_nexus_goals_v1';
+
+    // DOM Elements
+    const addGoalBtn = document.getElementById('add-goal-btn');
+    const goalModal = document.getElementById('goal-modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const goalForm = document.getElementById('smart-goal-form');
+    const goalList = document.getElementById('goal-list');
+    const emptyMessage = document.getElementById('empty-message');
+    
+    // --- Data Management (Local Storage) ---
+
+    function loadGoals() {
+        const json = localStorage.getItem(STORAGE_KEY);
+        try {
+            // Ensure progress is always a number (defaults to 0)
+            const goals = json ? JSON.parse(json) : [];
+            return goals.map(goal => ({
+                ...goal,
+                progress: Number(goal.progress) || 0
+            }));
+        } catch (e) {
+            console.error("Error loading goals from localStorage:", e);
+            return [];
+        }
+    }
+
+    function saveGoals(goals) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
+    }
+    
+    // --- Rendering and UI ---
+
+    function renderGoals() {
+        const goals = loadGoals();
+        goalList.innerHTML = '';
+        
+        if (goals.length === 0) {
+            emptyMessage.style.display = 'block';
+        } else {
+            emptyMessage.style.display = 'none';
+        }
+
+        goals.forEach(goal => {
+            const listItem = document.createElement('li');
+            listItem.className = 'goal-item';
+
+            const percentage = Math.min(100, (goal.progress / goal.target) * 100).toFixed(1);
+            const isComplete = goal.progress >= goal.target;
+            const barColor = isComplete ? 'var(--progress-high)' : (percentage < 50 ? 'var(--progress-low)' : 'var(--accent)');
+            
+            // Format deadline
+            const deadlineDate = new Date(goal.deadline);
+            const formattedDeadline = deadlineDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            listItem.innerHTML = `
+                <div class="goal-title">
+                    <span>${goal.name}</span>
+                    <span class="goal-deadline">Due: ${formattedDeadline}</span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: ${percentage}%; background-color: ${barColor};"></div>
+                </div>
+                
+                <div class="progress-info">
+                    <span>Progress: ${goal.progress} of ${goal.target} ${goal.unit}</span>
+                    <span>${percentage}% Complete</span>
+                </div>
+
+                <div class="progress-update-area">
+                    <input type="number" id="progress-input-${goal.id}" placeholder="Enter new progress amount (e.g., 5)" min="0" step="any">
+                    <button class="btn" onclick="updateProgress('${goal.id}')">Update</button>
+                    <button class="btn delete-btn" onclick="deleteGoal('${goal.id}')">Delete</button>
+                </div>
+            `;
+            goalList.appendChild(listItem);
+        });
+    }
+    
+    // --- Event Handlers (CRUD Operations) ---
+    
+    // 1. Add Goal
+    goalForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const goals = loadGoals();
+        
+        const newGoal = {
+            id: Date.now().toString(),
+            name: document.getElementById('goal-name').value.trim(),
+            target: Number(document.getElementById('goal-target').value),
+            unit: document.getElementById('goal-unit').value.trim(),
+            deadline: document.getElementById('goal-deadline').value,
+            relevance: document.getElementById('goal-relevance').value.trim(),
+            progress: 0 // Always start at 0
+        };
+
+        goals.unshift(newGoal); // Add to the top
+        saveGoals(goals);
+        renderGoals();
+        
+        // Close modal and reset form
+        goalModal.style.display = 'none';
+        goalForm.reset();
+    });
+
+    // 2. Update Progress
+    window.updateProgress = function(id) {
+        const inputElement = document.getElementById(`progress-input-${id}`);
+        const newValue = Number(inputElement.value);
+
+        if (isNaN(newValue) || newValue < 0) {
+            alert("Please enter a valid positive number for progress.");
+            return;
+        }
+
+        let goals = loadGoals();
+        const goalIndex = goals.findIndex(g => g.id === id);
+
+        if (goalIndex > -1) {
+            // For simplicity, we are setting the progress, not adding to it
+            goals[goalIndex].progress = newValue;
+            saveGoals(goals);
+            renderGoals();
+        }
+    }
+    
+    // 3. Delete Goal
+    window.deleteGoal = function(id) {
+        if (!confirm("Are you sure you want to delete this goal?")) return;
+        
+        let goals = loadGoals();
+        const updatedGoals = goals.filter(goal => goal.id !== id);
+        saveGoals(updatedGoals);
+        renderGoals();
+    }
+    
+    // --- Modal Control ---
+    addGoalBtn.onclick = function() {
+        goalModal.style.display = 'block';
+    }
+
+    closeBtn.onclick = function() {
+        goalModal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == goalModal) {
+            goalModal.style.display = 'none';
+        }
+    }
+    
+    // --- Theme Synchronization ---
+    
+    function initThemeSync() {
+        // 1. Listen for theme changes from the parent (Knowledge Nexus)
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            }
+        });
+        
+        // 2. Request initial theme upon loading
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    }
+    
+    // --- Initialization ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initThemeSync();
+        renderGoals(); // Initial render of goals from storage
+    });
+
+</script>
+</body>
+</html>

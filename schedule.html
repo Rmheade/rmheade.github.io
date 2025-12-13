@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule Planner</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success:#28a745;
+            --radius:8px; 
+            --text:#212529;
+            --border-light: #e9ecef;
+            --schedule-color: #3b5998; /* A calming blue */
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b; 
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+            --border-light: #4a5568;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+        }
+        
+        .schedule-wrap {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto; /* Allow horizontal scrolling on small screens */
+        }
+        
+        h2 {
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* --- Schedule Grid --- */
+        #schedule-grid {
+            display: grid;
+            /* 1 column for time + 7 columns for days */
+            grid-template-columns: 80px repeat(7, minmax(150px, 1fr)); 
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--card);
+        }
+
+        .grid-cell {
+            padding: 8px;
+            border-right: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: relative;
+        }
+        
+        /* Headers (Days and Time) */
+        .header-cell {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            padding: 10px 8px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .time-label {
+            background: var(--schedule-color);
+            color: white;
+            font-weight: 500;
+            font-size: 12px;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        /* Time column alignment */
+        .time-label .grid-cell {
+            text-align: right;
+            padding: 8px;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--bg);
+            border-right: 1px solid var(--border-light);
+        }
+        
+        /* Event (Task) Styling */
+        .schedule-event {
+            background: #d1e7dd; /* Light success green */
+            color: #0f5132;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+        
+        [data-theme="dark"] .schedule-event {
+            background: #0d3b36;
+            color: #7ee0b9;
+        }
+        
+        .schedule-event:hover {
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        .add-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .grid-cell:hover .add-btn {
+            opacity: 1;
+        }
+
+        /* --- Modal (Add Event Form) --- */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+        }
+
+        .modal-content {
+            background-color: var(--card);
+            margin: 10% auto;
+            padding: 25px;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .close-btn {
+            color: var(--muted);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--danger);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+        }
+        
+        [data-theme="dark"] .form-group input, [data-theme="dark"] .form-group select {
+            border-color: #4a5568;
+            background: #3a475a;
+        }
+        
+        .btn-submit {
+             background: var(--schedule-color);
+             color: white;
+             border: none;
+             padding: 10px 20px;
+             border-radius: var(--radius);
+             cursor: pointer;
+             font-size: 16px;
+             font-weight: 600;
+             transition: background 0.2s;
+             width: 100%;
+        }
+        .btn-submit:hover {
+            background: #4c69b2;
+        }
+        
+        /* Hide the scrollbar for aesthetic purposes, while keeping overflow-x on container */
+        .schedule-wrap::-webkit-scrollbar {
+            display: none;
+        }
+        .schedule-wrap {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="schedule-wrap">
+        <h2>Weekly Study Planner</h2>
+
+        <div id="schedule-grid">
+            </div>
+    </div>
+
+    <div id="event-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3 id="modal-title">Add Schedule Item</h3>
+        
+        <form id="event-form">
+            <input type="hidden" id="event-day">
+            <input type="hidden" id="event-time">
+
+            <div class="form-group">
+                <label for="event-title">Event Title</label>
+                <input type="text" id="event-title" required placeholder="e.g., Physics Lecture, Gym, Study History">
+            </div>
+            <div class="form-group">
+                <label for="event-notes">Notes (Optional)</label>
+                <input type="text" id="event-notes" placeholder="e.g., Read Chapter 5">
+            </div>
+            <div class="form-group">
+                <label for="event-duration">Duration (Minutes)</label>
+                <input type="number" id="event-duration" min="15" step="5" value="60" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">Save Event</button>
+        </form>
+      </div>
+    </div>
+
+<script>
+    const STORAGE_KEY = 'knowledge_nexus_schedule_v1';
+    
+    // Day and Time setup
+    const DAYS = ["Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    // Times in 60-minute blocks from 8:00 to 22:00 (10 PM)
+    const START_HOUR = 8;
+    const END_HOUR = 22;
+
+    // DOM Elements
+    const scheduleGrid = document.getElementById('schedule-grid');
+    const eventModal = document.getElementById('event-modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const eventForm = document.getElementById('event-form');
+    const modalTitle = document.getElementById('modal-title');
+    
+    // Form inputs
+    const inputDay = document.getElementById('event-day');
+    const inputTime = document.getElementById('event-time');
+    const inputTitle = document.getElementById('event-title');
+    const inputNotes = document.getElementById('event-notes');
+    const inputDuration = document.getElementById('event-duration');
+
+    let scheduleData = {}; // {Mon_0800: [{title, notes, duration}], ...}
+
+    // --- Data Management ---
+
+    function loadSchedule() {
+        const json = localStorage.getItem(STORAGE_KEY);
+        try {
+            scheduleData = json ? JSON.parse(json) : {};
+        } catch (e) {
+            console.error("Error loading schedule from localStorage:", e);
+            scheduleData = {};
+        }
+    }
+
+    function saveSchedule() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(scheduleData));
+    }
+    
+    // --- Rendering ---
+
+    function renderTime(hour) {
+        // Formats 8 -> 8:00 AM, 13 -> 1:00 PM
+        const isPM = hour >= 12;
+        const displayHour = hour > 12 ? hour - 12 : hour;
+        const ampm = isPM ? 'PM' : 'AM';
+        return `${displayHour}:00 ${ampm}`;
+    }
+
+    function generateSchedule() {
+        scheduleGrid.innerHTML = '';
+        loadSchedule();
+
+        // 1. Create Day Headers (Row 1)
+        DAYS.forEach(day => {
+            const headerCell = document.createElement('div');
+            headerCell.className = 'grid-cell header-cell';
+            headerCell.textContent = day;
+            scheduleGrid.appendChild(headerCell);
+        });
+
+        // 2. Create Time Rows
+        for (let hour = START_HOUR; hour < END_HOUR; hour++) {
+            const timeKey = `${hour < 10 ? '0' : ''}${hour}00`; // e.g., '0800', '1300'
+            
+            // First column: Time Label
+            const timeLabelCell = document.createElement('div');
+            timeLabelCell.className = 'grid-cell time-label';
+            timeLabelCell.textContent = renderTime(hour);
+            scheduleGrid.appendChild(timeLabelCell);
+
+            // Remaining columns: Day Cells
+            for (let dayIndex = 1; dayIndex < DAYS.length; dayIndex++) {
+                const day = DAYS[dayIndex];
+                const key = `${day}_${timeKey}`;
+                
+                const dayCell = document.createElement('div');
+                dayCell.className = 'grid-cell';
+                dayCell.setAttribute('data-key', key);
+                
+                // Add event handler to open modal
+                dayCell.addEventListener('click', (e) => {
+                    // Only open modal if clicking the empty cell, not an existing event
+                    if (!e.target.closest('.schedule-event')) {
+                        openModal(day, renderTime(hour), timeKey);
+                    }
+                });
+
+                // Render existing events
+                const events = scheduleData[key] || [];
+                events.forEach((event, index) => {
+                    const eventDiv = document.createElement('div');
+                    eventDiv.className = 'schedule-event';
+                    eventDiv.textContent = event.title;
+                    
+                    // Add listener for deleting/viewing event details
+                    eventDiv.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent the cell click event from firing
+                        if (confirm(`Delete Event: ${event.title}\n\nTime: ${day}, ${renderTime(hour)}\nDuration: ${event.duration} min`)) {
+                             deleteEvent(key, index);
+                        }
+                    });
+                    
+                    dayCell.appendChild(eventDiv);
+                });
+                
+                // Add button for quick adding (optional visual cue)
+                if (events.length === 0) {
+                     dayCell.innerHTML += '<button class="add-btn">+</button>';
+                }
+
+                scheduleGrid.appendChild(dayCell);
+            }
+        }
+    }
+    
+    // --- CRUD Operations ---
+
+    function addEvent(dayKey, timeKey, title, notes, duration) {
+        const key = `${dayKey}_${timeKey}`;
+        
+        if (!scheduleData[key]) {
+            scheduleData[key] = [];
+        }
+        
+        scheduleData[key].push({ title, notes, duration });
+        saveSchedule();
+        generateSchedule();
+    }
+    
+    function deleteEvent(key, index) {
+        if (scheduleData[key] && scheduleData[key].length > index) {
+            scheduleData[key].splice(index, 1);
+            // If the array is empty, delete the key entirely
+            if (scheduleData[key].length === 0) {
+                delete scheduleData[key];
+            }
+            saveSchedule();
+            generateSchedule();
+        }
+    }
+
+    // --- Modal Control ---
+    
+    function openModal(day, timeDisplay, timeKey) {
+        modalTitle.textContent = `Add Item: ${day} at ${timeDisplay}`;
+        
+        // Set hidden inputs for saving
+        inputDay.value = day;
+        inputTime.value = timeKey;
+        
+        // Clear previous data
+        eventForm.reset();
+        
+        eventModal.style.display = 'block';
+    }
+
+    closeBtn.onclick = function() {
+        eventModal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == eventModal) {
+            eventModal.style.display = 'none';
+        }
+    }
+    
+    eventForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        addEvent(
+            inputDay.value,
+            inputTime.value,
+            inputTitle.value.trim(),
+            inputNotes.value.trim(),
+            Number(inputDuration.value)
+        );
+        
+        eventModal.style.display = 'none';
+    });
+
+    // --- Theme Synchronization ---
+    
+    function initThemeSync() {
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            }
+        });
+        
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    }
+    
+    // --- Initialization ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initThemeSync();
+        generateSchedule();
+    });
+
+</script>
+</body>
+</html>

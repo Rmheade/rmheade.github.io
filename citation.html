@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Generator</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success:#28a745;
+            --radius:8px; 
+            --text:#212529;
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b; 
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 30px;
+        }
+
+        .citation-wrap {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* --- Form Styles (Reusing existing patterns) --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: var(--text);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            border: 1px solid #ced4da;
+            font-family: inherit;
+            background: var(--card);
+            color: var(--text);
+            transition: background 0.3s, border-color 0.3s;
+            font-size: 15px;
+        }
+        
+        [data-theme="dark"] .form-group input, [data-theme="dark"] .form-group select {
+            border-color: #4a5568;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
+        }
+        
+        .style-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* --- Citation Output --- */
+        .output-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: var(--card);
+            border: 1px solid #e9ecef;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        
+        [data-theme="dark"] .output-section {
+            border-color: #4a5568;
+        }
+
+        .output-section h3 {
+            font-size: 18px;
+            color: var(--accent);
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #e9ecef;
+            margin-bottom: 15px;
+        }
+        
+        [data-theme="dark"] .output-section h3 {
+             border-bottom-color: #4a5568;
+        }
+
+        #citation-output {
+            min-height: 80px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Times New Roman', serif; /* Citation standards font */
+            font-size: 1.1em;
+            padding: 5px 0;
+            color: var(--text);
+        }
+
+        .copy-btn {
+            background: var(--secondary-accent, #00897b); /* Use a slightly different accent */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            float: right;
+        }
+        
+        .copy-btn:hover {
+            background: #00796b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="citation-wrap">
+        <h2>Citation Generator</h2>
+        
+        <form id="citation-form">
+            <div class="form-group">
+                <label for="style">Citation Style</label>
+                <select id="style" onchange="generateCitation()">
+                    <option value="mla">MLA (9th Edition)</option>
+                    <option value="apa">APA (7th Edition)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="author">Author Last Name(s)</label>
+                <input type="text" id="author-last" placeholder="e.g., Smith, Doe">
+            </div>
+            
+            <div class="form-group">
+                <label for="author-first">Author First Name(s) (or Initial)</label>
+                <input type="text" id="author-first" placeholder="e.g., John, Jane E.">
+            </div>
+
+            <div class="form-group">
+                <label for="title">Article/Page Title</label>
+                <input type="text" id="title" placeholder="e.g., The Future of Digital Learning">
+            </div>
+            
+            <div class="form-group">
+                <label for="source">Website/Book Title (Italics)</label>
+                <input type="text" id="source" placeholder="e.g., Knowledge Nexus Blog">
+            </div>
+
+            <div class="form-group">
+                <label for="date">Publication Year</label>
+                <input type="text" id="date" placeholder="e.g., 2024">
+            </div>
+            
+            <div class="form-group">
+                <label for="url">URL (for online sources)</label>
+                <input type="url" id="url" placeholder="e.g., https://example.com/article">
+            </div>
+            
+            <button type="button" id="generate-btn" style="display:none;" onclick="generateCitation()">Generate</button>
+        </form>
+        
+        <div class="output-section">
+            <h3 id="output-header">MLA Citation</h3>
+            <button class="copy-btn" onclick="copyCitation()">Copy</button>
+            <div id="citation-output">Start typing information above to generate your citation.</div>
+        </div>
+
+    </div>
+
+<script>
+    // --- DOM Elements ---
+    const form = document.getElementById('citation-form');
+    const styleSelect = document.getElementById('style');
+    const outputHeader = document.getElementById('output-header');
+    const outputDiv = document.getElementById('citation-output');
+
+    // --- Utility Functions ---
+    function cleanInput(id) {
+        return document.getElementById(id).value.trim();
+    }
+    
+    function initial(name) {
+        if (!name) return '';
+        // Get the first letter and capitalize it, add a period.
+        return name.charAt(0).toUpperCase() + '.';
+    }
+    
+    // --- Citation Generation Logic ---
+
+    window.generateCitation = function() {
+        const style = styleSelect.value;
+        const authorLast = cleanInput('author-last').split(',')[0].trim();
+        const authorFirst = cleanInput('author-first').split(',')[0].trim();
+        const title = cleanInput('title');
+        const source = cleanInput('source');
+        const year = cleanInput('date');
+        const url = cleanInput('url');
+        
+        let citation = '';
+        
+        if (style === 'mla') {
+            outputHeader.textContent = 'MLA Citation';
+            
+            // 1. Author (Last, First. or Title if no author)
+            let authorStr = '';
+            if (authorLast && authorFirst) {
+                authorStr = `${authorLast}, ${authorFirst}. `;
+            } else if (authorLast) {
+                authorStr = `${authorLast}. `;
+            }
+            
+            // 2. Title ("Title of Article.")
+            let titleStr = title ? `"${title}." ` : '';
+            
+            // 3. Source (*Title of Website*)
+            let sourceStr = source ? `*${source}*, ` : '';
+            
+            // 4. Date (Year)
+            let dateStr = year ? `${year}, ` : '';
+            
+            // 5. URL
+            let urlStr = url ? `${url}.` : '';
+
+            citation = `${authorStr}${titleStr}${sourceStr}${dateStr}${urlStr}`;
+            
+        } else if (style === 'apa') {
+            outputHeader.textContent = 'APA Citation';
+            
+            // 1. Author (Last, F. I.)
+            let authorStr = '';
+            if (authorLast && authorFirst) {
+                const firstInitial = initial(authorFirst);
+                authorStr = `${authorLast}, ${firstInitial} `;
+            } else if (authorLast) {
+                authorStr = `${authorLast}. `;
+            }
+            
+            // 2. Date ((Year). )
+            let dateStr = year ? `(${year}). ` : '(n.d.). ';
+            
+            // 3. Title (*Title of Article*.)
+            let titleStr = title ? `*${title}*. ` : '';
+            
+            // 4. Source (Website/Book Title)
+            let sourceStr = source ? `${source}. ` : '';
+            
+            // 5. URL
+            let urlStr = url ? `Retrieved from ${url}` : '';
+
+            citation = `${authorStr}${dateStr}${titleStr}${sourceStr}${urlStr}`;
+        }
+        
+        // Remove extra spaces and update output
+        outputDiv.innerHTML = citation.replace(/\s{2,}/g, ' ').trim();
+    }
+    
+    // Event listeners to regenerate on any input change
+    const inputs = form.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        input.addEventListener('input', generateCitation);
+    });
+    
+    // --- Copy Functionality ---
+    window.copyCitation = function() {
+        const textToCopy = outputDiv.innerText;
+        if (!textToCopy || textToCopy.includes('Start typing')) {
+            alert('Nothing to copy!');
+            return;
+        }
+        
+        // Use the modern clipboard API
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert('Citation copied to clipboard!');
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+            alert('Error copying text. Check console for details.');
+        });
+    }
+
+    // --- Theme Synchronization ---
+    function initThemeSync() {
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            }
+        });
+        
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    }
+    
+    // --- Initialization ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initThemeSync();
+        generateCitation(); // Initial generation to set the default output
+    });
+
+</script>
+</body>
+</html>

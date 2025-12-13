@@ -7,141 +7,175 @@
       <meta charset="UTF-8">
       <meta name="author" content="HimeSpider">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-      <style>@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+      
+      <style>
+         @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
          :root {
-         --bg: #f6f8fb;
-         --card: #ffffff;
-         --muted: #6b7280;
-         --accent: #2563eb;
-         --accent-purple: #7c3aed;
-         --radius: 12px;
-         --text: #0f172a;
+            /* Variables from index.html */
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --muted: #6c757d;
+            --accent: #00bcd4; /* Vibrant Cyan */
+            --secondary-accent: #00897b; /* Deep Teal for hover */
+            --danger: #dc3545;
+            --radius: 8px; /* New radius */
+            --text: #212529;
          }
+
          [data-theme="dark"] {
-         --bg: #0f172a;
-         --card: #1e293b;
-         --muted: #94a3b8;
-         --text: #f1f5f9;
+            --bg: #1e293b;
+            --card: #2d3748;
+            --muted: #a0aec0;
+            --text: #f8f9fa;
          }
+
          body {
-         background: linear-gradient(180deg, var(--bg), var(--bg));
-         color: var(--text);
-         font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-         margin: 0;
-         overflow: auto;
-         min-height: 100vh;
-         transition: background 0.3s, color 0.3s;
+            /* Removed gradient, using single BG color */
+            background: var(--bg);
+            color: var(--text);
+            /* Keeping Inter as used in pass.txt body and index.html body */
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
+            margin: 0;
+            overflow: auto;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
          }
+
          #password-overlay {
-         align-items: center;
-         background: linear-gradient(180deg, var(--bg), var(--bg));
-         display: flex;
-         flex-direction: column;
-         font-family: Inter, sans-serif;
-         inset: 0;
-         justify-content: center;
-         position: fixed;
-         z-index: 5;
-         transition: background 0.3s;
+            align-items: center;
+            /* Removed gradient, using single BG color */
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            font-family: inherit;
+            inset: 0;
+            justify-content: center;
+            position: fixed;
+            z-index: 5;
+            transition: background 0.3s;
          }
+
          #password-box {
-         background: var(--card);
-         border: 1px solid #e6e9ef;
-         border-radius: 12px;
-         color: var(--text);
-         box-shadow: 0 6px 22px rgba(16, 24, 40, 0.06);
-         max-width: 400px;
-         padding: 32px;
-         text-align: center;
-         width: 90%;
-         transition: background 0.3s, border 0.3s, color 0.3s;
+            background: var(--card);
+            border: none; /* Removed light border */
+            border-radius: var(--radius); /* Updated from 12px to 8px */
+            color: var(--text);
+            /* Matching the index.html card shadow */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            max-width: 400px;
+            padding: 32px;
+            text-align: center;
+            width: 90%;
+            transition: background 0.3s, border 0.3s, color 0.3s, box-shadow 0.3s;
          }
+
          [data-theme="dark"] #password-box {
-         border-color: #334155;
+            border-color: transparent;
          }
+
          #password-box h2 {
-         color: var(--text);
-         font-family: Inter, sans-serif;
-         font-size: 24px;
-         font-weight: 700;
-         margin: 16px 0 24px 0;
-         transition: color 0.3s;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 24px;
+            font-weight: 600; /* Match index.html header weight */
+            margin: 16px 0 24px 0;
+            transition: color 0.3s;
          }
+
          #password-box input {
-         border: 1px solid #e6e9ef;
-         border-radius: 8px;
-         box-sizing: border-box;
-         font-size: 1rem;
-         margin-bottom: 16px;
-         padding: 10px 12px;
-         width: 100%;
-         font-family: Inter, system-ui;
-         color: var(--text);
-         background: var(--card);
-         transition: background 0.3s, color 0.3s, border 0.3s;
+            /* Matched index.html input style */
+            border: 1px solid #ced4da; 
+            border-radius: 6px; /* Updated from 8px */
+            box-sizing: border-box;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            padding: 10px 12px;
+            width: 100%;
+            font-family: inherit;
+            color: var(--text);
+            background: var(--card);
+            transition: background 0.3s, color 0.3s, border 0.3s;
          }
+
          [data-theme="dark"] #password-box input {
-         border-color: #334155;
+            /* Matched index.html dark input style */
+            border-color: #4a5568; 
+            background: var(--card);
          }
+
          #password-box input::placeholder {
-         color: var(--muted);
+            color: var(--muted);
          }
+
          #password-box input:focus {
-         border-color: #2563eb;
-         outline: none;
-         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            /* Updated focus colors */
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1); 
          }
+
          #password-box button {
-         background: #2563eb;
-         border: none;
-         border-radius: 8px;
-         color: #ffffff;
-         cursor: pointer;
-         font-family: Inter, sans-serif;
-         font-size: 14px;
-         font-weight: 600;
-         padding: 10px 12px;
-         width: 100%;
-         transition: all 0.2s ease;
+            background: var(--accent); /* Updated button color */
+            border: none;
+            border-radius: 6px; /* Updated from 8px */
+            color: #ffffff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500; /* Match index.html button weight */
+            padding: 10px 12px;
+            width: 100%;
+            transition: all 0.2s ease;
+            /* Matching index.html button shadow */
+            box-shadow: 0 2px 4px rgba(0, 188, 212, 0.2); 
          }
+
          #password-box button:hover {
-         background: #1d4ed8;
-         box-shadow: 0 6px 12px rgba(37, 99, 235, 0.2);
+            background: var(--secondary-accent); /* Updated hover color */
+            /* New hover shadow */
+            box-shadow: 0 6px 12px rgba(0, 137, 123, 0.2); 
          }
+
          #password-box button:active {
-         transform: scale(0.98);
+            transform: scale(0.98);
          }
+
          #password-error {
-         color: #ef4444;
-         font-size: 0.85rem;
-         margin-top: 12px;
-         min-height: 1.2em;
-         transition: color 0.3s;
+            color: var(--danger); /* Using variable for consistency */
+            font-size: 0.85rem;
+            margin-top: 12px;
+            min-height: 1.2em;
+            transition: color 0.3s;
          }
+
          #password-box .lock-message {
-         align-items: center;
-         display: flex;
-         font-weight: 600;
-         gap: 8px;
-         justify-content: center;
-         margin-bottom: 12px;
-         font-size: 13px;
-         color: var(--muted);
-         transition: color 0.3s;
+            align-items: center;
+            display: flex;
+            font-weight: 600;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--muted);
+            transition: color 0.3s;
          }
+
          #password-box .lock-message span {
-         color: #2563eb;
-         font-size: 1.1rem;
+            color: var(--accent); /* Using variable for consistency */
+            font-size: 1.1rem;
          }
+
          .sitelock {
-         color: var(--muted);
-         font-size: 0.75rem;
-         text-decoration: none;
-         margin-top: 16px;
-         transition: color 0.3s;
+            color: var(--muted);
+            font-size: 0.75rem;
+            text-decoration: none;
+            margin-top: 16px;
+            transition: color 0.3s;
          }
+
          .sitelock:hover {
-         color: #2563eb;
+            color: var(--accent); /* Using variable for consistency */
          }
       </style>
    </head>
@@ -150,7 +184,8 @@
          <div id="password-box">
             <div class="lock-message"><small>Authorized Users Only</small></div>
             <h2>Enter Password</h2>
-            <input type="password" id="password-input" placeholder="Password"> <button id="password-submit">Enter</button>
+            <input type="password" id="password-input" placeholder="Password"> 
+            <button id="password-submit">Enter</button>
             <p id="password-error"></p>
          </div>
          <a href="https://www.sitelock.com/" target="_blank" class="sitelock">SiteLock</a>
@@ -159,7 +194,8 @@
       <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.11.0/src/sha256.min.js"></script>
       <script>
 // Apply theme immediately
-const theme = localStorage.getItem('studybuddy-theme') || 'light';
+const theme = localStorage.getItem('knowledge-nexus-theme') || // KEY UPDATED
+'light';
 document.documentElement.setAttribute('data-theme', theme);
 
 // Simple message relay - NO async/promise returns
@@ -173,10 +209,9 @@ window.addEventListener('message', (event) => {
   // Handle theme
   if (event.data && event.data.type === 'THEME_CHANGED') {
     document.documentElement.setAttribute('data-theme', event.data.theme);
-    localStorage.setItem('studybuddy-theme', event.data.theme);
+    localStorage.setItem('knowledge-nexus-theme', event.data.theme); // KEY UPDATED
   }
 });
-
 function pass() {
     let t = document.getElementById("password-overlay"),
         o = document.getElementById("password-input"),

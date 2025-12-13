@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success:#28a745;
+            --radius:8px; 
+            --text:#212529;
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b; 
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 30px;
+        }
+
+        .todo-wrap {
+            width: 90%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        /* Task Input Section */
+        #task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        #new-task-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            border: 1px solid #ced4da;
+            background: var(--card);
+            color: var(--text);
+            font-size: 16px;
+            transition: border-color 0.2s, background 0.3s;
+        }
+        
+        [data-theme="dark"] #new-task-input {
+            border-color: #4a5568;
+        }
+
+        #new-task-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
+        }
+
+        #add-task-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        #add-task-btn:hover {
+            background: #0097a7; /* Darker Cyan */
+        }
+        
+        /* To-Do List Styles */
+        #todo-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .todo-item {
+            background: var(--card);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s, box-shadow 0.2s;
+        }
+
+        [data-theme="dark"] .todo-item {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .todo-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .todo-text {
+            flex-grow: 1;
+            margin-left: 15px;
+            font-size: 16px;
+            line-height: 1.4;
+            transition: color 0.3s;
+        }
+
+        /* Completed Task Style */
+        .todo-item.completed {
+            background: #e9ecef; /* Lighter gray for completed */
+        }
+        
+        [data-theme="dark"] .todo-item.completed {
+            background: #3a475a;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+        
+        /* Custom Checkbox */
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 0;
+            cursor: pointer;
+            font-size: 22px;
+            user-select: none;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: var(--card);
+            border: 2px solid #ced4da;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        [data-theme="dark"] .checkmark {
+            background-color: var(--card);
+            border-color: #4a5568;
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 6px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+            font-size: 20px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .delete-btn:hover {
+            color: #c82333;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: var(--muted);
+            font-style: italic;
+            padding: 40px 0;
+            font-size: 1.1em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="todo-wrap">
+        <h2>Your Tasks</h2>
+
+        <form id="task-form">
+            <input type="text" id="new-task-input" placeholder="What do you need to do?" required>
+            <button type="submit" id="add-task-btn">Add Task</button>
+        </form>
+
+        <ul id="todo-list">
+            </ul>
+        
+        <div id="empty-message" class="empty-message" style="display: none;">
+            You're all caught up! Add a new task to get started.
+        </div>
+    </div>
+
+<script>
+    // Local Storage Key
+    const STORAGE_KEY = 'knowledge_nexus_todos_v1';
+
+    // DOM Elements
+    const form = document.getElementById('task-form');
+    const input = document.getElementById('new-task-input');
+    const list = document.getElementById('todo-list');
+    const emptyMessage = document.getElementById('empty-message');
+    
+    // --- Data Management (Local Storage) ---
+
+    function loadTasks() {
+        const json = localStorage.getItem(STORAGE_KEY);
+        try {
+            return json ? JSON.parse(json) : [];
+        } catch (e) {
+            console.error("Error loading tasks from localStorage:", e);
+            return [];
+        }
+    }
+
+    function saveTasks(tasks) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    }
+    
+    // --- Rendering and UI ---
+
+    function renderTasks() {
+        // 1. Clear the current list
+        list.innerHTML = '';
+        
+        const tasks = loadTasks();
+
+        if (tasks.length === 0) {
+            emptyMessage.style.display = 'block';
+        } else {
+            emptyMessage.style.display = 'none';
+        }
+
+        // 2. Loop through and create HTML for each task
+        tasks.forEach(task => {
+            const listItem = document.createElement('li');
+            listItem.className = `todo-item ${task.completed ? 'completed' : ''}`;
+            listItem.dataset.id = task.id;
+
+            listItem.innerHTML = `
+                <div class="todo-content">
+                    <label class="checkbox-container">
+                        <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask('${task.id}')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <span class="todo-text">${task.text}</span>
+                </div>
+                <button class="delete-btn" onclick="deleteTask('${task.id}')" aria-label="Delete task">
+                    &times;
+                </button>
+            `;
+            list.appendChild(listItem);
+        });
+    }
+    
+    // --- Event Handlers (CRUD Operations) ---
+    
+    // Global function for form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (text) {
+            addTask(text);
+            input.value = ''; // Clear input field
+        }
+    });
+
+    // Global function to add a task
+    function addTask(text) {
+        const tasks = loadTasks();
+        const newTask = {
+            id: Date.now().toString(), // Simple unique ID
+            text: text,
+            completed: false
+        };
+        tasks.unshift(newTask); // Add to the top
+        saveTasks(tasks);
+        renderTasks();
+    }
+
+    // Global function to toggle task completion
+    window.toggleTask = function(id) {
+        let tasks = loadTasks();
+        const index = tasks.findIndex(task => task.id === id);
+        if (index > -1) {
+            tasks[index].completed = !tasks[index].completed;
+            saveTasks(tasks);
+            renderTasks();
+        }
+    }
+
+    // Global function to delete a task
+    window.deleteTask = function(id) {
+        let tasks = loadTasks();
+        const updatedTasks = tasks.filter(task => task.id !== id);
+        saveTasks(updatedTasks);
+        renderTasks();
+    }
+    
+    // --- Theme Synchronization ---
+    
+    function initThemeSync() {
+        // 1. Listen for theme changes from the parent (Knowledge Nexus)
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            }
+        });
+        
+        // 2. Request initial theme upon loading
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    }
+    
+    // --- Initialization ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initThemeSync();
+        renderTasks(); // Initial render of tasks from storage
+    });
+
+</script>
+</body>
+</html>

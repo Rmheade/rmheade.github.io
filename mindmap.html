@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Nexus Mind Map</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success: #28a745; /* ADDED: For notification box */
+            --radius:8px;
+            --text:#212529;
+            --line-color: #00bcd4; /* Accent color for lines */
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b;
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+            --line-color: #00bcd4; 
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden; /* Important for a full-screen app */
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* --- Canvas Setup (The Mind Map Surface) --- */
+        #mindmap-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            cursor: grab; /* Pan cursor */
+        }
+        
+        #mindmap-container.dragging {
+            cursor: grabbing;
+        }
+
+        /* The HTML Canvas for drawing lines */
+        #line-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            pointer-events: none; /* Allows mouse events to pass through to nodes/container */
+        }
+        
+        /* Wrapper for nodes - handles pan and zoom */
+        #canvas-viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* Will be manipulated by JavaScript for pan/zoom */
+            transform-origin: 0 0;
+            z-index: 20;
+        }
+
+        /* --- Node (Tile) Styles --- */
+        .mindmap-node {
+            position: absolute;
+            width: 200px;
+            min-height: 80px;
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: move;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.1s;
+            user-select: none;
+            touch-action: none; /* Required for mobile dragging */
+        }
+
+        [data-theme="dark"] .mindmap-node {
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .mindmap-node:focus {
+            outline: none;
+            border-color: var(--danger);
+            z-index: 100; /* Bring focused/dragged node to top */
+        }
+
+        .mindmap-node .node-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
+        
+        /* The connection point - where lines attach */
+        .node-connect-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--danger);
+            border: 1px solid var(--card);
+            border-radius: 50%;
+            cursor: crosshair;
+            z-index: 110;
+            opacity: 0; /* Hidden until hover */
+            transition: opacity 0.2s;
+        }
+
+        .mindmap-node:hover .node-connect-point {
+            opacity: 1;
+        }
+
+        .node-connect-point.top { top: -5px; left: calc(50% - 5px); }
+        .node-connect-point.bottom { bottom: -5px; left: calc(50% - 5px); }
+        .node-connect-point.left { top: calc(50% - 5px); left: -5px; }
+        .node-connect-point.right { top: calc(50% - 5px); right: -5px; }
+        
+        /* --- Toolbar --- */
+        #toolbar {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card);
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            z-index: 200;
+            display: flex;
+            gap: 10px;
+        }
+        
+        [data-theme="dark"] #toolbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Style for the new select dropdown */
+        .tool-select {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid #ced4da;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        [data-theme="dark"] .tool-select {
+            border-color: #4a5568;
+            background: var(--bg);
+        }
+        
+        .tool-btn {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid #ced4da;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        [data-theme="dark"] .tool-btn {
+            border-color: #4a5568;
+            background: var(--bg);
+        }
+
+        .tool-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .tool-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .tool-btn.danger {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+        .tool-btn.danger:hover {
+            background: #c82333;
+            border-color: #c82333;
+        }
+        
+        /* Style for the temporary line being drawn */
+        #temp-line-indicator {
+            position: fixed;
+            z-index: 1000;
+            pointer-events: none;
+            border: 1px dashed var(--danger);
+            background: rgba(255, 0, 0, 0.1);
+        }
+        
+        /* --- Save Notification --- */
+        #notification-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success); /* Use success color */
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            pointer-events: none; /* Allows clicks to pass through */
+            transition: opacity 0.5s ease-in-out;
+            z-index: 500;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div id="notification-box">Mind Map Saved!</div>
+    <div id="toolbar">
+        <select id="map-selector" class="tool-select"></select>
+        <button id="new-map-btn" class="tool-btn">✨ New Map</button>
+        <button id="rename-map-btn" class="tool-btn">✏️ Rename</button>
+        <button id="delete-map-btn" class="tool-btn danger">🗑️ Delete</button>
+        
+        <button id="add-node-btn" class="tool-btn">➕ Add Node</button>
+        <button id="toggle-line-btn" class="tool-btn active" data-line-type="curvy">〰️ Curvy Lines</button>
+     
+        <button id="save-btn" class="tool-btn" style="display: none;">💾 Save</button>
+        <button id="load-btn" class="tool-btn" style="display: none;">📂 Load</button>
+    </div>
+
+    <div id="mindmap-container">
+        <canvas id="line-canvas"></canvas>
+        
+        <div id="canvas-viewport">
+            </div>
+    </div>
+
+<script>
+    // --- Global State ---
+    const STORAGE_KEY = 'knowledge_nexus_mindmaps_list_v1';
+    // Key used to store the list of map IDs and names
+    const LIST_KEY = 'mindmap_list';
+    
+    let maps = {}; // Stores all map data: {mapId: {nodes, connections, scale, offsetX, offsetY, name}}
+    let currentMapId = null;
+    let nodes = {}; 
+    let connections = []; 
+
+    let isDrawingLine = false;
+    let startNodeId = null;
+    let lineType = 'curvy';
+
+    // Pan/Zoom State
+    let scale = 1.0;
+    let offsetX = 0;
+    let offsetY = 0;
+    let isPanning = false;
+    let startPanX = 0;
+    let startPanY = 0;
+
+    // --- DOM Elements ---
+    const container = document.getElementById('mindmap-container');
+    const viewport = document.getElementById('canvas-viewport');
+    const canvas = document.getElementById('line-canvas');
+    const ctx = canvas.getContext('2d');
+    const toolbar = document.getElementById('toolbar');
+    const addNodeBtn = document.getElementById('add-node-btn');
+    const toggleLineBtn = document.getElementById('toggle-line-btn');
+    const mapSelector = document.getElementById('map-selector');
+    const newMapBtn = document.getElementById('new-map-btn');
+    const renameMapBtn = document.getElementById('rename-map-btn');
+    const deleteMapBtn = document.getElementById('delete-map-btn');
+    // const saveBtn = document.getElementById('save-btn'); // Removed/hidden
+    // const loadBtn = document.getElementById('load-btn'); // Removed/hidden
+
+    // --- Initialization ---
+
+    function initializeCanvas() {
+        // Set canvas size to match the viewport
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        // Initial node setup (only if the current map is completely empty)
+        if (Object.keys(nodes).length === 0 && currentMapId) {
+            // Add a starting node near the center of the current view
+            const centerX = (window.innerWidth / 2 - offsetX) / scale;
+            const centerY = (window.innerHeight / 2 - offsetY) / scale;
+            addNode('Main Idea', centerX - 100, centerY - 40);
+        }
+        
+        drawLines();
+    }
+    
+    // REMOVED OLD saveMap AND loadMap FUNCTIONS
+
+    // --- Node Management ---
+
+    function generateId() {
+        return 'node_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    }
+    
+    function addNode(text, x, y) {
+        const id = generateId();
+        nodes[id] = { x: x, y: y, text: text, width: 200, height: 80 }; // Initial height/width
+        
+        const nodeEl = createNodeElement(id, x, y, text);
+        
+        // Save and redraw after adding a node
+        saveCurrentMap(); // *** FIX: Changed saveMap() to saveCurrentMap() ***
+    }
+
+    function createNodeElement(id, x, y, text) {
+        const nodeEl = document.createElement('div');
+        nodeEl.id = id;
+        nodeEl.className = 'mindmap-node';
+        nodeEl.setAttribute('tabindex', '0'); // Make it focusable
+
+        // Editable content area
+        nodeEl.innerHTML = `
+            <div class="node-title" contenteditable="true" onblur="updateNodeText('${id}', this)">${text}</div>
+            <div class="node-content" contenteditable="true" onblur="updateNodeText('${id}', this, true)">Details...</div>
+            <div class="node-connect-point top" data-anchor="top"></div>
+            <div class="node-connect-point bottom" data-anchor="bottom"></div>
+            <div class="node-connect-point left" data-anchor="left"></div>
+            <div class="node-connect-point right" data-anchor="right"></div>
+        `;
+
+        nodeEl.style.left = `${x}px`;
+        nodeEl.style.top = `${y}px`;
+
+        viewport.appendChild(nodeEl);
+        initDrag(nodeEl);
+        initConnect(nodeEl);
+        
+        return nodeEl;
+    }
+
+    // Function called on contenteditable blur
+    window.updateNodeText = function(id, el, isContent = false) {
+        nodes[id].text = el.parentNode.querySelector('.node-title').textContent;
+        // Optionally save content text as well
+        // nodes[id].content = el.parentNode.querySelector('.node-content').textContent;
+        saveCurrentMap(); // *** FIX: Changed saveMap() to saveCurrentMap() ***
+    };
+
+    // --- Drag Functionality (for nodes) ---
+    function initDrag(nodeEl) {
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+        
+        const onMouseDown = (e) => {
+            // Check if dragging a connection point
+            if (e.target.classList.contains('node-connect-point')) return;
+            // Check if clicking inside contenteditable area
+            if (e.target.closest('[contenteditable="true"]')) return;
+            
+            isDragging = true;
+            nodeEl.focus(); // Bring to front visually
+            startX = e.clientX;
+            startY = e.clientY;
+            initialX = nodes[nodeEl.id].x;
+            initialY = nodes[nodeEl.id].y;
+            
+            // Prevent panning while dragging a node
+            container.classList.add('no-pan');
+            
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+            e.stopPropagation();
+        };
+
+        const onMouseMove = (e) => {
+            if (!isDragging) return;
+            
+            // Calculate new position relative to the initial drag position and current scale
+            let deltaX = (e.clientX - startX) / scale;
+            let deltaY = (e.clientY - startY) / scale;
+            
+            nodes[nodeEl.id].x = initialX + deltaX;
+            nodes[nodeEl.id].y = initialY + deltaY;
+            
+            nodeEl.style.left = `${nodes[nodeEl.id].x}px`;
+            nodeEl.style.top = `${nodes[nodeEl.id].y}px`;
+            
+            drawLines();
+        };
+
+        const onMouseUp = () => {
+            if (isDragging) {
+                isDragging = false;
+                container.classList.remove('no-pan');
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                saveCurrentMap(); // *** FIX: Changed saveMap() to saveCurrentMap() *** // Save position on drop
+            }
+        };
+
+        nodeEl.addEventListener('mousedown', onMouseDown);
+    }
+    
+    // --- Connection Functionality (Lines) ---
+    
+    function initConnect(nodeEl) {
+        nodeEl.querySelectorAll('.node-connect-point').forEach(point => {
+            point.addEventListener('mousedown', (e) => {
+                isDrawingLine = true;
+                startNodeId = nodeEl.id;
+                // Prevents the main canvas pan from starting
+                e.stopPropagation(); 
+                e.preventDefault(); 
+            });
+        });
+    }
+    
+    container.addEventListener('mousemove', (e) => {
+        if (!isDrawingLine) return;
+
+        // Redraw lines to show the line in progress (from startNode to mouse)
+        // This is done on the main canvas context
+        drawLines(); 
+
+        ctx.beginPath();
+        ctx.strokeStyle = varToRgba('--danger', 0.8);
+        ctx.lineWidth = 2;
+        
+        // Get the coordinates of the start node (center for simplicity, or anchor point)
+        const startNode = document.getElementById(startNodeId);
+        const startRect = startNode.getBoundingClientRect();
+        
+        // Calculate starting point relative to canvas (not viewport)
+        const startX = startRect.left + startRect.width / 2;
+        const startY = startRect.top + startRect.height / 2;
+        
+        // Mouse coordinates are already relative to the canvas/viewport wrapper
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        // Draw the temporary line
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(mouseX, mouseY);
+        ctx.stroke();
+    });
+
+    container.addEventListener('mouseup', (e) => {
+        if (!isDrawingLine) return;
+
+        const targetNodeEl = e.target.closest('.mindmap-node');
+        
+        if (targetNodeEl && targetNodeEl.id !== startNodeId) {
+            // Successful connection
+            connections.push({
+                from: startNodeId,
+                to: targetNodeEl.id,
+                type: lineType // Use current line type
+            });
+            saveCurrentMap(); // *** FIX: Changed saveMap() to saveCurrentMap() *** // Save new connection
+        }
+        
+        isDrawingLine = false;
+        startNodeId = null;
+        drawLines(); // Clear the temporary line
+    });
+
+    // --- Line Drawing (on Canvas) ---
+    
+    function getCenter(nodeId) {
+        const node = nodes[nodeId];
+        // Calculate center based on stored position (before viewport transform)
+        return { 
+            x: node.x + node.width / 2, 
+            y: node.y + node.height / 2 
+        };
+    }
+
+    function drawLines() {
+        // 1. Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // 2. Set global styles
+        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color').trim() || '#00bcd4';
+        ctx.lineWidth = 3;
+        
+        // 3. Apply the current pan/zoom transformation to the canvas context
+        // This makes the canvas lines move exactly with the HTML nodes
+        ctx.save();
+        ctx.translate(offsetX, offsetY);
+        ctx.scale(scale, scale);
+        
+        // 4. Draw each connection
+        connections.forEach(conn => {
+            const start = getCenter(conn.from);
+            const end = getCenter(conn.to);
+            
+            if (!start || !end) return; // Skip if a node was deleted
+            
+            ctx.beginPath();
+            ctx.moveTo(start.x, start.y);
+            
+            if (conn.type === 'curvy') {
+                // Use a Bezier curve for a curved line
+                const cpx1 = start.x + (end.x - start.x) * 0.5;
+                const cpy1 = start.y;
+                const cpx2 = end.x - (end.x - start.x) * 0.5;
+                const cpy2 = end.y;
+                
+                ctx.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, end.x, end.y);
+            } else { // 'straight'
+                ctx.lineTo(end.x, end.y);
+            }
+            
+            ctx.stroke();
+        });
+        
+        // 5. Restore canvas transformation
+        ctx.restore();
+    }
+    
+    // Helper to get color variable with optional opacity for temp line
+    function varToRgba(varName, alpha) {
+        const color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        // Simple conversion for hex or rgb(a) values to rgba
+        if (color.startsWith('#') && color.length === 7) {
+            const r = parseInt(color.slice(1, 3), 16);
+            const g = parseInt(color.slice(3, 5), 16);
+            const b = parseInt(color.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+        return color; // Return as is if not a hex we can parse easily
+    }
+
+    // --- Pan & Zoom Functionality ---
+
+    function updateViewportTransform() {
+        viewport.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+        drawLines(); // Redraw lines to match new transform
+    }
+
+    // Pan Listener (Mouse Down on container)
+    container.addEventListener('mousedown', (e) => {
+        // Don't pan if clicking a node, a connection point, the toolbar, or dragging a line
+        if (e.target.closest('.mindmap-node') || e.target.closest('#toolbar') || isDrawingLine || container.classList.contains('no-pan')) return;
+
+        isPanning = true;
+        container.classList.add('dragging');
+        startPanX = e.clientX - offsetX;
+        startPanY = e.clientY - offsetY;
+        e.preventDefault();
+    });
+
+    // Pan Listener (Mouse Move on document)
+    document.addEventListener('mousemove', (e) => {
+        if (isPanning) {
+            offsetX = e.clientX - startPanX;
+            offsetY = e.clientY - startPanY;
+            updateViewportTransform();
+        }
+    });
+
+    // Pan Listener (Mouse Up on document)
+    document.addEventListener('mouseup', () => {
+        if (isPanning) {
+            isPanning = false;
+            container.classList.remove('dragging');
+            saveCurrentMap(); // *** FIX: Changed saveMap() to saveCurrentMap() *** // Save new pan position
+        }
+        if (isDrawingLine) {
+            // Finalize connection logic is handled in the container mouseup listener
+            isDrawingLine = false;
+            startNodeId = null;
+            drawLines();
+        }
+    });
+
+    // Zoom Listener (Mouse Wheel)
+    container.addEventListener('wheel', (e) => {
+        if (e.ctrlKey) { // Standard browser behavior: use Ctrl + Scroll for zoom
+            e.preventDefault();
+            
+            const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9; // 10% zoom in/out
+            const oldScale = scale;
+            scale = Math.min(Math.max(0.2, scale * zoomFactor), 4.0); // Limit scale between 0.2 and 4.0
+            
+            // Calculate pan offset to zoom into the mouse cursor position
+            const mouseX = e.clientX - container.getBoundingClientRect().left;
+            const mouseY = e.clientY - container.getBoundingClientRect().top;
+
+            offsetX = mouseX - (mouseX - offsetX) * (scale / oldScale);
+            offsetY = mouseY - (mouseY - offsetY) * (scale / oldScale);
+
+            updateViewportTransform();
+            saveCurrentMap(); // *** FIX: Changed saveMap() to saveCurrentMap() ***
+        }
+    });
+
+    // --- Toolbar Handlers ---
+    
+    addNodeBtn.addEventListener('click', () => {
+        // Add node near the center of the current view
+        const centerX = (window.innerWidth / 2 - offsetX) / scale;
+        const centerY = (window.innerHeight / 2 - offsetY) / scale;
+        addNode('New Idea', centerX - 100, centerY - 40);
+    });
+
+    toggleLineBtn.addEventListener('click', () => {
+        if (lineType === 'curvy') {
+            lineType = 'straight';
+            toggleLineBtn.textContent = '📏 Straight Lines';
+        } else {
+            lineType = 'curvy';
+            toggleLineBtn.textContent = '〰️ Curvy Lines';
+        }
+        toggleLineBtn.classList.toggle('active');
+        
+        // Update all existing connections to the new default line type
+        connections.forEach(conn => conn.type = lineType);
+        
+        drawLines();
+        saveCurrentMap(); // *** FIX: Changed saveMap() to saveCurrentMap() ***
+    });
+
+    // REMOVED: saveBtn.addEventListener('click', saveMap);
+    // REMOVED: loadBtn.addEventListener('click', loadMap);
+
+
+    // --- Theme Synchronization ---
+    function initThemeSync() {
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+                // Redraw lines immediately on theme change to update colors
+                drawLines();
+            }
+        });
+        
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    }
+    
+    // --- Notification Function ---
+    function showNotification(message, isError = false) {
+        const notificationBox = document.getElementById('notification-box');
+        
+        notificationBox.textContent = message;
+        
+        // Change background color for error
+        if (isError) {
+            notificationBox.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--danger').trim();
+        } else {
+            // Requires --success to be defined in CSS
+            notificationBox.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--success').trim();
+        }
+        
+        notificationBox.style.opacity = 1;
+
+        // Hide the notification after 3 seconds
+        setTimeout(() => {
+            notificationBox.style.opacity = 0;
+        }, 3000);
+    }
+    
+    // --- Data Management (New Multi-Map Logic) ---
+    function loadMapList() {
+        const json = localStorage.getItem(STORAGE_KEY);
+        try {
+            maps = json ? JSON.parse(json) : {};
+        } catch (e) {
+            console.error("Error loading map list from localStorage:", e);
+            maps = {};
+        }
+        
+        // If no maps exist, create a default one
+        if (Object.keys(maps).length === 0) {
+            const defaultId = generateId();
+            maps[defaultId] = {
+                name: 'First Map',
+                nodes: {},
+                connections: [],
+                scale: 1.0,
+                offsetX: 0,
+                offsetY: 0
+            };
+            currentMapId = defaultId;
+            // Add a starting node to the new map
+            // Note: coordinates are in 'world' space, before pan/zoom
+            maps[defaultId].nodes[generateId()] = { x: 400, y: 300, text: 'Main Idea', width: 200, height: 80 };
+            saveMapList();
+        }
+    }
+
+    function saveMapList() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(maps));
+    }
+    
+    // Called whenever a change occurs (node move, connection, content edit)
+    function saveCurrentMap() {
+        if (!currentMapId) return;
+
+        // 1. Store the current visual state (nodes, connections)
+        maps[currentMapId].nodes = nodes;
+        maps[currentMapId].connections = connections;
+
+        // 2. Store the current pan/zoom state
+        maps[currentMapId].scale = scale;
+        maps[currentMapId].offsetX = offsetX;
+        maps[currentMapId].offsetY = offsetY;
+
+        saveMapList();
+        showNotification(`${maps[currentMapId].name} saved!`);
+    }
+
+    // Called when switching maps or on initial load
+    function switchMap(mapId) {
+        if (currentMapId && mapId !== currentMapId) {
+            // Save the state of the map we are leaving
+            saveCurrentMap();
+        }
+        
+        const mapData = maps[mapId];
+        if (!mapData) return;
+
+        currentMapId = mapId;
+        
+        // 1. Load data into global state
+        nodes = mapData.nodes;
+        connections = mapData.connections;
+        scale = mapData.scale;
+        offsetX = mapData.offsetX;
+        offsetY = mapData.offsetY;
+
+        // 2. Clear and rebuild the DOM viewport
+        viewport.innerHTML = '';
+        Object.keys(nodes).forEach(id => {
+            // Pass in stored text, in case contenteditable hasn't fully updated the model
+            createNodeElement(id, nodes[id].x, nodes[id].y, nodes[id].text); 
+        });
+
+        // 3. Apply the visual transformations
+        updateViewportTransform();
+        mapSelector.value = mapId;
+        showNotification(`${mapData.name} loaded.`);
+    }
+    
+    // --- UI/Selector Management ---
+
+    function populateMapSelector() {
+        mapSelector.innerHTML = '';
+        const mapKeys = Object.keys(maps);
+        
+        if (mapKeys.length === 0) {
+             // Should not happen, as loadMapList creates a default
+             mapSelector.innerHTML = '<option value="">No Maps Found</option>';
+             return;
+        }
+
+        mapKeys.forEach(id => {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = maps[id].name;
+            mapSelector.appendChild(option);
+        });
+        
+        // Select the current or first map
+        mapSelector.value = currentMapId || mapKeys[0];
+    }
+    
+    // --- Map Operations ---
+    
+    function createNewMap() {
+        const mapName = prompt("Enter a name for the new mind map:");
+        if (!mapName || mapName.trim() === '') return;
+        
+        const newId = generateId();
+        maps[newId] = {
+            name: mapName.trim(),
+            nodes: {},
+            connections: [],
+            scale: 1.0,
+            offsetX: 0,
+            offsetY: 0
+        };
+        
+        // Add one starting node near the center of the screen
+        const centerX = (window.innerWidth / 2);
+        const centerY = (window.innerHeight / 2);
+        
+        // We set the initial coordinates in 'world' space (0,0 of the unpanned/unzoomed canvas)
+        maps[newId].nodes[generateId()] = { 
+            x: centerX - 100, // Center node element
+            y: centerY - 40, 
+            text: 'Main Idea', 
+            width: 200, 
+            height: 80 
+        };
+
+        saveMapList();
+        populateMapSelector();
+        switchMap(newId);
+    }
+    
+    function renameCurrentMap() {
+        if (!currentMapId) return;
+        const currentName = maps[currentMapId].name;
+        const newName = prompt(`Rename map '${currentName}':`, currentName);
+        
+        if (newName && newName.trim() !== currentName) {
+            maps[currentMapId].name = newName.trim();
+            saveMapList();
+            populateMapSelector();
+            showNotification(`Map renamed to ${newName.trim()}`);
+        }
+    }
+    
+    function deleteCurrentMap() {
+        if (!currentMapId) return;
+        
+        if (Object.keys(maps).length === 1) {
+            alert("Cannot delete the last map.");
+            return;
+        }
+        
+        const currentName = maps[currentMapId].name;
+        if (!confirm(`Are you sure you want to delete the map '${currentName}'? This action cannot be undone.`)) {
+            return;
+        }
+        
+        delete maps[currentMapId];
+        saveMapList();
+        
+        // Switch to the first remaining map
+        const remainingIds = Object.keys(maps);
+        currentMapId = remainingIds[0];
+        
+        populateMapSelector();
+        switchMap(currentMapId);
+    }
+    
+    function initMapListeners() {
+        // New Toolbar Listeners
+        mapSelector.addEventListener('change', (e) => switchMap(e.target.value));
+        newMapBtn.addEventListener('click', createNewMap);
+        renameMapBtn.addEventListener('click', renameCurrentMap);
+        deleteMapBtn.addEventListener('click', deleteCurrentMap);
+    }
+
+
+    // --- Final Setup ---
+    window.addEventListener('resize', initializeCanvas);
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        initThemeSync();
+        loadMapList(); // Load all map names and IDs
+        populateMapSelector();
+        // Load the first map to display
+        if (currentMapId) {
+            switchMap(currentMapId);
+        } else {
+            // Fallback: This should run the logic for the default map created in loadMapList
+            switchMap(Object.keys(maps)[0]);
+        }
+        initializeCanvas(); 
+        initMapListeners(); 
+    });
+</script>
+</body>
+</html>

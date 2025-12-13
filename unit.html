@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success:#28a745;
+            --radius:8px; 
+            --text:#212529;
+            --converter-color: #ff6f00; /* Deep Orange for distinction */
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b; 
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 30px;
+        }
+
+        .converter-wrap {
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="dark"] .converter-wrap {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--converter-color);
+        }
+        
+        /* --- Conversion Controls --- */
+        #controls {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        #unit-category {
+            flex-grow: 1;
+        }
+        
+        input, select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 16px;
+            flex-grow: 1;
+        }
+
+        [data-theme="dark"] input, [data-theme="dark"] select {
+            border-color: #4a5568;
+            background: #3a475a;
+        }
+        
+        /* --- Result Area --- */
+        #result-area {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 2px solid var(--converter-color);
+        }
+
+        #result-area p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--muted);
+        }
+        
+        #converted-result {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 5px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="converter-wrap">
+        <h2>Universal Unit Converter</h2>
+
+        <div id="controls">
+            
+            <div class="input-group">
+                <label for="unit-category">Select Category</label>
+                <select id="unit-category" onchange="updateUnits()">
+                    <option value="length">Length</option>
+                    <option value="mass">Mass</option>
+                    <option value="volume">Volume</option>
+                    <option value="temperature">Temperature</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="from-value">Value to Convert</label>
+                <input type="number" id="from-value" value="1" min="0" step="any" oninput="convert()">
+            </div>
+            
+            <div class="input-group">
+                <label>Convert From / To</label>
+                <div class="input-row">
+                    <select id="from-unit" onchange="convert()"></select>
+                    <select id="to-unit" onchange="convert()"></select>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="result-area">
+            <p>Converted Result:</p>
+            <div id="converted-result">...</div>
+        </div>
+    </div>
+
+<script>
+    // Conversion Constants (Conversion to the BASE unit of the category)
+    const CONVERSION_FACTORS = {
+        // BASE: Meter (m)
+        length: {
+            m: 1, 
+            km: 0.001,
+            cm: 100,
+            mi: 0.000621371,
+            ft: 3.28084,
+            in: 39.3701
+        },
+        // BASE: Kilogram (kg)
+        mass: {
+            kg: 1,
+            g: 1000,
+            lb: 2.20462,
+            oz: 35.274
+        },
+        // BASE: Liter (L)
+        volume: {
+            L: 1,
+            mL: 1000,
+            m3: 0.001,
+            gal: 0.264172 // US Gallons
+        },
+        // BASE: Celsius (°C) - Temperature conversion is different (linear transformation, not multiplication)
+        temperature: {
+            C: "Celsius",
+            F: "Fahrenheit",
+            K: "Kelvin"
+        }
+    };
+    
+    const UNIT_NAMES = {
+        // Length
+        m: "Meters (m)", km: "Kilometers (km)", cm: "Centimeters (cm)",
+        mi: "Miles (mi)", ft: "Feet (ft)", in: "Inches (in)",
+        // Mass
+        kg: "Kilograms (kg)", g: "Grams (g)", lb: "Pounds (lb)", oz: "Ounces (oz)",
+        // Volume
+        L: "Liters (L)", mL: "Milliliters (mL)", m3: "Cubic Meters (m³)", gal: "US Gallons (gal)",
+        // Temperature
+        C: "Celsius (°C)", F: "Fahrenheit (°F)", K: "Kelvin (K)"
+    };
+
+    // DOM elements
+    const categorySelect = document.getElementById('unit-category');
+    const fromUnitSelect = document.getElementById('from-unit');
+    const toUnitSelect = document.getElementById('to-unit');
+    const fromValueInput = document.getElementById('from-value');
+    const resultDiv = document.getElementById('converted-result');
+
+    // --- Core Conversion Logic ---
+
+    function convertTemperature(value, fromUnit, toUnit) {
+        let C; // Value in Celsius (the base unit)
+
+        // 1. Convert initial value to Celsius (C)
+        if (fromUnit === 'C') {
+            C = value;
+        } else if (fromUnit === 'F') {
+            C = (value - 32) * (5 / 9);
+        } else if (fromUnit === 'K') {
+            C = value - 273.15;
+        } else {
+            return NaN;
+        }
+
+        // 2. Convert Celsius (C) to target unit
+        if (toUnit === 'C') {
+            return C;
+        } else if (toUnit === 'F') {
+            return (C * (9 / 5)) + 32;
+        } else if (toUnit === 'K') {
+            return C + 273.15;
+        } else {
+            return NaN;
+        }
+    }
+
+    function convert() {
+        const category = categorySelect.value;
+        const fromUnit = fromUnitSelect.value;
+        const toUnit = toUnitSelect.value;
+        const value = Number(fromValueInput.value);
+
+        if (isNaN(value) || value < 0) {
+            resultDiv.textContent = "Invalid Input";
+            return;
+        }
+        
+        let result = NaN;
+
+        if (category === 'temperature') {
+            result = convertTemperature(value, fromUnit, toUnit);
+        } else {
+            const factors = CONVERSION_FACTORS[category];
+            
+            if (fromUnit === toUnit) {
+                result = value;
+            } else {
+                // 1. Convert FROM value to BASE unit
+                const valueInBase = value / factors[fromUnit];
+                
+                // 2. Convert BASE value to TO unit
+                result = valueInBase * factors[toUnit];
+            }
+        }
+
+        if (isNaN(result)) {
+            resultDiv.textContent = "Error";
+        } else {
+            // Format output to 4 decimal places, avoiding excessive zeros
+            const finalResult = parseFloat(result.toFixed(10));
+            resultDiv.textContent = `${finalResult.toLocaleString()} ${toUnit}`;
+        }
+    }
+
+    // --- UI/Unit Population ---
+
+    function populateSelect(selectElement, category) {
+        selectElement.innerHTML = '';
+        const units = CONVERSION_FACTORS[category];
+
+        for (const unitKey in units) {
+            const option = document.createElement('option');
+            option.value = unitKey;
+            option.textContent = UNIT_NAMES[unitKey];
+            selectElement.appendChild(option);
+        }
+    }
+
+    function updateUnits() {
+        const category = categorySelect.value;
+        populateSelect(fromUnitSelect, category);
+        populateSelect(toUnitSelect, category);
+        
+        // Reset and trigger conversion
+        fromValueInput.value = '1';
+        convert();
+    }
+    
+    // --- Theme Synchronization ---
+    
+    function initThemeSync() {
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            }
+        });
+        
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    }
+
+    // --- Initialization ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initThemeSync();
+        updateUnits(); // Populate initial units and perform first conversion
+    });
+
+</script>
+</body>
+</html>

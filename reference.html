@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reference Hub</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success:#28a745;
+            --radius:8px; 
+            --text:#212529;
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b; 
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .reference-wrap {
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        /* --- Search Bar --- */
+        #search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        [data-theme="dark"] #search-form {
+             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #search-input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            border: none;
+            background: var(--card);
+            color: var(--text);
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        #search-input:focus {
+            outline: none;
+        }
+
+        #search-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        #search-btn:hover {
+            background: #0097a7; /* Darker Cyan */
+        }
+        
+        /* --- Links Section --- */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .link-card {
+            display: block; /* Make the whole card clickable */
+            background: var(--card);
+            padding: 20px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        [data-theme="dark"] .link-card {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .link-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-card h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .link-card p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        .link-card .icon {
+            float: right;
+            font-size: 24px;
+            color: var(--muted);
+            line-height: 1;
+        }
+
+        /* Category Header */
+        h2.category-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="reference-wrap">
+        
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Search the web (Opens in new tab)" required>
+            <button type="submit" id="search-btn">Search</button>
+        </form>
+
+        <h2 class="category-header">Knowledge Bases</h2>
+        <div class="link-grid">
+            <a href="https://en.wikipedia.org/" target="_blank" class="link-card">
+                <span class="icon">🌍</span>
+                <h3>Wikipedia</h3>
+                <p>The free encyclopedia.</p>
+            </a>
+            <a href="https://www.britannica.com/" target="_blank" class="link-card">
+                <span class="icon">📜</span>
+                <h3>Britannica</h3>
+                <p>Curated and verified articles.</p>
+            </a>
+            <a href="https://scholar.google.com/" target="_blank" class="link-card">
+                <span class="icon">🎓</span>
+                <h3>Google Scholar</h3>
+                <p>Search scholarly literature.</p>
+            </a>
+            <a href="https://www.wolframalpha.com/" target="_blank" class="link-card">
+                <span class="icon">🧠</span>
+                <h3>WolframAlpha</h3>
+                <p>Computational knowledge engine.</p>
+            </a>
+        </div>
+        
+        <h2 class="category-header">Tools & Languages</h2>
+        <div class="link-grid">
+            <a href="https://github.com/" target="_blank" class="link-card">
+                <span class="icon">💻</span>
+                <h3>GitHub</h3>
+                <p>Code hosting and version control.</p>
+            </a>
+            <a href="https://developer.mozilla.org/en-US/" target="_blank" class="link-card">
+                <span class="icon">🦊</span>
+                <h3>MDN Web Docs</h3>
+                <p>Essential web development references.</p>
+            </a>
+            <a href="https://www.grammarly.com/" target="_blank" class="link-card">
+                <span class="icon">🖊️</span>
+                <h3>Grammar Check</h3>
+                <p>Quick grammar and spelling fixes.</p>
+            </a>
+            <a href="https://translate.google.com/" target="_blank" class="link-card">
+                <span class="icon">🗣️</span>
+                <h3>Translator</h3>
+                <p>Translate text between languages.</p>
+            </a>
+        </div>
+
+    </div>
+
+<script>
+    // --- DOM Elements ---
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    
+    // --- Functionality ---
+    
+    // Handles the search submission, opening Google Search in a new tab
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const query = searchInput.value.trim();
+        if (query) {
+            // Encode the query for the URL
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            // Open the search results in a new browser tab
+            window.open(searchUrl, '_blank');
+            // Clear the input field
+            searchInput.value = '';
+        }
+    });
+
+    // --- Theme Synchronization ---
+    
+    function initThemeSync() {
+        // 1. Listen for theme changes from the parent (Knowledge Nexus)
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            }
+        });
+        
+        // 2. Request initial theme upon loading
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    }
+    
+    // --- Initialization ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initThemeSync();
+    });
+
+</script>
+</body>
+</html>

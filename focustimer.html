@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Timer App</title>
+    <style>
+        :root{
+            /* Inherited from Parent (Knowledge Nexus) */
+            --bg:#f8f9fa; 
+            --card:#ffffff;
+            --muted:#6c757d; 
+            --accent:#00bcd4; /* Vibrant Cyan */
+            --danger:#dc3545;
+            --success:#28a745;
+            --radius:8px; 
+            --text:#212529;
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg:#1e293b; 
+            --card:#2d3748;
+            --muted:#a0aec0;
+            --text:#f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+        }
+
+        .timer-container {
+            width: 90%;
+            max-width: 500px;
+            background: var(--card);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        /* Dark Mode adjustments for the container */
+        [data-theme="dark"] .timer-container {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .timer-display {
+            font-size: 7rem; /* Large timer font */
+            font-weight: 700;
+            margin: 20px 0 30px 0;
+            color: var(--text);
+            transition: color 0.3s;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .mode-btn {
+            background: var(--bg);
+            color: var(--muted);
+            border: 1px solid #ced4da;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        [data-theme="dark"] .mode-btn {
+            border-color: #4a5568;
+            background: var(--card);
+        }
+
+        .mode-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .mode-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 2px 8px rgba(0, 188, 212, 0.4);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .control-btn:active {
+            transform: scale(0.98);
+        }
+
+        #start-pause-btn {
+            background: var(--success);
+            color: white;
+        }
+
+        #reset-btn {
+            background: var(--muted);
+            color: white;
+        }
+
+        small {
+            color: var(--muted);
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        /* For the ring effect */
+        .timer-ring {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            /* Thick border to represent the time left */
+            border: 15px solid var(--bg); 
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        [data-theme="dark"] .timer-ring {
+            border: 15px solid var(--card);
+        }
+
+        .timer-progress {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            /* conic-gradient for the progress */
+            background: conic-gradient(
+                var(--accent) 0%,
+                var(--accent) 0%,
+                transparent 0%
+            );
+            transition: background 0.5s linear; 
+        }
+
+        .timer-inner {
+            z-index: 2;
+            background: var(--card);
+            width: calc(100% - 30px); /* Leave space for the ring border */
+            height: calc(100% - 30px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: 0 0 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="timer-container">
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="focus">Focus</button>
+            <button class="mode-btn" data-mode="shortBreak">Short Break</button>
+            <button class="mode-btn" data-mode="longBreak">Long Break</button>
+        </div>
+        
+        <div class="timer-ring">
+            <div id="timer-progress" class="timer-progress"></div>
+            <div class="timer-inner">
+                <div id="timer-display" class="timer-display">25:00</div>
+                <small id="status-message">Time to focus!</small>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="start-pause-btn" class="control-btn">START</button>
+            <button id="reset-btn" class="control-btn">RESET</button>
+        </div>
+        
+    </div>
+
+<script>
+    // --- Configuration ---
+    const TIME = {
+        focus: 25 * 60,       // 25 minutes
+        shortBreak: 5 * 60,   // 5 minutes
+        longBreak: 15 * 60    // 15 minutes
+    };
+
+    // --- State Variables ---
+    let currentMode = 'focus';
+    let timeLeft = TIME[currentMode];
+    let isRunning = false;
+    let intervalId = null;
+    let startTime = 0;
+    let totalTime = TIME[currentMode];
+    
+    // --- DOM Elements ---
+    const display = document.getElementById('timer-display');
+    const startPauseBtn = document.getElementById('start-pause-btn');
+    const statusMessage = document.getElementById('status-message');
+    const modeBtns = document.querySelectorAll('.mode-btn');
+    const progressRing = document.getElementById('timer-progress');
+
+    // --- Core Functions ---
+
+    function formatTime(seconds) {
+        const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
+        const secs = String(seconds % 60).padStart(2, '0');
+        return `${minutes}:${secs}`;
+    }
+
+    function updateDisplay() {
+        display.textContent = formatTime(timeLeft);
+        updateProgressRing();
+    }
+    
+    function updateProgressRing() {
+        // Calculate percentage of time elapsed (0 to 1)
+        const elapsed = totalTime - timeLeft;
+        const percentage = (elapsed / totalTime);
+        const degrees = percentage * 360; // 0 to 360 degrees
+        
+        progressRing.style.background = `conic-gradient(
+            var(--accent) ${degrees}deg,
+            transparent ${degrees}deg
+        )`;
+    }
+
+    function setMode(mode) {
+        if (isRunning) return; // Prevent mode change while running
+        currentMode = mode;
+        totalTime = TIME[mode];
+        timeLeft = totalTime;
+
+        modeBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.mode === mode) {
+                btn.classList.add('active');
+            }
+        });
+
+        // Set status message
+        if (mode === 'focus') {
+            statusMessage.textContent = 'Time to focus!';
+            startPauseBtn.style.background = 'var(--success)';
+        } else {
+            statusMessage.textContent = 'Time for a break!';
+            startPauseBtn.style.background = 'var(--accent)';
+        }
+        
+        updateDisplay();
+    }
+
+    function tick() {
+        if (timeLeft > 0) {
+            timeLeft--;
+        } else {
+            clearInterval(intervalId);
+            isRunning = false;
+            startPauseBtn.textContent = 'START';
+            startPauseBtn.style.background = 'var(--success)';
+            alert('Time is up!'); // Simple notification
+            statusMessage.textContent = 'Session complete. Select next mode.';
+        }
+        updateDisplay();
+    }
+
+    // --- Control Handlers ---
+
+    function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+        startPauseBtn.textContent = 'PAUSE';
+        intervalId = setInterval(tick, 1000);
+    }
+
+    function pauseTimer() {
+        if (!isRunning) return;
+        isRunning = false;
+        startPauseBtn.textContent = 'START';
+        clearInterval(intervalId);
+    }
+
+    function toggleTimer() {
+        if (isRunning) {
+            pauseTimer();
+        } else {
+            startTimer();
+        }
+    }
+
+    function resetTimer() {
+        pauseTimer();
+        setMode(currentMode);
+        startPauseBtn.textContent = 'START';
+    }
+
+    // --- Initialization and Listeners ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Setup mode buttons
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', () => setMode(btn.dataset.mode));
+        });
+
+        // 2. Setup control buttons
+        startPauseBtn.addEventListener('click', toggleTimer);
+        document.getElementById('reset-btn').addEventListener('click', resetTimer);
+
+        // 3. Initial display
+        updateDisplay();
+        
+        // 4. Listen for theme changes from the parent (Knowledge Nexus)
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'THEME_CHANGED') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            }
+        });
+        
+        // Request initial theme upon loading
+        if (window.parent) {
+             window.parent.postMessage({ type: 'GET_THEME' }, '*');
+        }
+    });
+
+</script>
+</body>
+</html>

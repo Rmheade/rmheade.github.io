@@ -5,187 +5,293 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/x-icon" src="favicon.ico">
-<title>StudyBuddy - Personal Study Tool</title>
+<title>Knowledge Nexus - Dashboard</title>
 <style>
   :root{
-    --bg:#f6f8fb; 
-    --card:#ffffff; 
-    --muted:#6b7280; 
-    --accent:#2563eb;
-    --success:#10b981; 
-    --danger:#ef4444; 
-    --radius:12px;
-    --text:#0f172a;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --bg:#f8f9fa; /* Lighter background */
+    --card:#ffffff;
+    --muted:#6c757d; /* Standard Bootstrap muted color */
+    --accent:#00bcd4; /* Vibrant Cyan */
+    --secondary-accent:#00897b; /* Deep Teal */
+    --success:#28a745;
+    --danger:#dc3545;
+    --radius:8px; /* Slightly sharper radius */
+    --text:#212529; /* Darker text */
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   [data-theme="dark"] {
-    --bg:#0f172a;
-    --card:#1e293b;
-    --muted:#94a3b8;
-    --text:#f1f5f9;
+    --bg:#1e293b; /* Deeper dark background */
+    --card:#2d3748;
+    --muted:#a0aec0;
+    --text:#f8f9fa;
   }
 
   *{box-sizing:border-box}
-  body{margin:0;background:linear-gradient(180deg,var(--bg), var(--bg));color:var(--text);min-height:100vh;transition:background 0.3s, color 0.3s}
-  .wrap{max-width:1000px;margin:28px auto;padding:18px;} 
-  header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-  .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px}
-  h1{font-size:20px;margin:0}
-  p.lead{margin:0;color:var(--muted);font-size:13px}
-  .card{background:var(--card);border-radius:var(--radius);box-shadow:0 6px 22px rgba(16,24,40,0.06);padding:18px;margin-bottom:14px;transition:background 0.3s}
+  /* Updated background for a more professional feel */
+  body{margin:0;background:var(--bg);color:var(--text);min-height:100vh;transition:background 0.3s, color 0.3s}
+  .wrap{max-width:1100px; /* Slightly wider wrap */ margin:40px auto;padding:20px;}
+  /* Updated header */
+  header{display:flex;align-items:center;gap:20px;margin-bottom:40px;padding-bottom:10px;border-bottom:1px solid #e9ecef; /* Separator line */}
+  [data-theme="dark"] header{border-bottom-color:#4a5568;}
+  
+  /* New Logo Style */
+  .logo{width:48px;height:48px;border-radius:var(--radius);background:linear-gradient(45deg, var(--secondary-accent), var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px;box-shadow:0 4px 12px rgba(0, 188, 212, 0.3)}
+  h1{font-size:24px;margin:0;font-weight:600;}
+  p.lead{margin:0;color:var(--muted);font-size:14px}
+  
+  /* Card style updated for the new radius and shadow */
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 10px rgba(0,0,0,0.05);padding:20px;margin-bottom:16px;transition:background 0.3s}
   .center{display:flex;align-items:center;justify-content:center}
-  input[type="password"], input[type="text"]{padding:10px 12px;border-radius:8px;border:1px solid #e6e9ef;min-width:220px;background:var(--card);color:var(--text);transition:background 0.3s, color 0.3s, border 0.3s}
-  [data-theme="dark"] input[type="password"], [data-theme="dark"] input[type="text"]{border-color:#334155}
-  button{background:var(--accent);color:white;border:none;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px;transition:opacity 0.2s}
-  button:disabled{opacity:0.5;cursor:not-allowed}
-  button.ghost{background:transparent;color:var(--accent);border:1px solid #dbe5ff;transition:background 0.2s, border 0.2s}
-  [data-theme="dark"] button.ghost{border-color:#334155}
-  button.secondary{background:#6366f1;color:white}
-  button.danger{background:#ef4444;color:white}
+  
+  /* Input and button styles */
+  input[type="password"], input[type="text"]{padding:10px 14px;border-radius:6px;border:1px solid #ced4da;min-width:250px;background:var(--card);color:var(--text);transition:background 0.3s, color 0.3s, border 0.3s}
+  [data-theme="dark"] input[type="password"], [data-theme="dark"] input[type="text"]{border-color:#4a5568}
+  
+  button{background:var(--accent);color:white;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500;transition:background 0.2s, opacity 0.2s; box-shadow:0 2px 4px rgba(0, 188, 212, 0.2);}
+  button:hover{background:var(--secondary-accent);}
+  button:disabled{opacity:0.6;cursor:not-allowed}
+  
+  button.ghost{background:transparent;color:var(--accent);border:1px solid #b2ebf2;box-shadow:none;transition:background 0.2s, border 0.2s, color 0.2s}
+  [data-theme="dark"] button.ghost{border-color:#4a5568}
+  button.ghost:hover{background:rgba(0, 188, 212, 0.1); color:var(--secondary-accent);}
+  
+  button.secondary{background:#6c757d;color:white;box-shadow:0 2px 4px rgba(108, 117, 125, 0.2);}
+  button.secondary:hover{background:#5a6268;}
+
+  button.danger{background:var(--danger);color:white;box-shadow:0 2px 4px rgba(220, 53, 69, 0.2);}
+  button.danger:hover{background:#c82333;}
+
   small.note{color:var(--muted);display:block;margin-top:8px;font-size:12px}
-  .nav{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .nav button{background:transparent;color:var(--muted);padding:8px 12px;border-radius:8px;border:1px solid transparent;font-size:14px;transition:background 0.2s}
-  .nav button.active{background:#eef2ff;color:var(--accent);border-color:#dbeafe}
-  [data-theme="dark"] .nav button.active{background:rgba(37,99,235,0.2);border-color:rgba(37,99,235,0.4)}
-  .grid{display:grid;grid-template-columns:1fr 360px;gap:14px}
-  @media(max-width:900px){ .grid{grid-template-columns:1fr} .rightcol{order:2} }
-
-  .form-group{margin-bottom:14px}
+  .form-group{margin-bottom:16px}
   .form-group label{display:block;font-weight:600;margin-bottom:6px;font-size:14px;color:var(--text)}
-  .form-group input, .form-group textarea, .form-group select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #e6e9ef;font-family:inherit;background:var(--card);color:var(--text);transition:background 0.3s, color 0.3s, border 0.3s}
-  [data-theme="dark"] .form-group input, [data-theme="dark"] .form-group textarea, [data-theme="dark"] .form-group select{border-color:#334155}
+  .form-group input, .form-group textarea, .form-group select{width:100%;padding:10px 14px;border-radius:6px;border:1px solid #ced4da;font-family:inherit;background:var(--card);color:var(--text);transition:background 0.3s, color 0.3s, border 0.3s}
+  [data-theme="dark"] .form-group input, [data-theme="dark"] .form-group textarea, [data-theme="dark"] .form-group select{border-color:#4a5568}
   .form-group textarea{min-height:100px;resize:vertical}
-  .card-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-  .card-item{padding:10px;border-radius:8px;background:#f9fafb;border:1px solid #e6e9ef;display:flex;justify-content:space-between;align-items:center;transition:background 0.3s, border 0.3s}
-  [data-theme="dark"] .card-item{background:#334155;border-color:#475569}
-  .card-item-text{flex:1;color:var(--text)}
-  .card-item button{padding:6px 10px;font-size:12px}
-  footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center;transition:color 0.3s}
+  footer{margin-top:30px;color:var(--muted);font-size:14px;text-align:center;transition:color 0.3s;padding-top:10px;border-top:1px solid #e9ecef;}
+  [data-theme="dark"] footer{border-top-color:#4a5568;}
   a.small{font-size:13px;color:var(--accent);text-decoration:none}
-  .tabs-secondary{display:flex;gap:6px;margin-bottom:12px;border-bottom:2px solid #f1f5f9;padding-bottom:8px;transition:border 0.3s}
-  [data-theme="dark"] .tabs-secondary{border-bottom-color:#334155}
-  .tabs-secondary button{background:transparent;border:none;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-10px;transition:color 0.2s, border 0.2s}
-  .tabs-secondary button.active{color:var(--accent);border-bottom-color:var(--accent)}
-  .deck-card{background:#f9fafb;border:1px solid #e6e9ef;border-radius:10px;padding:14px;margin-bottom:12px;cursor:pointer;transition:all 0.2s}
-  [data-theme="dark"] .deck-card{background:#334155;border-color:#475569}
-  .deck-card:hover{border-color:var(--accent);background:#f0f4ff}
-  [data-theme="dark"] .deck-card:hover{background:rgba(37,99,235,0.15)}
-  .deck-card-title{font-weight:700;font-size:16px;margin-bottom:4px;color:var(--text)}
-  .deck-card-meta{font-size:12px;color:var(--muted);transition:color 0.3s}
-  .deck-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-
+  
+  /* Theme Toggle Button Style */
   .theme-toggle-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 44px; /* Slightly larger */
+    height: 44px;
     background: var(--card);
-    border: 2px solid var(--accent);
-    border-radius: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
     cursor: pointer;
     padding: 0;
-    margin-left: 8px;
+    margin-left: 10px;
     color: var(--accent);
-    transition: background 0.3s, border 0.3s, color 0.3s;
+    transition: background 0.3s, border 0.3s, color 0.3s, transform 0.1s;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  [data-theme="dark"] .theme-toggle-btn {
+    border-color: #4a5568;
   }
 
   .theme-toggle-btn:hover {
     background: var(--accent);
     color: white;
+    border-color: var(--accent);
+  }
+  .theme-toggle-btn:active {
+    transform: scale(0.95);
   }
 
-  .theme-icon {
-    width: 20px;
-    height: 20px;
+  .theme-icon, .login-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+  
+  /* Subtle Login Button Style */
+  #loginBtn {
+    width: 44px;
+    height: 44px;
+    background: var(--card);
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    color: var(--muted);
+    transition: background 0.3s, border 0.3s, color 0.3s, transform 0.1s;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  [data-theme="dark"] #loginBtn {
+    border-color: #4a5568;
+  }
+
+  #loginBtn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  #loginBtn:active {
+    transform: scale(0.95);
+  }
+
+  /* --- App Grid and Modal (Kept the layout, adjusted styles) --- */
+  
+  /* App Grid */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Larger icons */
+    gap: 25px;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0;
+  }
+
+  .app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s ease-out, box-shadow 0.15s;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+.app-icon:hover .app-icon-image {
+    transform: translateY(-5px) scale(1.05); /* Increased pop effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Stronger shadow on the icon */
+}
+    
+  .app-icon-image {
+    width: 80px; /* Larger icon size */
+    height: 80px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .notebook-tabs-container {
-    display: flex;
-    gap: 2px;
-    margin-bottom: -1px;
-    position: relative;
-    z-index: 10;
-  }
-
-  .notebook-tab {
-    background: var(--card);
-    border: 1px solid #e6e9ef;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    padding: 12px 20px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--muted);
-    transition: all 0.2s;
-    position: relative;
-    transform: perspective(500px) rotateX(5deg);
-    transform-origin: bottom;
-  }
-
-  [data-theme="dark"] .notebook-tab {
-    border-color: #334155;
-  }
-
-  .notebook-tab:hover {
-    background: #f9fafb;
-    color: var(--text);
-    transform: perspective(500px) rotateX(2deg);
-  }
-
-  [data-theme="dark"] .notebook-tab:hover {
-    background: #334155;
-  }
-
-  .notebook-tab.active {
-    background: linear-gradient(180deg, var(--accent), #2563eb);
+    font-size: 36px;
     color: white;
-    border-color: var(--accent);
-    transform: perspective(500px) rotateX(0deg) translateY(1px);
-    box-shadow: 0 -2px 8px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-out, box-shadow 0.2s;
+  }
+  
+  .app-icon-image img {
+      width: 60%;
+      height: 60%;
+      object-fit: contain;
   }
 
-  .notebook-tab.active:hover {
-    background: linear-gradient(180deg, var(--accent), #1d4ed8);
+  .app-icon-label {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    /* No background for cleaner look */
+    /* background: rgba(var(--text-rgb), 0.05);
+    padding: 2px 8px;
+    border-radius: 6px; */
+  }
+  
+  /* Modal Overlay */
+  #appModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    z-index: 2000;
+    display: none;
+    transition: transform 0.3s ease-out;
   }
 
-  .notebook-content-wrapper {
-    border: 1px solid #e6e9ef;
-    border-radius: 0 8px 8px 8px;
+  /* OS-like Top Bar */
+  .app-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 60px; /* Slightly taller bar */
     background: var(--card);
-    transition: background 0.3s, border 0.3s;
+    border-bottom: 1px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  
+  [data-theme="dark"] .app-top-bar {
+    border-bottom-color: #4a5568;
   }
 
-  [data-theme="dark"] .notebook-content-wrapper {
-    border-color: #334155;
+  .app-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
   }
+
+  #appModalExitBtn {
+    background: var(--danger);
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* Iframe inside the modal */
+  #appIframe {
+    width: 100%;
+    height: calc(100% - 60px); /* Subtract top bar height */
+    border: none;
+    display: block;
+    background: var(--bg); /* Iframe background uses main background */
+  }
+
+  /* For theme-dependent text color in app-icon-label */
+  :root {
+      --text-rgb: 33, 37, 41;
+  }
+
+  [data-theme="dark"] {
+      --text-rgb: 248, 249, 250;
+  }
+  
+  /* Removed old components */
+  .notebook-tabs-container, .notebook-tab, .notebook-content-wrapper, .card-list, .card-item { display: none !important; }
+
+
+  .login-icon svg {
+    display: block; /* Important for alignment */
+    width: 100%;
+    height: 100%;
+    /* Ensure no weird spacing/offset */
+    margin: 0;
+    padding: 0;
+}  
 </style>
 
 <script>
-window.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'tilde-pressed') {
-        console.log('Tilde pressed detected in parent! Redirecting...');
-        window.location.href = "/";
-    }
-});
-
 // CRITICAL: Set up tilde-pressed listener FIRST, before any other code
 window.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'tilde-pressed') {
-        console.log('Tilde pressed detected in parent!');
-        window.location.href = "/";
+        console.log('Tilde pressed detected in parent! Redirecting/Closing Modal...');
+        // Close the modal if it's open, or redirect
+        const appModal = document.getElementById('appModal');
+        if (appModal && appModal.style.display === 'block') {
+            appModal.style.display = 'none';
+        } else {
+            window.location.href = "/";
+        }
     }
 });
 
-// Theme Management System
+// Theme Management System (Kept as is, only class name references changed if needed)
 class ThemeManager {
   constructor() {
-    this.theme = localStorage.getItem('studybuddy-theme') || 'light';
+    this.theme = localStorage.getItem('knowledge-nexus-theme') || 'light';
     this.init();
   }
 
@@ -198,7 +304,7 @@ class ThemeManager {
   applyTheme(theme) {
     this.theme = theme || 'light';
     document.documentElement.setAttribute('data-theme', this.theme);
-    localStorage.setItem('studybuddy-theme', this.theme);
+    localStorage.setItem('knowledge-nexus-theme', this.theme);
     this.updateButton();
     this.broadcastToIframes();
   }
@@ -231,10 +337,13 @@ class ThemeManager {
     const iframes = document.querySelectorAll('iframe');
     iframes.forEach(iframe => {
       try {
-        iframe.contentWindow.postMessage({
-          type: 'THEME_CHANGED',
-          theme: this.theme
-        }, '*');
+        // Exclude the login modal iframe, only target the content iframe
+        if (iframe.id !== 'loginIframe') {
+            iframe.contentWindow.postMessage({
+                type: 'THEME_CHANGED',
+                theme: this.theme
+            }, '*');
+        }
       } catch (e) {
         // Silently fail for cross-origin iframes
       }
@@ -252,14 +361,7 @@ class ThemeManager {
           theme: this.theme
         }, '*');
       }
-      if (event.data && event.data.type === 'DECKS_UPDATED') {
-        decks = loadDecks();
-        renderDeckList();
-        if (currentDeckId) {
-          currentDeck = decks.find(d => d.id === currentDeckId);
-          renderAll();
-        }
-      }
+      // Note: DECKS_UPDATED logic is commented out/removed as per original plan
     });
   }
 }
@@ -272,12 +374,16 @@ document.addEventListener('DOMContentLoaded', () => {
 <body>
 <div class="wrap">
   <header>
-    <div class="logo">SB</div>
+    <div class="logo">KN</div>
     <div style="flex:1">
-      <h1>StudyBuddy</h1>
-      <p class="lead">Your personal study companion – create flashcards and quizzes, track your progress.</p>
+      <h1>Knowledge Nexus</h1>
+      <p class="lead">Your integrated hub for learning and productivity.</p>
     </div>
-    <button id="loginBtn" class="ghost">Login</button>
+    <button id="loginBtn" aria-label="Login">
+      <div class="login-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+    </button>
     <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">
       <div class="theme-icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -289,31 +395,61 @@ document.addEventListener('DOMContentLoaded', () => {
     <iframe id="loginIframe" src="pass.html" style="width:100%;height:100%;border:none"></iframe>
   </div>
 
-  <div class="notebook-tabs-container">
-    <div class="notebook-tab active" data-notebook-tab="flashcards">
-      <div style="display:flex;align-items:center;gap:6px">
-        <span>📚 Flashcards</span>
-      </div>
+  <div class="app-grid">
+    <div class="app-icon" data-app-url="flash.html" data-app-title="Flashcards">
+      <div class="app-icon-image" style="background:#ffc107;">📚</div> <div class="app-icon-label">Flashcards</div>
     </div>
-    <div class="notebook-tab" data-notebook-tab="notebook">
-      <div style="display:flex;align-items:center;gap:6px">
-        <span>📝 Notebook</span>
-      </div>
+    <div class="app-icon" data-app-url="notebook.html" data-app-title="Notebook">
+      <div class="app-icon-image" style="background:#17a2b8;">📝</div> <div class="app-icon-label">Notebook</div>
     </div>
-    <div class="notebook-tab" data-notebook-tab="calculator">
-      <div style="display:flex;align-items:center;gap:6px">
-        <span>🧮 Calculator</span>
-      </div>
+    <div class="app-icon" data-app-url="graph.html" data-app-title="Calculator">
+      <div class="app-icon-image" style="background:#007bff;">🧮</div> <div class="app-icon-label">Calculator</div>
+    </div>
+    <div class="app-icon" data-app-url="focustimer.html" data-app-title="Focus Timer">
+      <div class="app-icon-image" style="background:#dc3545;">⏱️</div> <div class="app-icon-label">Focus Timer</div>
+    </div>
+    <div class="app-icon" data-app-url="todo.html" data-app-title="To-Do List">
+      <div class="app-icon-image" style="background:#28a745;">✅</div> <div class="app-icon-label">To-Do List</div>
+    </div>
+    <div class="app-icon" data-app-url="reference.html" data-app-title="Reference">
+      <div class="app-icon-image" style="background:#6f42c1;">🔍</div> <div class="app-icon-label">Reference</div>
+    </div>
+    <div class="app-icon" data-app-url="citation.html" data-app-title="Citation Generator">
+      <div class="app-icon-image" style="background:#e83e8c;">📜</div> <div class="app-icon-label">Citation Generator</div>
+    </div>
+    <div class="app-icon" data-app-url="mindmap.html" data-app-title="Mind Map">
+      <div class="app-icon-image" style="background:#fd7e14;">🕸</div> <div class="app-icon-label">Mind Map</div>
+    </div>
+    <div class="app-icon" data-app-url="schedule.html" data-app-title="Schedule">
+      <div class="app-icon-image" style="background:#20c997;">🗓</div> <div class="app-icon-label">Schedule</div>
+    </div>
+    <div class="app-icon" data-app-url="https://wikipedia.com" data-app-title="Database">
+      <div class="app-icon-image" style="background:#adb5bd;"><img src="wikipedia.webp"></div> <div class="app-icon-label">Database</div>
+    </div>
+    <div class="app-icon" data-app-url="goal.html" data-app-title="Goal Tracker">
+      <div class="app-icon-image" style="background:#6c757d;">🏅</div> <div class="app-icon-label">Goal Tracker</div>
+    </div>
+    <div class="app-icon" data-app-url="unit.html" data-app-title="Unit Conversion">
+      <div class="app-icon-image" style="background:#00bcd4;">🔄</div> <div class="app-icon-label">Unit Conversion</div>
     </div>
   </div>
 
-  <div class="notebook-content-wrapper">
-    <iframe id="contentIframe" src="flash.html" style="width:100%;height:800px;border:none;border-radius:0 8px 8px 8px;display:block"></iframe>
+  <div id="appModal" style="display:none;">
+    <div class="app-top-bar">
+      <div class="app-title" id="appModalTitle">App Title</div>
+      <button id="appModalExitBtn" class="danger">Exit</button>
+    </div>
+    <iframe id="appIframe" src="" style="width:100%;height:100%;border:none;"></iframe>
   </div>
+
 </div>
 
+<footer>
+  Knowledge Nexus - Your Integrated Hub for Learning and Productivity
+</footer>
+
 <script>
-const DECKS_KEY = "studybuddy_decks_v2";
+const DECKS_KEY = "knowledge_nexus_decks_v2"; // Key renamed
 
 function formatDuration(ms){
   const s = Math.floor(ms/1000);
@@ -343,8 +479,15 @@ let currentDeck = null;
 
 (function(){
   const loginModal = document.getElementById("loginModal");
+  const loginBtn = document.getElementById("loginBtn");
+  const appModal = document.getElementById("appModal");
+  const appIframe = document.getElementById("appIframe");
+  const appModalTitle = document.getElementById("appModalTitle");
+  const appModalExitBtn = document.getElementById("appModalExitBtn");
+  const appIcons = document.querySelectorAll('.app-icon');
   
-  document.getElementById("loginBtn").addEventListener("click", ()=>{
+  // Login Button Logic
+  loginBtn.addEventListener("click", ()=>{
     loginModal.style.display = "block";
   });
   
@@ -354,25 +497,38 @@ let currentDeck = null;
     }
   });
   
-  const tabs = document.querySelectorAll('.notebook-tab');
-  const contentIframe = document.getElementById('contentIframe');
-  
-  tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-      const tabName = this.getAttribute('data-notebook-tab');
+  // App Icon Click Logic
+  appIcons.forEach(icon => {
+    icon.addEventListener('click', function() {
+      const appUrl = this.getAttribute('data-app-url');
+      const appTitle = this.getAttribute('data-app-title');
       
-      tabs.forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-      
-      if(tabName === 'flashcards') {
-        contentIframe.src = 'flash.html';
-      } else if(tabName === 'notebook') {
-        contentIframe.src = 'notebook.html';
-      } else if(tabName === 'calculator') {
-        contentIframe.src = 'graph.html';
-      }
+      appModalTitle.textContent = appTitle;
+      appIframe.src = appUrl;
+      appModal.style.display = 'block';
+
+      // Send the current theme to the new iframe
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      setTimeout(() => { 
+          try {
+              appIframe.contentWindow.postMessage({
+                  type: 'THEME_CHANGED',
+                  theme: currentTheme
+              }, '*');
+          } catch(e) {
+              console.error("Could not send theme to iframe:", e);
+          }
+      }, 50);
+
     });
   });
+
+  // App Modal Exit Button Logic
+  appModalExitBtn.addEventListener('click', function() {
+    appModal.style.display = 'none';
+    appIframe.src = ''; // Clear iframe source to stop any running scripts
+  });
+
 })();
 </script>
 </body>
