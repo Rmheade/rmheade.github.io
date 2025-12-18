@@ -2,9 +2,42 @@
 <html>
  <head>
     <script>
+      // Domain whitelist - only allow running on studying.work.gd
+      const ALLOWED_DOMAINS = ['studying.work.gd'];
+      
+      function checkDomain() {
+        try {
+          // Get the parent window's origin (works even in iframe)
+          const parentOrigin = window.parent.location.origin;
+          const parentHost = window.parent.location.hostname;
+          
+          // Check if parent domain is in whitelist
+          const isAllowed = ALLOWED_DOMAINS.some(domain => 
+            parentHost === domain || parentHost.endsWith('.' + domain)
+          );
+          
+          if (!isAllowed) {
+            console.error('Access denied: This game can only be run on studying.work.gd');
+            window.parent.location.href = '/no.html';
+            return false;
+          }
+          return true;
+        } catch (e) {
+          // If we can't access parent (cross-origin), block it for security
+          console.error('Security check failed: Unable to verify domain');
+          window.parent.location.href = '/no.html';
+          return false;
+        }
+      }
+      
+      // Check domain before anything else runs
+      if (!checkDomain()) {
+        throw new Error('Domain security check failed');
+      }
+      
       // Prevent direct access - only allow iframe loading
       if (window.self === window.top) {
-        window.location.href = '/';
+        window.location.href = 'https://studying.work.gd/';
       }
       
       // Listen for tilde key from parent window
@@ -18,9 +51,10 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
-          window.location.href = '/';
+          window.location.href = 'https://studying.work.gd/';
         }
       });
+      
       // Listen for the Escape key press
       document.addEventListener('keydown', (event) => {
           // Check if the key pressed is the Escape key

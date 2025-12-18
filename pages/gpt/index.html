@@ -2,30 +2,72 @@
 <html>
   <head>
     <script>
-      // Prevent direct access - only allow iframe loading
-      if (window.self === window.top) {
-        window.location.href = '/';
+      // Domain whitelist - only allow running on studying.work.gd
+      const ALLOWED_DOMAINS = ['studying.work.gd'];
+      
+      function checkDomain() {
+        try {
+          // Get the parent window's origin (works even in iframe)
+          const parentOrigin = window.parent.location.origin;
+          const parentHost = window.parent.location.hostname;
+          
+          // Check if parent domain is in whitelist
+          const isAllowed = ALLOWED_DOMAINS.some(domain => 
+            parentHost === domain || parentHost.endsWith('.' + domain)
+          );
+          
+          if (!isAllowed) {
+            console.error('Access denied: This game can only be run on studying.work.gd');
+            window.parent.location.href = '/no.html';
+            return false;
+          }
+          return true;
+        } catch (e) {
+          // If we can't access parent (cross-origin), block it for security
+          console.error('Security check failed: Unable to verify domain');
+          window.parent.location.href = '/no.html';
+          return false;
+        }
       }
       
-      // Listen for keyboard events from the iframe via postMessage
+      // Check domain before anything else runs
+      if (!checkDomain()) {
+        throw new Error('Domain security check failed');
+      }
+      
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = 'https://studying.work.gd/';
+      }
+      
+      // Listen for tilde key from parent window
       window.addEventListener("message", (event) => {
-        // If iframe sends a tilde or escape key, relay it to the parent window
-        if (event.data && (event.data.type === "tilde-pressed" || event.data.type === "escape-pressed")) {
-          window.parent.postMessage(event.data, "*");
+        if (event.data && event.data.type === "tilde-pressed") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
         }
       });
       
-      // Capture keyboard on this wrapper and send to parent
+      // Send tilde key press to parent window
       document.addEventListener("keydown", (e) => {
-        if (e.key === "`" || e.key === "~") {
+        if (e.key === "`") {
           window.parent.postMessage({ type: "tilde-pressed" }, "*");
-        }
-        if (e.key === "Escape") {
-          window.parent.postMessage({ type: "escape-pressed" }, "*");
+          window.location.href = 'https://studying.work.gd/';
         }
       });
+      
+      // Listen for the Escape key press
+      document.addEventListener('keydown', (event) => {
+          // Check if the key pressed is the Escape key
+          if (event.key === 'Escape') {
+              // Send a message to the parent window (the main dashboard)
+              // The main page will listen for this signal and close the game iframe
+              if (window.parent) {
+                  window.parent.postMessage('closeGame', '*');
+              }
+          }
+        });
     </script>
-    <style>
+<style>
       html, body {
         margin: 0;
         padding: 0;

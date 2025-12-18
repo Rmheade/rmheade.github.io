@@ -258,8 +258,8 @@ const baseGames = [
  category: "Sandbox"
 },
 {
- name: "Celeste",
- url: "/pages/Celeste/celeste.html",
+ name: "Celeste-Pico8",
+ url: "/pages/celeste-pico8/celeste.html",
  image: "pages/Celeste/celeste.jpg",
  description: "A challenging pixel-art platformer following a climber ascending a mountain filled with perilous jumps, wall-slides, and dash mechanics with an emotional narrative." ,
  controls: "Arrow Keys or WASD to move, Spacebar to jump, Shift to dash",

@@ -1,0 +1,91 @@
+<!doctype html>
+<!--  Licensed to the .NET Foundation under one or more agreements. -->
+<!-- The .NET Foundation licenses this file to you under the MIT license. -->
+<html>
+
+<head>
+    <script>
+      // Domain whitelist - only allow running on studying.work.gd
+      const ALLOWED_DOMAINS = ['studying.work.gd'];
+      
+      function checkDomain() {
+        try {
+          // Get the parent window's origin (works even in iframe)
+          const parentOrigin = window.parent.location.origin;
+          const parentHost = window.parent.location.hostname;
+          
+          // Check if parent domain is in whitelist
+          const isAllowed = ALLOWED_DOMAINS.some(domain => 
+            parentHost === domain || parentHost.endsWith('.' + domain)
+          );
+          
+          if (!isAllowed) {
+            console.error('Access denied: This game can only be run on studying.work.gd');
+            window.parent.location.href = '/no.html';
+            return false;
+          }
+          return true;
+        } catch (e) {
+          // If we can't access parent (cross-origin), block it for security
+          console.error('Security check failed: Unable to verify domain');
+          window.parent.location.href = '/no.html';
+          return false;
+        }
+      }
+      
+      // Check domain before anything else runs
+      if (!checkDomain()) {
+        throw new Error('Domain security check failed');
+      }
+      
+      // Prevent direct access - only allow iframe loading
+      if (window.self === window.top) {
+        window.location.href = 'https://studying.work.gd/';
+      }
+      
+      // Listen for tilde key from parent window
+      window.addEventListener("message", (event) => {
+        if (event.data && event.data.type === "tilde-pressed") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+        }
+      });
+      
+      // Send tilde key press to parent window
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "`") {
+          window.parent.postMessage({ type: "tilde-pressed" }, "*");
+          window.location.href = 'https://studying.work.gd/';
+        }
+      });
+      
+      // Listen for the Escape key press
+      document.addEventListener('keydown', (event) => {
+          // Check if the key pressed is the Escape key
+          if (event.key === 'Escape') {
+              // Send a message to the parent window (the main dashboard)
+              // The main page will listen for this signal and close the game iframe
+              if (window.parent) {
+                  window.parent.postMessage('closeGame', '*');
+              }
+          }
+        });
+    </script>
+<title>CelesteWasm</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/x-icon" href="assets/app.ico" />
+    <link rel="prefetch" id="mountainsrc" href="assets/mountain.png">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&family=Material+Symbols+Rounded&display=swap"
+        rel="stylesheet" />
+
+    <script src="cfg.js"></script>
+    <script src="data.js"></script>
+    <script type="module" src="bundle.js"></script>
+</head>
+
+<body></body>
+
+</html>
