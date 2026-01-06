@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,21 +65,41 @@
           }
         });
     </script>
-<meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui, shrink-to-fit=no" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Om Nom Bounce | 3kh0</title>
-    <link rel="icon" type="image/png" href="assets/icon.png" />
+<meta charset="utf-8"/>
+<meta content="ie=edge" http-equiv="x-ua-compatible"/>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui, shrink-to-fit=no" name="viewport"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<title>Om Nom Bounce | 3kh0</title>
+<link href="assets/icon.png" rel="icon" type="image/png"/>
+<link href="assets/icon.png" rel="apple-touch-icon" type="image/png"/>
+<link href="assets/css/app.css" rel="stylesheet" type="text/css"/>
 
-    <link rel="apple-touch-icon" type="image/png" href="assets/icon.png" />
-    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
-  </head>
-  <body>
-    <div id="content"></div>
-    <div id="orientation"></div>
-    <script type="text/javascript">
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<body>
+<div id="content"></div>
+<div id="orientation"></div>
+<script type="text/javascript">
       var libs = [];
 
       var _azerionIntegration = {
@@ -108,7 +129,7 @@
         addScript(gameName, version, function () {});
       });
     </script>
-    <script>
+<script>
       (function () {
         var js =
           "window['__CF$cv$params']={r:'7461ed63898c82b0',m:'7yWblRUbhYKpMip4pZ62HR6Ctt7Er7HJFhK1w3Tbu74-1662411971-0-Aebvcd06sT62stFf4xvUJ/0DngKgXUxroh0gM765NUKCPFlW/Smj3zh/6sHiMFz5vQYF2+S3JhYIGkGb+N28PpD46DkKaNbYlYhNTd/AoD18u/wGEBjMrOnXi/WrL2LU1+9vdkpLZntpjbESAR9pylo=',s:[0x3ee8a44ef6,0x22ff469330],u:'/cdn-cgi/challenge-platform/h/b'};var now=Date.now()/1000,offset=14400,ts=''+(Math.floor(now)-Math.floor(now%offset)),_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/h/b/scripts/alpha/invisible.js?ts='+ts,document.getElementsByTagName('head')[0].appendChild(_cpo);";
@@ -140,6 +161,10 @@
         }
       })();
     </script>
-    <script src="/js/main.js"></script>
-  </body>
+<script src="/js/main.js"></script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
 </html>

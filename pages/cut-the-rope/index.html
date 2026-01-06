@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,7 +65,7 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><!-- Google tag (gtag.js) -->
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><!-- Google tag (gtag.js) -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L02W3ZMS5"></script>
 <script>
 	window.dataLayer = window.dataLayer || [];
@@ -79,10 +79,10 @@
 <title>StudyBuddy - Personal Study Tool</title>
 <meta content="Play Cut the Rope! A mysterious package has arrived, and the little monster inside has only one request… CANDY!" name="description"/>
 <meta content="Play Cut the Rope! A mysterious package has arrived, and the little monster inside has only one request… CANDY!" name="msapplication-tooltip"/>
-<meta content="#659729" name="msapplication-navbutton-color">
-<meta content="App" name="msApplication-ID"/>
+<meta content="#659729" name="msapplication-navbutton-color"/>
+<meta content="App" name="msApplication-ID">
 <meta content="ZeptoLabUKLimited.CutTheRope_sq9zxnwrk84pj" name="msApplication-PackageFamilyName"/>
-<link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
 <meta content="Cut the Rope" property="og:title"/>
 <meta content="game" property="og:type"/>
 <meta content="Cut the Rope" property="og:site_name"/>
@@ -91,11 +91,31 @@
 <script src="scripts/sm2.js?438" type="text/javascript"></script>
 <script src="scripts/libraries.js?438" type="text/javascript"></script>
 <script src="scripts/ctr.js?438" type="text/javascript"></script>
-
 <noscript>
 <link href="css/nojavascript.css?438" rel="stylesheet" type="text/css"/>
 </noscript>
-</meta></head>
+</link></meta>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
 <body class="ctrCursor">
 <div id="lang">
 <div id="fb-root"></div>
@@ -256,6 +276,10 @@
 <a href="http://windows.microsoft.com/ie" id="upgrade-button"></a>
 </div>
 </div>
+</div>
+
+<div class="watermark-box">
+    studying.work.gd
 </div>
 </body>
 </html>

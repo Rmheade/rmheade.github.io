@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en-us">
-  <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,22 +65,22 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><base href="https://cdn.jsdelivr.net/gh/genizy/web-port@9b7e3159341783134f3c16c160e6288e6226e02f/deltarune/chapter3/">
-    <script>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><base href="https://cdn.jsdelivr.net/gh/genizy/web-port@9b7e3159341783134f3c16c160e6288e6226e02f/deltarune/chapter3/"/>
+<script>
       // better debugging for me
       const ogalert = window.alert;
       window.alert = function(message) {
         ogalert(document.querySelector('base')?.href.split("https://cdn.jsdelivr.net/gh/genizy/web-port@")[1]+"\n"+message)
       };
     </script>
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-	<!-- For Favicons -->
-    <link rel="icon" type="x-icon" href="favicon.png">
-	<!-- For Page Title -->
-    <title>StudyBuddy - Personal Study Tool</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<!-- For Favicons -->
+<link href="favicon.png" rel="icon" type="x-icon"/>
+<!-- For Page Title -->
+<title>StudyBuddy - Personal Study Tool</title>
+<style>
       @-webkit-keyframes rotation {
         from {
           -webkit-transform: rotate(0deg);
@@ -398,54 +399,62 @@
         display: none;
       }
     </style>
-  </head>
-  <body>
-    <canvas
-      class="emscripten"
-      id="canvas"
-      oncontextmenu="event.preventDefault()"
-      tabindex="-1"
-    >
-    </canvas>
-    <div id="pauseMenuContainer" hidden>
-      <div id="pauseMenuBorder">
-        <div id="pauseMenu">
-          <button id="resumeButton" onclick="resume()">
+
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<body>
+<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1">
+</canvas>
+<div hidden="" id="pauseMenuContainer">
+<div id="pauseMenuBorder">
+<div id="pauseMenu">
+<button id="resumeButton" onclick="resume()">
             Resume
           </button>
-          <button id="quitButton" onclick="quitIfSupported()">
+<button id="quitButton" onclick="quitIfSupported()">
             Quit
           </button>
-        </div>
-        </div>
-    </div>
-    <div class="loading">
-      <div class="spinner" id="spinner"></div>
-      <div class="emscripten" id="status">Downloading...</div>
-
-      <progress value="0" max="100" id="progress" hidden="1"></progress>
-    </div>
-    <div class="output-container" id="output-container">
-    </div>
-
-    <div id="message-container">
-      <div id="messages">
-      </div>
-    </div>
-	<!-- Ads Stuff for games that need it -->
-   <script async
-     data-ad-client="ca-pub-123"
-     data-ad-frequency-hint="30s"
-     data-adbreak-test="on"
-     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
-   </script>
-
-   <script>
+</div>
+</div>
+</div>
+<div class="loading">
+<div class="spinner" id="spinner"></div>
+<div class="emscripten" id="status">Downloading...</div>
+<progress hidden="1" id="progress" max="100" value="0"></progress>
+</div>
+<div class="output-container" id="output-container">
+</div>
+<div id="message-container">
+<div id="messages">
+</div>
+</div>
+<!-- Ads Stuff for games that need it -->
+<script async="" data-ad-client="ca-pub-123" data-ad-frequency-hint="30s" data-adbreak-test="on" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+</script>
+<script>
      window.adsbygoogle = window.adsbygoogle || [];
      adConfig = function(o) {adsbygoogle.push(o);}
    </script>
-
-    <script type="text/javascript">
+<script type="text/javascript">
   function mergeFiles(fileParts) {
       return new Promise((resolve, reject) => {
           let buffers = [];
@@ -511,7 +520,7 @@
       console.error("Failed to merge files:", error);
   });
     </script>
-    <script>
+<script>
       const originalLog = console.log;
       console.log = function(...args) {
         originalLog.apply(console, args);
@@ -541,5 +550,9 @@
         }
       };
     </script>
-  </body>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
 </html>

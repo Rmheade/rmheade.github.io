@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,7 +65,7 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><!-- Google tag (gtag.js) -->
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><!-- Google tag (gtag.js) -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L02W3ZMS5"></script>
 <script>
         window.dataLayer = window.dataLayer || [];
@@ -76,10 +76,10 @@
         </script>
 <title>StudyBuddy - Personal Study Tool</title>
 <meta content="An addictive puzzle game inspired by Tetris." name="description"/>
-<link href="manifest.webmanifest" rel="manifest"/>
+<link href="manifest.webmanifest" rel="manifest">
 <meta content="app-id=903769553" name="apple-itunes-app"/>
-<meta content="Hextris" name="apple-mobile-web-app-title">
-<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="Hextris" name="apple-mobile-web-app-title"/>
+<meta content="yes" name="apple-mobile-web-app-capable">
 <link href="images/icons/apple-touch-120.png" rel="apple-touch-icon" sizes="120x120"/>
 <link href="images/icons/apple-touch-152.png" rel="apple-touch-icon" sizes="152x152"/>
 <link href="images/icons/apple-touch-167.png" rel="apple-touch-icon" sizes="167x167"/>
@@ -87,10 +87,10 @@
 <link href="images/icons/apple-touch-512.png" rel="apple-touch-icon" sizes="512x512"/>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui" name="viewport"/>
 <meta content="http://hextris.github.io/hextris/" property="og:url"/>
-<meta content="Hextris" property="og:site_name">
-<meta content="Hextris" property="og:title">
-<meta content="An addictive puzzle game inspired by Tetris." property="og:description"/>
-<meta content="website" property="og:type"/>
+<meta content="Hextris" property="og:site_name"/>
+<meta content="Hextris" property="og:title"/>
+<meta content="An addictive puzzle game inspired by Tetris." property="og:description">
+<meta content="website" property="og:type">
 <meta content="https://www.facebook.com/hextris" property="og:author"/>
 <meta content="http://hextris.github.io/hextris/images/facebook-opengraph.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
@@ -138,8 +138,28 @@
 <script src="js/initialization.js" type="text/javascript"></script>
 <script src="vendor/sweet-alert.min.js"></script>
 <link href="style/rrssb.css" rel="stylesheet"/>
-
-</meta></meta></meta></head>
+</meta></meta></meta></link>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
 <body>
 <canvas id="canvas"></canvas>
 <div class="faded overlay" id="overlay"></div>
@@ -225,5 +245,9 @@
 					}})()
 			</script>
 <script src="vendor/rrssb.min.js" type="text/javascript"></script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 </html>

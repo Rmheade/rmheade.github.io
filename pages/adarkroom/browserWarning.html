@@ -1,7 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html>
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,7 +66,7 @@
         });
     </script>
 <title>A Dark Room</title>
-	<style>
+<style>
     body {
       background-color: #000000;
       color: #FFFFFF;
@@ -84,23 +85,48 @@
       height:102.4px;
     }
 	</style>
+
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
-	<center>
-    <img src="img/Logo1.jpg" />
-    <div>
-      <strong>
+<center>
+<img src="img/Logo1.jpg"/>
+<div>
+<strong>
       A Dark Room makes use of HTML5 and CSS3, which your current browser does not appear to support.<br/>
       Please <a href="http://browsehappy.com">update your browser</a> for the best experience:<br/>
-      </strong>
-      <a href='http://www.mozilla.org/en-US/firefox/new/'><img class="browser" src='img/firefox.png' alt='Firefox' title='Firefox' /></a>
-      <a href='https://www.google.com/intl/en/chrome/browser/'><img class="browser" src='img/chrome.png' alt='Chrome' title='Chrome' /></a>
-      <a href='http://windows.microsoft.com/en-CA/internet-explorer/download-ie'><img class="browser" src='img/ie.png' alt='Internet Explorer' title='Internet Explorer' /></a>
-      <a href='http://www.opera.com/computer'><img class="browser" src='img/opera.png' alt='Opera' title='Opera' /></a>
-      <a href='http://www.apple.com/safari/'><img class="browser" src='img/safari.png' alt='Safari' title='Safari' /></a>
-      <br/><br/>
-      Or you can <a href='index.html?ignorebrowser=true'>play anyway</a>, but it probably won't work!
+</strong>
+<a href="http://www.mozilla.org/en-US/firefox/new/"><img alt="Firefox" class="browser" src="img/firefox.png" title="Firefox"/></a>
+<a href="https://www.google.com/intl/en/chrome/browser/"><img alt="Chrome" class="browser" src="img/chrome.png" title="Chrome"/></a>
+<a href="http://windows.microsoft.com/en-CA/internet-explorer/download-ie"><img alt="Internet Explorer" class="browser" src="img/ie.png" title="Internet Explorer"/></a>
+<a href="http://www.opera.com/computer"><img alt="Opera" class="browser" src="img/opera.png" title="Opera"/></a>
+<a href="http://www.apple.com/safari/"><img alt="Safari" class="browser" src="img/safari.png" title="Safari"/></a>
+<br/><br/>
+      Or you can <a href="index.html?ignorebrowser=true">play anyway</a>, but it probably won't work!
     </div>
-  </center>
+</center>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 </html>

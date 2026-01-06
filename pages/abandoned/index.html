@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,7 +65,7 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><!-- Google tag (gtag.js) -->
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><!-- Google tag (gtag.js) -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L02W3ZMS5"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
@@ -78,20 +78,44 @@
 <title>StudyBuddy - Personal Study Tool</title>
 <meta charset="utf-8"/>
 <meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover" name="viewport"/>
-<meta content="yes" name="apple-mobile-web-app-capable">
-<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-<link href="css/styles.css" rel="stylesheet" type="text/css"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<link href="css/styles.css" rel="stylesheet" type="text/css">
 <script src="js/vendor/pixi.js"></script>
 <script src="js/vendor/TweenMax.js"></script>
 <script src="js/vendor/pixi-sound.js"></script>
 <script src="js/vendor/pixi-filters.js"></script>
 <script src="js/vendor/keymaster.js"></script>
 <script src="js/vendor/screenfull.js"></script>
-
-</meta></head>
+</link></meta>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
 <body>
 <div id="msg">
 </div>
 <script src="js/index.js"></script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 </html>

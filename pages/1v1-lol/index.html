@@ -1,5 +1,5 @@
 <html><head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -62,7 +62,7 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><!-- Google tag (gtag.js) -->
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><!-- Google tag (gtag.js) -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L02W3ZMS5"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -849,11 +849,31 @@ a;o.na=o.makeSaxParser=z;o.oa=o.makeTagPolicy=g;o.qa=o.normalizeRCData=p;o.ra=o.
 ;
 gadgets.config.init({"core.io":{"jsonProxyUrl":"//%host%/gadgets/makeRequest","proxyUrl":"//www.gmodules.com/gadgets/proxy/refresh=%refresh%&container=%container%%rewriteMime%&gadget=%gadget%/%rawurl%"},"shindig.auth":{"authToken":"","trustedJson":""},"core.util":{"core":{}}});
 </script><script>gadgets.Prefs.setMessages_({});gadgets.Prefs.setDefaultPrefs_({});gadgets.io.preloaded_=[];</script>
-<link href="style.css" rel="stylesheet" type="text/css"/>
+<link href="style.css" rel="stylesheet" type="text/css">
 <meta charset="utf-8"/>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 <title>StudyBuddy - Personal Study Tool</title>
-
+</link>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body dir="ltr">
 <script src="UnityLoader.js"></script>
@@ -927,4 +947,8 @@ gadgets.config.init({"core.io":{"jsonProxyUrl":"//%host%/gadgets/makeRequest","p
     }
  </script>
 <script>gadgets.util.runOnLoadHandlers();</script><script>window.google.csi.tickDl();
-</script></body></html>
+</script>
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body></html>

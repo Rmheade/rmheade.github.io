@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
-    <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,51 +65,75 @@
           }
         });
     </script>
-<link rel="icon" sizes="192x192" href="static.png" />
-        <link rel="shortcut icon" href="static.png" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="static.png" type="image/x-icon" />
-        <meta charset="utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="script.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-        <title>Static TV | 3kh0</title>
-        <script type="application/javascript" src="/js/main.js"></script>
-        <link rel="canonical" href="https://3kh0.github.io/" />
-        <meta content="https://3kh0.github.io/projects/tv-static" property="og:url" />
-        <meta content="https://3kh0.github.io/projects/tv-static/static.png" property="og:image" />
-        <meta content="#000000" data-react-helmet="true" name="theme-color" />
-        <meta name="title" content="Fake TV static" />
-        <meta name="description" content="You might remember the static TV noise with vibrating random black and white dots from old analog TVs. This screen will bring this effect back on your computer." />
-        <meta name="keywords" content="static, tv, fake, troll, website, github" />
-        <meta name="robots" content="index, follow" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="language" content="English" />
-        <meta name="revisit-after" content="1 days" />
-        <meta name="author" content="3kh0" />
-    </head>
-    <body>
-        <div id="container">
-            <div class="grained"></div>
-        </div>
+<link href="static.png" rel="icon" sizes="192x192"/>
+<link href="static.png" rel="shortcut icon" type="image/x-icon"/>
+<link href="static.png" rel="apple-touch-icon" type="image/x-icon"/>
+<meta charset="utf-8"/>
+<meta content="ie=edge" http-equiv="x-ua-compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="script.js"></script>
+<link href="style.css" rel="stylesheet" type="text/css"/>
+<title>Static TV | 3kh0</title>
+<script src="/js/main.js" type="application/javascript"></script>
+<link href="https://3kh0.github.io/" rel="canonical"/>
+<meta content="https://3kh0.github.io/projects/tv-static" property="og:url"/>
+<meta content="https://3kh0.github.io/projects/tv-static/static.png" property="og:image"/>
+<meta content="#000000" data-react-helmet="true" name="theme-color"/>
+<meta content="Fake TV static" name="title"/>
+<meta content="You might remember the static TV noise with vibrating random black and white dots from old analog TVs. This screen will bring this effect back on your computer." name="description"/>
+<meta content="static, tv, fake, troll, website, github" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="English" name="language"/>
+<meta content="1 days" name="revisit-after"/>
+<meta content="3kh0" name="author"/>
 
-        <div class="grainpopup">
-            <span class="helper"></span>
-            <div>
-                <div title="Close" class="popupCloseButton">X</div>
-                <h1>Static TV Noise Screen</h1>
-                <p class="intro">You might remember the static TV noise with vibrating random black and white dots from old analog TVs. This screen will bring this effect back on your computer.</p>
-                <p>
-                    Make sure you have <br />
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+<div class="grained"></div>
+</div>
+<div class="grainpopup">
+<span class="helper"></span>
+<div>
+<div class="popupCloseButton" title="Close">X</div>
+<h1>Static TV Noise Screen</h1>
+<p class="intro">You might remember the static TV noise with vibrating random black and white dots from old analog TVs. This screen will bring this effect back on your computer.</p>
+<p>
+                    Make sure you have <br/>
                     Full Screen enabled (<strong>F11 button</strong>)!
                 </p>
-                <p>(Go to the <a href="/">home page here</a>)</p>
-            </div>
-        </div>
-        <div class="gradientFrame"></div>
-    </body>
-    <script>
+<p>(Go to the <a href="/">home page here</a>)</p>
+</div>
+</div>
+<div class="gradientFrame"></div>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
+<script>
         var options = {
             animate: true,
             patternWidth: 285.56,
@@ -120,8 +145,8 @@
         };
         grained("#container", options);
     </script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-98DP5VKS42"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-98DP5VKS42"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}

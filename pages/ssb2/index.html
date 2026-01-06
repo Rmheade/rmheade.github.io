@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en-US">
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,8 +65,8 @@
           }
         });
     </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Super Smash Flash 2</title>
 <style type="text/css">
 body {
@@ -89,27 +90,45 @@ body {
     border: 1px solid #ccc;
 }
 </style>
+
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
-
 <div class="mg_embed_wrapper">
-    <div class="mg_border">
-        <div id="mg_flashWarning" style="display:none;" class="mg_flashWarning">
-            <a href="/how-to-enable-flash">
-                <img src="/wp-content/uploads/2020/02/bdee.png" alt="Flash not found" />
-                <p>Hey Bud,<br />Flash does not appear to be working<br />Click here for help fixing it!</p>
-            </a>
-        </div>
-
-        <div class="mg_embed">
-            <object type="application/x-shockwave-flash" data="SSF2Beta_v1_4_0_1" width="640" height="360">
-                <param name="movie" value="SSF2Beta_v1_4_0_1" />
-                <param name="quality" value="high"/>
-            </object>
-        </div>
-    </div>
+<div class="mg_border">
+<div class="mg_flashWarning" id="mg_flashWarning" style="display:none;">
+<a href="/how-to-enable-flash">
+<img alt="Flash not found" src="/wp-content/uploads/2020/02/bdee.png"/>
+<p>Hey Bud,<br/>Flash does not appear to be working<br/>Click here for help fixing it!</p>
+</a>
 </div>
-
+<div class="mg_embed">
+<object data="SSF2Beta_v1_4_0_1" height="360" type="application/x-shockwave-flash" width="640">
+<param name="movie" value="SSF2Beta_v1_4_0_1"/>
+<param name="quality" value="high"/>
+</object>
+</div>
+</div>
+</div>
 <script src="flash_detect_min.js"></script>
 <script src="ruffle.js?2025-11-06"></script>
 <script>
@@ -119,5 +138,8 @@ if(FlashDetect.installed === false){
 }
 </script>
 
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 </html>

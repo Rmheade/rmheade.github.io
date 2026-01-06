@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
-    <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,28 +65,48 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="utf-8" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-        <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
-        <title>StudyBuddy - Personal Study Tool</title>
-
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    </head>
-    <script src="/js/main.js"></script>
-    <body>
-        <div id="content"></div>
-        <div id="orientation"></div>
-        <div id="loader">Loading ...</div>
-        <script type="text/javascript" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-        <script type="text/javascript" src="assets/box2dweb/nape.min.js">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><meta charset="utf-8"/>
+<meta content="ie=edge" http-equiv="x-ua-compatible"/>
+<meta content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport"/>
+<link href="assets/css/app.css" rel="stylesheet" type="text/css">
+<title>StudyBuddy - Personal Study Tool</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+</link>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<script src="/js/main.js"></script>
+<body>
+<div id="content"></div>
+<div id="orientation"></div>
+<div id="loader">Loading ...</div>
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" type="text/javascript"></script>
+<script src="assets/box2dweb/nape.min.js" type="text/javascript">
             var nape ="nape.min.js" ;
         </script>
-        <script type="text/javascript" src="assets/box2dweb/nape-debug-draw.min.js"></script>
-        <script type="text/javascript" src="assets/box2dweb/jquery-3.1.1.min.js"></script>
-        <script type="text/javascript" src="assets/box2dweb/easeljs-0.8.2.combined.js"></script>
-        <script type="text/javascript" src="assets/box2dweb/bluebird.min.js"></script>
-        <script type="text/javascript">
+<script src="assets/box2dweb/nape-debug-draw.min.js" type="text/javascript"></script>
+<script src="assets/box2dweb/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="assets/box2dweb/easeljs-0.8.2.combined.js" type="text/javascript"></script>
+<script src="assets/box2dweb/bluebird.min.js" type="text/javascript"></script>
+<script type="text/javascript">
             var useEvents = typeof Event === "function";
 
             var myDispatchEvent = function (name) {
@@ -138,6 +159,10 @@
                 fjs.parentNode.insertBefore(js, fjs);
             })(document, "script", "gamedistribution-jssdk");
         </script>
-        <script type="text/javascript" src="assets/basketball_legends_2019.min.js"></script>
-    </body>
+<script src="assets/basketball_legends_2019.min.js" type="text/javascript"></script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
 </html>

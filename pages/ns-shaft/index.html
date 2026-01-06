@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html>
-    <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,27 +66,27 @@
         });
     </script>
 <title>NS-SHAFT | 3kh0</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="white" />
-        <meta name="apple-mobile-web-app-title" content="NS-SHAFT | 3kh0" />
-        <meta content="https://3kh0.github.io/" property="og:url" />
-        <meta content="icon.png" property="og:image" />
-        <meta content="#000000" data-react-helmet="true" name="theme-color" />
-        <meta name="title" content="NS Shaft" />
-        <meta name="description" content="NS-Shaft is a simple Japanese game made by NAGI-P Soft. The object of the game is that the main character must go down (descend) as many floors (levels) as possible." />
-        <meta name="keywords" content="games, ad blocker, trolls, unblocked games, web games, online games, fun, tags" />
-        <meta name="robots" content="index, follow" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="language" content="English" />
-        <meta name="revisit-after" content="1 days" />
-        <meta name="author" content="3kh0" />
-        <link rel="apple-touch-icon" href="icon.png" />
-        <link rel="icon" sizes="192x192" href="icon.png" />
-        <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="icon.png" type="image/x-icon" />
-        <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="white" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="NS-SHAFT | 3kh0" name="apple-mobile-web-app-title"/>
+<meta content="https://3kh0.github.io/" property="og:url"/>
+<meta content="icon.png" property="og:image"/>
+<meta content="#000000" data-react-helmet="true" name="theme-color"/>
+<meta content="NS Shaft" name="title"/>
+<meta content="NS-Shaft is a simple Japanese game made by NAGI-P Soft. The object of the game is that the main character must go down (descend) as many floors (levels) as possible." name="description"/>
+<meta content="games, ad blocker, trolls, unblocked games, web games, online games, fun, tags" name="keywords"/>
+<meta content="index, follow" name="robots"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="English" name="language"/>
+<meta content="1 days" name="revisit-after"/>
+<meta content="3kh0" name="author"/>
+<link href="icon.png" rel="apple-touch-icon"/>
+<link href="icon.png" rel="icon" sizes="192x192"/>
+<link href="icon.png" rel="shortcut icon" type="image/x-icon"/>
+<link href="icon.png" rel="apple-touch-icon" type="image/x-icon"/>
+<style>
             body {
                 margin: 0;
                 -webkit-user-select: none;
@@ -118,19 +119,40 @@
                 margin-left: 1.5em;
             }
         </style>
-    </head>
-    <script type="application/javascript" src="/js/main.js"></script>
-    <body>
-        <div id="content">Loading...</div>
-        <dl>
-            <dt>How to play</dt>
-            <dd><strong>go left</strong>: press the left half of the screen (for touch screen device), or press the <kbd>&larr;</kbd> key (for keyboard or joystick)</dd>
-            <dd><strong>go right</strong>: press the right half of the screen, or press the <kbd>&rarr;</kbd> key</dd>
-            <dd><strong>start/resume game</strong>: press the <kbd>play again</kbd> / <kbd>continue</kbd> button on screen, or press the <kbd>Space</kbd> / <kbd>Ok</kbd> key</dd>
-            <dd><strong>life</strong>: hitting spikes on the top or on a floor reduces the player's life, landing on a floor (without spikes) increases the player's life</dd>
-            <dd><strong>game over</strong>: falling off the bottom or running out of life <img src="https://static.fouryes.com/smile.gif" /></dd>
-        </dl>
-        <script>
+
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<script src="/js/main.js" type="application/javascript"></script>
+<body>
+<div id="content">Loading...</div>
+<dl>
+<dt>How to play</dt>
+<dd><strong>go left</strong>: press the left half of the screen (for touch screen device), or press the <kbd>←</kbd> key (for keyboard or joystick)</dd>
+<dd><strong>go right</strong>: press the right half of the screen, or press the <kbd>→</kbd> key</dd>
+<dd><strong>start/resume game</strong>: press the <kbd>play again</kbd> / <kbd>continue</kbd> button on screen, or press the <kbd>Space</kbd> / <kbd>Ok</kbd> key</dd>
+<dd><strong>life</strong>: hitting spikes on the top or on a floor reduces the player's life, landing on a floor (without spikes) increases the player's life</dd>
+<dd><strong>game over</strong>: falling off the bottom or running out of life <img src="https://static.fouryes.com/smile.gif"/></dd>
+</dl>
+<script>
             window.onerror = function (msg, url, lineNo, columnNo, error) {
                 var node = document.body;
                 var string = msg.toLowerCase();
@@ -144,8 +166,8 @@
                 return false;
             };
         </script>
-        <script src="main.js"></script>
-        <script>
+<script src="main.js"></script>
+<script>
             ~(function () {
                 var Game = window.Game;
                 Game && Game.launch(document.getElementById("content"));
@@ -161,7 +183,7 @@
                 }
             })();
         </script>
-        <script>
+<script>
             ~(function () {
                 var trackEvent;
                 if (new Date().getTimezoneOffset() == -480) {
@@ -213,9 +235,9 @@
                     });
             })();
         </script>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-98DP5VKS42"></script>
-        <script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-98DP5VKS42"></script>
+<script>
             window.dataLayer = window.dataLayer || [];
             function gtag() {
                 dataLayer.push(arguments);
@@ -224,5 +246,9 @@
 
             gtag("config", "G-98DP5VKS42");
         </script>
-    </body>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
 </html>

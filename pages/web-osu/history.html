@@ -1,7 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html>
-    <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,57 +65,76 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="utf-8" />
-        <title>StudyBuddy - Personal Study Tool</title>
-        <link rel="stylesheet" href="style/picnic.min.css">
-        <link rel="stylesheet" type="text/css" href="style/main.css">
-        <link rel="stylesheet" type="text/css" href="style/font.css">
-        <link rel="icon" href="favicon.png">
-        <script type="text/javascript" src="scripts/lib/localforage.min.js"></script>
-    </head>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><meta charset="utf-8"/>
+<title>StudyBuddy - Personal Study Tool</title>
+<link href="style/picnic.min.css" rel="stylesheet"/>
+<link href="style/main.css" rel="stylesheet" type="text/css"/>
+<link href="style/font.css" rel="stylesheet" type="text/css"/>
+<link href="favicon.png" rel="icon"/>
+<script src="scripts/lib/localforage.min.js" type="text/javascript"></script>
 
-    <body>
-        <nav id="main-nav">
-            <div class="nav-link">
-                <a href="index.html" class="brand">Osaka Salmon University!</a>
-                <a href="new.html" class="pseudo button">最新</a>
-                <a href="hot.html" class="pseudo button">热门</a>
-                <a href="genre.html" class="pseudo button">分类</a>
-            </div>
-            <div class="nav-search">
-                <form action="search.html">
-                    <input type="text" name="q" placeholder="谱面关键词或sid"/>
-                    <input type="image" class="search-button" src="research.svg">
-                </form>
-            </div>
-            <div class="nav-tool">
-                <a href="local.html" class="pseudo button">收藏夹</a>
-                <a href="faq.html" class="pseudo button">常见问题</a>
-                <a href="settings.html" class="pseudo button">设置</a>
-                <a onclick="document.documentElement.requestFullscreen();" class="pseudo button">进入全屏</a>
-            </div>
-        </nav>
-
-        <div class="main-page" id="main-page">
-            <div class="main-content">
-                <table style="white-space: nowrap;">
-                    <thead>
-                        <tr>
-                            <td>歌曲</td>
-                            <td>连击</td>
-                            <td>分数</td>
-                            <td>评定</td>
-                            <td>MODS</td>
-                            <td>时间</td>
-                        </tr>
-                    </thead>
-                    <tbody id="history-list">
-                        <!-- will be filled in script -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <script>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<body>
+<nav id="main-nav">
+<div class="nav-link">
+<a class="brand" href="index.html">Osaka Salmon University!</a>
+<a class="pseudo button" href="new.html">最新</a>
+<a class="pseudo button" href="hot.html">热门</a>
+<a class="pseudo button" href="genre.html">分类</a>
+</div>
+<div class="nav-search">
+<form action="search.html">
+<input name="q" placeholder="谱面关键词或sid" type="text"/>
+<input class="search-button" src="research.svg" type="image"/>
+</form>
+</div>
+<div class="nav-tool">
+<a class="pseudo button" href="local.html">收藏夹</a>
+<a class="pseudo button" href="faq.html">常见问题</a>
+<a class="pseudo button" href="settings.html">设置</a>
+<a class="pseudo button" onclick="document.documentElement.requestFullscreen();">进入全屏</a>
+</div>
+</nav>
+<div class="main-page" id="main-page">
+<div class="main-content">
+<table style="white-space: nowrap;">
+<thead>
+<tr>
+<td>歌曲</td>
+<td>连击</td>
+<td>分数</td>
+<td>评定</td>
+<td>MODS</td>
+<td>时间</td>
+</tr>
+</thead>
+<tbody id="history-list">
+<!-- will be filled in script -->
+</tbody>
+</table>
+</div>
+</div>
+<script>
             //*** This code is copyright 2002-2016 by Gavin Kistner, !@phrogz.net
             //*** It is covered under the license viewable at http://phrogz.net/JS/_ReuseLicense.txt
             //*** customFormat starts
@@ -177,8 +197,8 @@
                 alert("localforage is not supported.")
             }
         </script>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-169262247-1"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-169262247-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -186,9 +206,12 @@
 
   gtag('config', 'UA-169262247-1');
 </script>
-    </body>
-</html>
 
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
+</html>
 <!-- attribution -->
 <!-- play icon made by https://www.flaticon.com/authors/those-icons -->
 <!-- search icon made by https://www.flaticon.com/authors/good-ware -->

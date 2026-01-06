@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <!--  Licensed to the .NET Foundation under one or more agreements. -->
 <!-- The .NET Foundation licenses this file to you under the MIT license. -->
 <html>
-
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -68,21 +68,40 @@
         });
     </script>
 <title>CelesteWasm</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="icon" type="image/x-icon" href="assets/app.ico" />
-    <link rel="prefetch" id="mountainsrc" href="assets/mountain.png">
-    <link rel="stylesheet" href="styles.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&family=Material+Symbols+Rounded&display=swap"
-        rel="stylesheet" />
-
-    <script src="cfg.js"></script>
-    <script src="data.js"></script>
-    <script type="module" src="bundle.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="assets/app.ico" rel="icon" type="image/x-icon"/>
+<link href="assets/mountain.png" id="mountainsrc" rel="prefetch"/>
+<link href="styles.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=Inter+Tight:ital,wght@0,100..900;1,100..900&amp;family=Inter:wght@100..900&amp;family=Material+Symbols+Rounded&amp;display=swap" rel="stylesheet"/>
+<script src="cfg.js"></script>
+<script src="data.js"></script>
+<script src="bundle.js" type="module"></script>
+</link>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
-
-<body></body>
-
+<body>
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
 </html>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,21 +65,38 @@
           }
         });
     </script>
-<link rel="shortcut icon" type="image/png" href="assets/icon.png">
-  
-    <meta charset="utf-8"/>
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-
-    <title>Cubefield | 3kh0</title>
-
-    <link rel="stylesheet" href="assets/app.css" type="text/css"/>
-    <script src="/js/main.js"></script>
+<link href="assets/icon.png" rel="shortcut icon" type="image/png"/>
+<meta charset="utf-8"/>
+<meta content="ie=edge" http-equiv="x-ua-compatible"/>
+<meta content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+<title>Cubefield | 3kh0</title>
+<link href="assets/app.css" rel="stylesheet" type="text/css">
+<script src="/js/main.js"></script>
+</link></meta>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
 <div id="gameContainer"></div>
 <div id="gui"></div>
-
 <script type="text/javascript">
     var gameName = "cubefield.min.js";
 
@@ -101,5 +119,9 @@
         })
     })
 </script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 </html>

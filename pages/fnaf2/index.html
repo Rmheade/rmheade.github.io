@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <style type="text/css">
   h1 {
 	  font-family: Arial, Helvetica, sans-serif;
@@ -30,7 +30,7 @@
   }
 </style>
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -93,18 +93,15 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-  <!-- Enables full-screen on iOS devices -->
-  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="HandheldFriendly" content="true" />
-
-  <title>StudyBuddy - Personal Study Tool</title>
-
-	<script>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><link href="favicon.ico" rel="icon" type="image/x-icon">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<!-- Enables full-screen on iOS devices -->
+<meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="true" name="HandheldFriendly"/>
+<title>StudyBuddy - Personal Study Tool</title>
+<script>
 	   	// Detection of old browsers that do not support the canvas element
 		// Falls back to a default page
 	    if (!document.createElement("canvas").getContext)
@@ -112,13 +109,10 @@
 			window.open("http://www.clickteam.com/html5-fallback", "_self");
 		}
 	</script>
-
-
-  	<!-- EXTRASOURCES -->
-    <!-- Loads the Javascript code...-->
-    <script src="src/Runtime.js"></script>
-
-  <script>
+<!-- EXTRASOURCES -->
+<!-- Loads the Javascript code...-->
+<script src="src/Runtime.js"></script>
+<script>
 
 	// Detection of when the html file is ran locally.
 	// You can remove this code for the final version
@@ -134,16 +128,34 @@
 		throw new error("Cannot run application");
 	}
   </script>
+</link>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
-
 <body>
-
 <div style="display: inline-block; -webkit-user-select: none; text-align: left;">
-    <canvas id="MMFCanvas" width="1024" height="768">
+<canvas height="768" id="MMFCanvas" width="1024">
     	Your browser does not support Canvas.
     </canvas>
 </div>
-
 <script>
     // RUNTIMESTART
     // This is where the HTML5 runtime is actually started
@@ -157,5 +169,9 @@
     }
     // RUNTIMESTARTEND
 </script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 </html>

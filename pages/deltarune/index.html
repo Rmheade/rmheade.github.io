@@ -1,5 +1,5 @@
 <html><head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -62,71 +62,91 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <title>StudyBuddy - Personal Study Tool</title><base href="https://cdn.jsdelivr.net/gh/genizy/web-port@a6e2b184812dd22c58e6b6a18325083b7a131981/deltarune/">
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<title>StudyBuddy - Personal Study Tool</title><base href="https://cdn.jsdelivr.net/gh/genizy/web-port@a6e2b184812dd22c58e6b6a18325083b7a131981/deltarune/"/>
+<meta charset="utf-8"/>
+<link href="style.css" rel="stylesheet"/>
+
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
-  <div class="logo-container">
-    <img src="logo.png" alt="Logo" class="logo">
-  </div>
-  
-  <div class="menu">
-    <a href="javascript:loadChapter(1)" class="row">
-      <span class="chapter">Chapter 1</span>
-      <span class="title">The Beginning</span>
-      <img src="icons/1.png">
-    </a>
-    <a href="javascript:loadChapter(2)" class="row">
-      <span class="chapter">Chapter 2</span>
-      <span class="title">A Cyber's World</span>
-      <img src="icons/2.png">
-    </a>
-    <a href="javascript:loadChapter(3)" class="row">
-      <span class="chapter">Chapter 3</span>
-      <span class="title">Late Night</span>
-      <img src="icons/3.png">
-    </a>
-    <a href="javascript:loadChapter(4)" class="row">
-      <span class="chapter">Chapter 4</span>
-      <span class="title">Prophecy</span>
-      <img src="icons/4.png">
-    </a>
-    <a href="javascript:alert('Chapter 5 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 5</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-    <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 6</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-    <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 7</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-    <a href="javascript:window.open('https://truffled.lol', '_blank')" class="row">
-      <span class="chapter"></span>
-      <span class="title">made by bog</span>
-      <span class="badge"></span>
-    </a>
-  </div>
-  <script>
+<div class="logo-container">
+<img alt="Logo" class="logo" src="logo.png"/>
+</div>
+<div class="menu">
+<a class="row" href="javascript:loadChapter(1)">
+<span class="chapter">Chapter 1</span>
+<span class="title">The Beginning</span>
+<img src="icons/1.png"/>
+</a>
+<a class="row" href="javascript:loadChapter(2)">
+<span class="chapter">Chapter 2</span>
+<span class="title">A Cyber's World</span>
+<img src="icons/2.png"/>
+</a>
+<a class="row" href="javascript:loadChapter(3)">
+<span class="chapter">Chapter 3</span>
+<span class="title">Late Night</span>
+<img src="icons/3.png"/>
+</a>
+<a class="row" href="javascript:loadChapter(4)">
+<span class="chapter">Chapter 4</span>
+<span class="title">Prophecy</span>
+<img src="icons/4.png"/>
+</a>
+<a class="disabled-row" href="javascript:alert('Chapter 5 coming soon!')">
+<span class="chapter">Chapter 5</span>
+<span class="disabled-title">--</span>
+<img src="icons/0.png"/>
+</a>
+<a class="disabled-row" href="javascript:alert('Chapter 6 coming soon!')">
+<span class="chapter">Chapter 6</span>
+<span class="disabled-title">--</span>
+<img src="icons/0.png"/>
+</a>
+<a class="disabled-row" href="javascript:alert('Chapter 7 coming soon!')">
+<span class="chapter">Chapter 7</span>
+<span class="disabled-title">--</span>
+<img src="icons/0.png"/>
+</a>
+<a class="row" href="javascript:window.open('https://truffled.lol', '_blank')">
+<span class="chapter"></span>
+<span class="title">made by bog</span>
+<span class="badge"></span>
+</a>
+</div>
+<script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
   
     gtag('config', 'G-WLTG1S4STB');
   </script>
-  <audio id="drone" controls="" loop="" autoplay="" hidden="">
-    <source src="audios/AUDIO_DRONE.ogg" type="audio/ogg">
+<audio autoplay="" controls="" hidden="" id="drone" loop="">
+<source src="audios/AUDIO_DRONE.ogg" type="audio/ogg"/>
     Your browser does not support the audio element.
   </audio>
-  <button id="mute">🔇</button>
-  <script>
+<button id="mute">🔇</button>
+<script>
     const audio = document.getElementById('drone');
     const mute = document.getElementById('mute');
     let gamestarted = false;
@@ -226,8 +246,6 @@
       }
     });
   </script>
-
-
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -333,4 +351,8 @@
       }
       }
     });
-  </script></body></html>
+  </script>
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body></html>

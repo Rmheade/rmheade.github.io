@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,22 +66,47 @@
         });
     </script>
 <title>Moto X3M Spooky Land | 3kh0</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />   
-    <link rel="shortcut icon" href="splash.jpeg">
-    <link rel="icon" href="splash.jpeg"> 
-  </head>
-  <body>
-    <script type="text/javascript" src="assets/lib/nape.min.js">
+<meta charset="utf-8"/>
+<meta content="ie=edge" http-equiv="x-ua-compatible"/>
+<meta content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+<link href="assets/css/app.css" rel="stylesheet" type="text/css"/>
+<link href="splash.jpeg" rel="shortcut icon"/>
+<link href="splash.jpeg" rel="icon"/>
+</meta>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<body>
+<script src="assets/lib/nape.min.js" type="text/javascript">
       var nape = "nape.min.js";
     </script>
-    <script type="text/javascript" src="assets/lib/phaser.min.js"></script>
-    <script type="text/javascript" src="assets/lib/phaser-cachebuster.min.js"></script>
-    <script type="text/javascript" src="assets/lib/phaser-super-storage.min.js"></script>
-    <script type="text/javascript" src="assets/lib/dragonBones.min.js"></script>
-    <script type="text/javascript" src="motox3m.min.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
-  </body>
+<script src="assets/lib/phaser.min.js" type="text/javascript"></script>
+<script src="assets/lib/phaser-cachebuster.min.js" type="text/javascript"></script>
+<script src="assets/lib/phaser-super-storage.min.js" type="text/javascript"></script>
+<script src="assets/lib/dragonBones.min.js" type="text/javascript"></script>
+<script src="motox3m.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
 </html>

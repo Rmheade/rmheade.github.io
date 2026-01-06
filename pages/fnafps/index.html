@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,11 +65,11 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyBuddy - Personal Study Tool</title>
-    <link rel="icon" href="favicon.ico" />
-    <style>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyBuddy - Personal Study Tool</title>
+<link href="favicon.ico" rel="icon">
+<style>
         html {
             display: block;
             -webkit-user-select: none;
@@ -187,25 +187,49 @@
             font-size: 1.4vw;
         }
     </style>
+</link>
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
-
 <body>
-    <canvas id="MMFCanvas" width="1920" height="1080"> Your browser does not support Canvas, Please try again.</canvas>
-    <div class="selection" id="selection">
-        <img id="title" src="resources/title.png">
-        <img id="animatronic" src="resources/animatronic.png">
-        <div class="loader">
-            <h1 id="percentage">0%</h1>
-            <hr id="bar">
-            <h2 id="stage">STARTING UP...</h2>
-        </div>
-        <a href="https://discord.gg/xuu8TnSY4b">
-            <div class="launcher-text"><img src="resources/launcher-text.png" style="width: 45vw;"></div>
-        </a>
-    </div>
-    <div class="glitch"></div>
-    <img src="resources/vignette.png" class="vignette">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<canvas height="1080" id="MMFCanvas" width="1920"> Your browser does not support Canvas, Please try again.</canvas>
+<div class="selection" id="selection">
+<img id="title" src="resources/title.png"/>
+<img id="animatronic" src="resources/animatronic.png"/>
+<div class="loader">
+<h1 id="percentage">0%</h1>
+<hr id="bar"/>
+<h2 id="stage">STARTING UP...</h2>
+</div>
+<a href="https://discord.gg/xuu8TnSY4b">
+<div class="launcher-text"><img src="resources/launcher-text.png" style="width: 45vw;"/></div>
+</a>
+</div>
+<div class="glitch"></div>
+<img class="vignette" src="resources/vignette.png"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 <!--Made by irv77-->
 <script>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <!-- Created with https://packager.turbowarp.org/ -->
 <html>
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,12 +66,12 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- We only include this to explicitly loosen the CSP of various packager environments. It does not provide any security. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:">
-  <title>StudyBuddy - Personal Study Tool</title>
-  <style>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<!-- We only include this to explicitly loosen the CSP of various packager environments. It does not provide any security. -->
+<meta content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:" http-equiv="Content-Security-Policy"/>
+<title>StudyBuddy - Personal Study Tool</title>
+<style>
     body {
       color: #ffffff;
       font-family: sans-serif;
@@ -205,39 +206,53 @@
     }
     
   </style>
-  <meta name="theme-color" content="#000000">
-  
+<meta content="#000000" name="theme-color"/>
+
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body>
-  <div id="app"></div>
-
-  <div id="launch" class="screen" hidden title="Click to start">
-    <div class="green-flag">
-      <svg viewBox="0 0 16.63 17.5" width="42" height="44">
-        <defs><style>.cls-1,.cls-2{fill:#4cbf56;stroke:#45993d;stroke-linecap:round;stroke-linejoin:round;}.cls-2{stroke-width:1.5px;}</style></defs>
-        <path class="cls-1" d="M.75,2A6.44,6.44,0,0,1,8.44,2h0a6.44,6.44,0,0,0,7.69,0V12.4a6.44,6.44,0,0,1-7.69,0h0a6.44,6.44,0,0,0-7.69,0"/>
-        <line class="cls-2" x1="0.75" y1="16.75" x2="0.75" y2="0.75"/>
-      </svg>
-    </div>
-  </div>
-
-  <div id="loading" class="screen">
-    <noscript>Enable JavaScript</noscript>
-    
-    
-    <div class="progress-bar-outer"><div class="progress-bar-inner" id="loading-inner"></div></div>
-  </div>
-
-  <div id="error" class="screen" hidden>
-    <h1>Error</h1>
-    <details>
-      <summary id="error-message"></summary>
-      <p id="error-stack"></p>
-    </details>
-  </div>
-
-  <script src="script.js"></script>
-  <script>
+<div id="app"></div>
+<div class="screen" hidden="" id="launch" title="Click to start">
+<div class="green-flag">
+<svg height="44" viewbox="0 0 16.63 17.5" width="42">
+<defs><style>.cls-1,.cls-2{fill:#4cbf56;stroke:#45993d;stroke-linecap:round;stroke-linejoin:round;}.cls-2{stroke-width:1.5px;}</style></defs>
+<path class="cls-1" d="M.75,2A6.44,6.44,0,0,1,8.44,2h0a6.44,6.44,0,0,0,7.69,0V12.4a6.44,6.44,0,0,1-7.69,0h0a6.44,6.44,0,0,0-7.69,0"></path>
+<line class="cls-2" x1="0.75" x2="0.75" y1="16.75" y2="0.75"></line>
+</svg>
+</div>
+</div>
+<div class="screen" id="loading">
+<noscript>Enable JavaScript</noscript>
+<div class="progress-bar-outer"><div class="progress-bar-inner" id="loading-inner"></div></div>
+</div>
+<div class="screen" hidden="" id="error">
+<h1>Error</h1>
+<details>
+<summary id="error-message"></summary>
+<p id="error-stack"></p>
+</details>
+</div>
+<script src="script.js"></script>
+<script>
     const appElement = document.getElementById('app');
     const launchScreen = document.getElementById('launch');
     const loadingScreen = document.getElementById('loading');
@@ -326,9 +341,7 @@
       handleError(e);
     }
   </script>
-  
-  
-    <script>
+<script>
       const getProjectData = (function() {
         const storage = scaffolding.storage;
         storage.onprogress = (total, loaded) => {
@@ -367,7 +380,7 @@
       });
       })();
     </script>
-  <script>
+<script>
     const run = async () => {
       const projectData = await getProjectData();
       await scaffolding.loadProject(projectData);
@@ -386,5 +399,9 @@
     };
     run().catch(handleError);
   </script>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
 </body>
 </html>

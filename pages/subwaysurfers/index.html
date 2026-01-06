@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
 
+<html>
 <head>
-    <script>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -65,14 +65,14 @@
           }
         });
     </script>
-<link rel="icon" href="/favicon.ico" type="image/x-icon"><meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>StudyBuddy - Personal Study Tool</title>
-    <script type="text/javascript">
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/><meta charset="utf-8"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<title>StudyBuddy - Personal Study Tool</title>
+<script type="text/javascript">
         document.domain = '4399.com'
     </script>
-    <script type="text/javascript" src="4399.js"></script>
-    <script>
+<script src="4399.js" type="text/javascript"></script>
+<script>
         window.config = {
             loader: 'unity',
             debug: false,
@@ -96,12 +96,31 @@
             },
         };
     </script>
-</head>
 
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
 <body>
-    <script src="./master-loader.js"></script>
-	
-	    <script type="text/javascript">
+<script src="./master-loader.js"></script>
+<script type="text/javascript">
    window.SDK_OPTIONS = {
       gameId: "4i34j6xes2vdim7k55nky9w8s7wp1m75",
       onEvent: function (awdwqdwqdwqdwqdwqdwd) {
@@ -122,9 +141,12 @@
    a.getElementById(c) || (a = a.createElement(b), a.id = c, a.src = "https://api.gamemonetize.com/sdk.js", d.parentNode.insertBefore(a, d))
 })(document, "script", "gamemonetize-sdk"); 
 </script>
-    </body>
-	
-    <script type="text/javascript">
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
+<script type="text/javascript">
         function google_analytics() {
             if (typeof sdk !== 'undefined' && sdk.showBanner !== 'undefined') {
                 sdk.showBanner();
@@ -143,7 +165,5 @@
             google_analytics_ID();
         }, 65000);
     </script>
-	
-</body>
 
 </html>

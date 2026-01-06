@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <script>
+<head>
+<script>
       // Domain whitelist - only allow running on studying.work.gd
       const ALLOWED_DOMAINS = ['studying.work.gd', 'rmheade.github.io'];
       
@@ -64,11 +65,11 @@
           }
         });
     </script>
-<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Bloxors | 3kh0</title>
-    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width" name="viewport"/>
+<title>Bloxors | 3kh0</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/ico"/>
+<script>
       window.RufflePlayer = window.RufflePlayer || {};
       window.RufflePlayer.config = {
         "publicPath": undefined,
@@ -90,12 +91,33 @@
         "quality": "high",
       };
     </script>
-  </head>
-  <body style="background-color:black;">
-    <center>
-      <img src="title.png" style="padding:5px;width:300px;">
-      <div id="container" style="border: #ccc 3px solid;height:600px;width:937px;"></div>
-    <script>
+
+<style>
+    .watermark-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        font-family: sans-serif;
+        font-size: 14px;
+        border-radius: 5px;
+        z-index: 9999;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+    .watermark-box:hover {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+<body style="background-color:black;">
+<center>
+<img src="title.png" style="padding:5px;width:300px;"/>
+<div id="container" style="border: #ccc 3px solid;height:600px;width:937px;"></div>
+<script>
       window.RufflePlayer = window.RufflePlayer || {};
       window.addEventListener("load", (event) => {
           const ruffle = window.RufflePlayer.newest();
@@ -107,8 +129,12 @@
           player.load("bloxors.swf");
       });
     </script>
-    <script src="ruffle/ruffle.js"></script>
-    <script src="/js/main.js"></script>
-    </center>
-  </body>
+<script src="ruffle/ruffle.js"></script>
+<script src="/js/main.js"></script>
+</center>
+
+<div class="watermark-box">
+    studying.work.gd
+</div>
+</body>
 </html>
